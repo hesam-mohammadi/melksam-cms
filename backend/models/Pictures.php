@@ -65,4 +65,5 @@ class Pictures extends \yii\db\ActiveRecord
             'date' => Yii::t('app', 'Date'),
         ];
     }
+
 }

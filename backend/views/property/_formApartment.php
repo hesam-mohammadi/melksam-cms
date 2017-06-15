@@ -15,6 +15,7 @@ use backend\models\FloorCovering;
 use backend\models\Province;
 use backend\models\Region;
 use backend\models\Facilities;
+use backend\models\Pictures;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\Property */
@@ -35,25 +36,22 @@ $facilities = Facilities::find()->all();
 
     <ul class="nav nav-tabs create_property_title"> <li class="active"><a>مشخصات عمومی ملک</a></li> </ul>
 
-    <div class="col-sm-6">
+    <div class="col-sm-4">
       <?= $form->field($model, 'dealing_type_id')->dropDownList(ArrayHelper::map($dealing_type,'id','name'), ['prompt'=>'-- انتخاب نوع معامله --']); ?>
     </div>
 
-    <div class="col-sm-6">
+    <div class="col-sm-4">
       <?= $form->field($model, 'property_type_id')->dropDownList(ArrayHelper::map($property_type,'id','name'), ['prompt'=>'-- انتخاب نوع ملک --']); ?>
     </div>
 
-    <div class="col-sm-6">
+    <div class="col-sm-4">
       <?= $form->field($model, 'document_type_id')->dropDownList(ArrayHelper::map($document_type,'id','name'), ['prompt'=>'-- انتخاب نوع سند --']); ?>
     </div>
 
-    <div class="col-sm-6">
-      <?= $form->field($model, 'owner_name')->textInput(['maxlength' => true]) ?>
-    </div>
-
+    <?php if($model->isNewRecord): ?>
     <div class="col-sm-4">
       <?php // Parent
-        echo $form->field($model, 'province_id')->dropDownList(ArrayHelper::map(Province::find()->all(), 'id', 'name'), ['id'=>'cat-id']);
+        echo $form->field($model, 'province_id')->dropDownList(ArrayHelper::map(Province::find()->all(), 'id', 'name'), ['id'=>'cat-id', 'prompt' => '-- انتخاب استان --']);
       ?>
     </div>
     <div class="col-sm-4">
@@ -81,21 +79,75 @@ $facilities = Facilities::find()->all();
       ]);
       ?>
     </div>
+    <?php else: ?>
+    <div class="col-sm-4">
+      <?php
+        // Parent
+        $catList = ArrayHelper::map(Province::find()->All(), 'id', 'name');
+        $model->province_id=$model->city->province_id;
+        echo $form->field($model, 'province_id')->dropDownList($catList, ['id' => 'cat-id','options' => [32 => ['hidden' => true]]])->label('<i style="color: firebrick;" class="glyphicon glyphicon-asterisk"></i> استان');
+      ?>
+    </div>
+    <div class="col-sm-4">
+      <?php
+      // Child # 1
+      $city = ArrayHelper::map(\backend\models\City::find()->where(['province_id' => $model->city->province_id])->All(),'id','name');
+      echo $form->field($model, 'city_id')->dropDownList($city, [
+        'id' => 'subcat-id',
+        'prompt' => 'همه زیرگروه ها',
+        'options' => ['data-pjax' => true],
+      ])->label('<i style="color: firebrick;" class="glyphicon glyphicon-asterisk"></i> شهر');
+
+      $form->field($model, 'city_id')->widget(DepDrop::classname(), [
+          'options' => ['id' => 'subcat-id', 'data-pjax' => true],
+          'pluginOptions' => [
+              'depends' => ['cat-id'],
+              'placeholder' => 'همه زیر گروه ها',
+              'url' => Url::to(['/site/subcity'])
+          ]
+      ]);
+      ?>
+    </div>
+    <div class="col-sm-4">
+      <?php
+      // Child # 2
+      $nahie = ArrayHelper::map(\backend\models\Region::find()->where(['city_id' => $model->city->id])->All(),'id','name');
+      echo $form->field($model, 'region_id')->dropDownList($nahie, [
+          'id' => 'region-id',
+          'prompt' => 'همه مناطق',
+          'options' => ['data-pjax' => true],
+      ]);
+
+      $form->field($model, 'region_id')->widget(DepDrop::classname(), [
+          'options' => ['id' => 'region-id', 'data-pjax' => true],
+          'pluginOptions' => [
+              'depends'=>['cat-id', 'subcat-id'],
+              'placeholder' => 'همه زیر گروه ها',
+              'url' => Url::to(['/site/prod'])
+          ]
+      ]);
+      ?>
+    </div>
+    <?php endif?>
 
     <div class="col-sm-12">
       <?= $form->field($model, 'address')->textarea(['rows' => 2]) ?>
     </div>
 
-    <div class="col-sm-4">
+    <div class="col-sm-3">
       <?= $form->field($model, 'phone_number1')->textInput() ?>
     </div>
 
-    <div class="col-sm-4">
+    <div class="col-sm-3">
       <?= $form->field($model, 'phone_number2')->textInput() ?>
     </div>
 
-    <div class="col-sm-4">
+    <div class="col-sm-3">
       <?= $form->field($model, 'mobile_number')->textInput() ?>
+    </div>
+
+    <div class="col-sm-3">
+      <?= $form->field($model, 'owner_name')->textInput(['maxlength' => true]) ?>
     </div>
 
     <ul class="nav nav-tabs create_property_title"> <li class="active"><a>مشخصات اختصاصی ملک</a></li> </ul>
@@ -116,6 +168,7 @@ $facilities = Facilities::find()->all();
       <div class="form-group">
           <label>تعداد اتاق</label>
           <div class="btn-group btn-group-justified" data-toggle="buttons">
+              <?php if($model->isNewRecord): ?>
               <label class="btn">
                   <input type="radio" name="Property[number_of_rooms]" value="1">1
               </label>
@@ -131,23 +184,40 @@ $facilities = Facilities::find()->all();
               <label class="btn">
                   <input type="radio" name="Property[number_of_rooms]" value="+4">4+
               </label>
+            <?php else: ?>
+              <label class="btn <?php echo ($model->number_of_rooms == '1') ? "active" : ""; ?>">
+                  <input type="radio" name="Property[number_of_rooms]" value="1" <?php echo ($model->number_of_rooms == '1') ? "checked" : ""; ?>>1
+              </label>
+              <label class="btn <?php echo ($model->number_of_rooms == '2') ? "active" : ""; ?>">
+                  <input type="radio" name="Property[number_of_rooms]" value="2" <?php echo ($model->number_of_rooms == '2') ? "checked" : ""; ?>>2
+              </label>
+              <label class="btn <?php echo ($model->number_of_rooms == '3') ? "active" : ""; ?>">
+                  <input type="radio" name="Property[number_of_rooms]" value="3" <?php echo ($model->number_of_rooms == '3') ? "checked" : ""; ?>>3
+              </label>
+              <label class="btn <?php echo ($model->number_of_rooms == '4') ? "active" : ""; ?>">
+                  <input type="radio" name="Property[number_of_rooms]" value="4" <?php echo ($model->number_of_rooms == '4') ? "checked" : ""; ?>>4
+              </label>
+              <label class="btn <?php echo ($model->number_of_rooms == "4+") ? "active" : ""; ?>">
+                  <input type="radio" name="Property[number_of_rooms]" value="4+" <?php echo ($model->number_of_rooms == "4+") ? "checked" : ""; ?>>4+
+              </label>
+            <?php endif ?>
           </div>
       </div>
     </div>
 
-    <div class="col-sm-6">
+    <div class="col-sm-3">
       <?= $form->field($model, 'floor_num')->textInput() ?>
     </div>
 
-    <div class="col-sm-6">
+    <div class="col-sm-3">
       <?= $form->field($model, 'number_of_floors')->textInput() ?>
     </div>
 
-    <div class="col-sm-6">
+    <div class="col-sm-3">
       <?= $form->field($model, 'number_of_units_in_floor')->textInput() ?>
     </div>
 
-    <div class="col-sm-6">
+    <div class="col-sm-3">
       <?= $form->field($model, 'number_of_units')->textInput() ?>
     </div>
 
@@ -159,17 +229,17 @@ $facilities = Facilities::find()->all();
       <div class="form-group">
           <label>موقعیت جغرافیایی</label>
           <div class="btn-group btn-group-justified" data-toggle="buttons">
-              <label class="btn">
-                  <input type="radio" name="Property[geographical_pos]" value="شمالی"> شمالی
+              <label class="btn <?php echo ($model->geographical_pos == 'شمالی') ? "active" : ""; ?>">
+                <input type="radio" name="Property[geographical_pos]" value="شمالی" <?php echo ($model->geographical_pos == 'شمالی') ? "checked" : ""; ?> > شمالی
               </label>
-              <label class="btn">
-                  <input type="radio" name="Property[geographical_pos]" value="جنوبی">جنوبی
+              <label class="btn <?php echo ($model->geographical_pos == 'جنوبی') ? "active" : ""; ?>">
+                  <input type="radio" name="Property[geographical_pos]" value="جنوبی" <?php echo ($model->geographical_pos == 'جنوبی') ? "checked" : ""; ?> > جنوبی
               </label>
-              <label class="btn">
-                  <input type="radio" name="Property[geographical_pos]" value="شرقی">شرقی
+              <label class="btn <?php echo ($model->geographical_pos == 'شرقی') ? "active" : ""; ?>">
+                <input type="radio" name="Property[geographical_pos]" value="شرقی" <?php echo ($model->geographical_pos == 'شرقی') ? "checked" : ""; ?> > شرقی
               </label>
-              <label class="btn">
-                  <input type="radio" name="Property[geographical_pos]" value="غربی">غربی
+              <label class="btn <?php echo ($model->geographical_pos == 'غربی') ? "active" : ""; ?>">
+                <input type="radio" name="Property[geographical_pos]" value="غربی" <?php echo ($model->geographical_pos == 'غربی') ? "checked" : ""; ?> > غربی
               </label>
           </div>
       </div>
@@ -211,20 +281,20 @@ $facilities = Facilities::find()->all();
       <div class="form-group">
           <label>تعداد پارکینگ</label>
           <div class="btn-group btn-group-justified" data-toggle="buttons">
-              <label class="btn">
-                  <input type="radio" name="Property[number_of_parkings]" value="1">1
+              <label class="btn <?php echo ($model->number_of_parkings == '1') ? "active" : ""; ?>">
+                  <input type="radio" name="Property[number_of_parkings]" value="1" <?php echo ($model->number_of_parkings == '1') ? "checked" : ""; ?>>1
               </label>
-              <label class="btn">
-                  <input type="radio" name="Property[number_of_parkings]" value="2">2
+              <label class="btn <?php echo ($model->number_of_parkings == '2') ? "active" : ""; ?>">
+                  <input type="radio" name="Property[number_of_parkings]" value="2" <?php echo ($model->number_of_parkings == '2') ? "checked" : ""; ?>>2
               </label>
-              <label class="btn">
-                  <input type="radio" name="Property[number_of_parkings]" value="3">3
+              <label class="btn <?php echo ($model->number_of_parkings == '3') ? "active" : ""; ?>">
+                  <input type="radio" name="Property[number_of_parkings]" value="3" <?php echo ($model->number_of_parkings == '3') ? "checked" : ""; ?>>3
               </label>
-              <label class="btn">
-                  <input type="radio" name="Property[number_of_parkings]" value="+3">+3
+              <label class="btn <?php echo ($model->number_of_parkings == '3+') ? "active" : ""; ?>">
+                  <input type="radio" name="Property[number_of_parkings]" value="3+" <?php echo ($model->number_of_parkings == '3+') ? "checked" : ""; ?>>+3
               </label>
-              <label class="btn active">
-                  <input type="radio" name="Property[number_of_parkings]" value="0" checked> ندارد
+              <label class="btn <?php echo ($model->number_of_parkings == '0') ? "active" : ""; ?>">
+                  <input type="radio" name="Property[number_of_parkings]" value="0" <?php echo ($model->number_of_parkings == '0') ? "checked" : ""; ?>> ندارد
               </label>
           </div>
       </div>
@@ -234,20 +304,20 @@ $facilities = Facilities::find()->all();
       <div class="form-group">
           <label>تعداد تلفن</label>
           <div class="btn-group btn-group-justified" data-toggle="buttons">
-              <label class="btn">
-                  <input type="radio" name="Property[telephone_line_count]" value="1">1
+              <label class="btn <?php echo ($model->telephone_line_count == '1') ? "active" : ""; ?>">
+                  <input type="radio" name="Property[telephone_line_count]" value="1" <?php echo ($model->telephone_line_count == '1') ? "checked" : ""; ?>>1
               </label>
-              <label class="btn">
-                  <input type="radio" name="Property[telephone_line_count]" value="2">2
+              <label class="btn <?php echo ($model->telephone_line_count == '2') ? "active" : ""; ?>">
+                  <input type="radio" name="Property[telephone_line_count]" value="2"<?php echo ($model->telephone_line_count == '2') ? "checked" : ""; ?>>2
               </label>
-              <label class="btn">
-                  <input type="radio" name="Property[telephone_line_count]" value="3">3
+              <label class="btn <?php echo ($model->telephone_line_count == '3') ? "active" : ""; ?>">
+                  <input type="radio" name="Property[telephone_line_count]" value="3" <?php echo ($model->telephone_line_count == '3') ? "checked" : ""; ?>>3
               </label>
-              <label class="btn">
-                  <input type="radio" name="Property[telephone_line_count]" value="+3">+3
+              <label class="btn <?php echo ($model->telephone_line_count == '3+') ? "active" : ""; ?>">
+                  <input type="radio" name="Property[telephone_line_count]" value="3+" <?php echo ($model->telephone_line_count == '3+') ? "checked" : ""; ?>>+3
               </label>
-              <label class="btn active">
-                  <input type="radio" name="Property[telephone_line_count]" value="0" checked> ندارد
+              <label class="btn <?php echo ($model->telephone_line_count == '0') ? "active" : ""; ?>">
+                  <input type="radio" name="Property[telephone_line_count]" value="0" <?php echo ($model->telephone_line_count == '0') ? "checked" : ""; ?>> ندارد
               </label>
           </div>
       </div>
@@ -256,11 +326,15 @@ $facilities = Facilities::find()->all();
     <ul class="nav nav-tabs create_property_title"> <li class="active"><a> امکانات </a></li> </ul>
 
     <div class="facility-box table-responsive">
+
           <?php foreach($facilities as $facility): ?>
+            <?php
+            $facilities_id = explode(',', $model->facilities_id);
+            $checked = (in_array($facility->id,$facilities_id)) ? "checked" : ""; ?>
             <li class="col-sm-2">
             <div class="checkbox">
               <label>
-                  <input type="checkbox" name="Property[facilities_id][]" value= "<?= $facility->id ?>">
+                  <input type="checkbox" name="Property[facilities_id][]" value= "<?= $facility->id ?>" <?= $checked ?>>
                   <i class="input-helper"></i>
                   <?= $facility->name ?>
               </label>
@@ -273,12 +347,23 @@ $facilities = Facilities::find()->all();
     <ul class="nav nav-tabs create_property_title"> <li class="active"><a> تصاویر ملک </a></li> </ul>
 
     <?php
+    $findImage = Pictures::find()->where(['agahi_id' => $model->id, 'user_id' => Yii::$app->user->id])->all();
+    $allimage = array();
+    foreach ($findImage as $index => $eachimage) {
+        $baseurl = \Yii::$app->request->BaseUrl;
+        $image_url = $baseurl.$eachimage['src'];
+        $im = explode(',', $image_url);
+        $allimage[] = Html::img("/$im[1]",  ['class'=>'file-preview-image']);
+    }
+
+
     echo $form->field($model, 'file')->widget(FileInput::className(), [
         'options' => ['multiple' => true, 'accept' => 'image/*',],
         'pluginOptions' => [
             'uploadUrl' => Url::to(['/property/upload']),
             'maxFileCount' => 4,
             'previewFileType' => 'image/*',
+            'initialPreview'=>$allimage,
             'overwriteInitial' => false,
             'showUpload' => true,
             'showCaption' => true,

@@ -40,7 +40,6 @@ use yii\db\ActiveRecord;
  * @property integer $total_area
  * @property string $toilet_type
  * @property integer $telephone_line_count
- * @property integer $parking_count
  * @property integer $vila_type_id
  * @property integer $front_area
  * @property integer $alley_width
@@ -102,9 +101,10 @@ class Property extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['view_id', 'cabinet_id', 'floor_covering_id', 'user_id', 'region_id', 'city_id', 'property_type_id', 'dealing_type_id', 'document_type_id', 'phone_number1', 'phone_number2', 'mobile_number', 'area_size', 'number_of_rooms', 'floor_num', 'number_of_floors', 'number_of_units_in_floor', 'number_of_units', 'price_per_meter_rent', 'total_price', 'number_of_parkings', 'total_area', 'telephone_line_count', 'parking_count', 'vila_type_id', 'front_area', 'alley_width', 'height', 'revisory', 'balcony_area', 'has_store', 'created_at', 'status'], 'integer'],
+            [['view_id', 'cabinet_id', 'floor_covering_id', 'user_id', 'region_id', 'city_id', 'property_type_id', 'dealing_type_id', 'document_type_id', 'phone_number1', 'phone_number2', 'mobile_number', 'area_size', 'floor_num', 'number_of_floors', 'number_of_units_in_floor', 'number_of_units', 'price_per_meter_rent', 'total_price', 'total_area', 'vila_type_id', 'front_area', 'alley_width', 'height', 'revisory', 'balcony_area', 'has_store', 'created_at', 'status'], 'integer'],
+            [['number_of_rooms', 'number_of_parkings', 'telephone_line_count'], 'string', 'max' => 2],
             [['descriptions', 'address'], 'string'],
-            [['region_id', 'city_id', 'property_type_id', 'dealing_type_id', 'document_type_id', 'address', 'phone_number1', 'area_size', 'number_of_rooms', 'price_per_meter_rent', 'total_price', 'owner_name'], 'required'],
+            [['region_id', 'city_id', 'property_type_id', 'dealing_type_id', 'document_type_id', 'address', 'phone_number1', 'area_size', 'number_of_rooms', 'price_per_meter_rent', 'total_price', 'owner_name', 'province_id'], 'required'],
             [['residence_status', 'geographical_pos'], 'string', 'max' => 55],
             [['proeperty_age', 'activities_product', 'building_sell', 'water', 'electric', 'gas', 'equipment'], 'string', 'max' => 100],
             // [['facilities_id'], 'string', 'max' => 255],
@@ -163,7 +163,6 @@ class Property extends \yii\db\ActiveRecord
              'total_area' => Yii::t('app', 'مساحت / مساحت زمین'),
              'toilet_type' => Yii::t('app', 'سرویس بهداشتی'),
              'telephone_line_count' => Yii::t('app', 'Telephone Line Count'),
-             'parking_count' => Yii::t('app', 'Parking Count'),
              'vila_type_id' => Yii::t('app', 'Vila Type ID'),
              'front_area' => Yii::t('app', 'Front Area'),
              'alley_width' => Yii::t('app', 'Alley Width'),

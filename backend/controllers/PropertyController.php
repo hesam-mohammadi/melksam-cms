@@ -66,6 +66,7 @@ class PropertyController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
+
     public function actionCreate()
     {
         $model = new Property();
@@ -74,6 +75,30 @@ class PropertyController extends Controller
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
+                'model' => $model,
+            ]);
+        }
+    }
+
+
+    /**
+     * Updates an existing Property model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionUpdate($id)
+    {
+        $model = $this->findModel($id);
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $facility = $_POST['Property']['facilities_id'];
+            $facilities_id = implode(',', $facility);
+            $model->facilities_id = $facilities_id;
+            $model->save();
+
+            return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            return $this->render('update', [
                 'model' => $model,
             ]);
         }
@@ -192,25 +217,6 @@ public function actionProd() {
     }
     echo Json::encode(['output'=>'', 'selected'=>'']);
 }
-
-    /**
-     * Updates an existing Property model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
-    }
 
     /**
      * Deletes an existing Property model.

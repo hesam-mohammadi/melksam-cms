@@ -56,7 +56,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'total_area',
             'toilet_type',
             'telephone_line_count',
-            'parking_count',
             'vila_type_id',
             'front_area',
             'alley_width',
