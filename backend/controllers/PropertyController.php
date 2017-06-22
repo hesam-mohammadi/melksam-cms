@@ -494,7 +494,6 @@ class PropertyController extends Controller
 
     public function actionCreate_factory()
     {
-      
           $model = new Property();
           $modelpic = new Pictures();
           $model->scenario = 'create_factory';
