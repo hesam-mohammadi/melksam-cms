@@ -24,8 +24,9 @@ use backend\models\Province;
     </div>
 
     <div class="col-sm-4">
-      <?php $model->property_type_id = 1;?>
-      <?= $form->field($model, 'property_type_id')->dropDownList(ArrayHelper::map($property_type,'id','name'), ['prompt'=>'-- انتخاب نوع ملک --','disabled' => 'disabled'] ); ?>    </div>
+      <?php $model->property_type_id = 2;?>
+      <?= $form->field($model, 'property_type_id')->dropDownList(ArrayHelper::map($property_type,'id','name'), ['prompt'=>'-- انتخاب نوع ملک --','disabled' => 'disabled'] ); ?>
+    </div>
 
     <div class="col-sm-4">
       <?= $form->field($model, 'document_type_id')->dropDownList(ArrayHelper::map($document_type,'id','name'), ['prompt'=>'-- انتخاب نوع سند --']); ?>
@@ -135,12 +136,20 @@ use backend\models\Province;
 
     <ul class="nav nav-tabs create_property_title"> <li class="active"><a>مشخصات اختصاصی ملک</a></li> </ul>
 
-    <div class="col-sm-6">
+    <div class="col-sm-3">
       <?= $form->field($model, 'area_size')->textInput() ?>
     </div>
 
-    <div class="col-sm-6">
+    <div class="col-sm-3">
       <?= $form->field($model, 'total_area')->textInput() ?>
+    </div>
+
+    <div class="col-sm-3">
+      <?= $form->field($model, 'front_area')->textInput() ?>
+    </div>
+
+    <div class="col-sm-3">
+      <?= $form->field($model, 'alley_width')->textInput() ?>
     </div>
 
     <div class="col-sm-6">
@@ -188,22 +197,6 @@ use backend\models\Province;
       </div>
     </div>
 
-    <div class="col-sm-3">
-      <?= $form->field($model, 'floor_num')->textInput() ?>
-    </div>
-
-    <div class="col-sm-3">
-      <?= $form->field($model, 'number_of_floors')->textInput() ?>
-    </div>
-
-    <div class="col-sm-3">
-      <?= $form->field($model, 'number_of_units_in_floor')->textInput() ?>
-    </div>
-
-    <div class="col-sm-3">
-      <?= $form->field($model, 'number_of_units')->textInput() ?>
-    </div>
-
     <div class="col-sm-6">
       <?= $form->field($model, 'residence_status')->dropDownList(['تخلیه' => 'تخلیه', 'مستاجر' => 'مستاجر', 'مالک' => 'مالک', '---' => '---'], ['prompt'=>'-- انتخاب وضعیت سکونت --']); ?>
     </div>
@@ -226,6 +219,10 @@ use backend\models\Province;
               </label>
           </div>
       </div>
+    </div>
+
+    <div class="col-sm-6">
+      <?= $form->field($model, 'vila_type_id')->dropDownList(ArrayHelper::map($vila_type,'id','name'), ['prompt'=>'-- انتخاب نوع ویلا --']); ?>
     </div>
 
     <div class="col-sm-6">

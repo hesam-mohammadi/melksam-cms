@@ -90,16 +90,44 @@ class PropertyController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $modelpic = new Pictures();
+
+        $dealing_type = $model->findAllDealingType();
+        $document_type = $model->findAllDocumentType();
+        $view = $model->findAllView();
+        $cabinet = $model->findAllCabinet();
+        $floor_covering = $model->findAllFloorCovering();
+        $province_list = $model->findAllProvince();
+        $property_type = $model->findAllPropertyType();
+        $facilities = $model->findAllFacilities();
+        $vila_type = $model->findAllVilaType();
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $facility = $_POST['Property']['facilities_id'];
             $facilities_id = implode(',', $facility);
             $model->facilities_id = $facilities_id;
             $model->save();
 
+            $modelpic = Pictures::find()->where(['user_id'=> Yii::$app->user->id])->andWhere(['agahi_id' => null])->all();
+            foreach($modelpic as $ax){
+                $ax->agahi_id = $model->id;
+                $ax->save();
+            }
+
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'modelpic' => $modelpic,
+                'dealing_type' => $dealing_type,
+                'document_type' => $document_type,
+                'view' => $view,
+                'cabinet' => $cabinet,
+                'floor_covering' => $floor_covering,
+                'province_list' => $province_list,
+                'property_type' => $property_type,
+                'facilities' => $facilities,
+                'vila_type' => $vila_type,
             ]);
         }
     }
@@ -108,6 +136,18 @@ class PropertyController extends Controller
     {
         $model = new Property();
         $modelpic = new Pictures();
+        $model->scenario = 'create_apartment';
+
+        $dealing_type = $model->findAllDealingType();
+        $document_type = $model->findAllDocumentType();
+        $view = $model->findAllView();
+        $cabinet = $model->findAllCabinet();
+        $floor_covering = $model->findAllFloorCovering();
+        $province_list = $model->findAllProvince();
+        $property_type = $model->findAllPropertyType();
+        $facilities = $model->findAllFacilities();
+
+        $model->property_type_id = 1;
         $model->user_id = Yii::$app->user->id;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
@@ -131,15 +171,377 @@ class PropertyController extends Controller
           return $this->redirect(['view', 'id' => $model->id]);
         }
         else {
-          // print_r($model->errors);
-          // echo '<br>'.Yii::$app->user->id;
-          // die();
             return $this->render('create', [
                 'model' => $model,
                 'modelpic' => $modelpic,
+                'dealing_type' => $dealing_type,
+                'document_type' => $document_type,
+                'view' => $view,
+                'cabinet' => $cabinet,
+                'floor_covering' => $floor_covering,
+                'province_list' => $province_list,
+                'property_type' => $property_type,
+                'facilities' => $facilities,
             ]);
         }
     }
+
+    public function actionCreate_villa()
+    {
+          $model = new Property();
+          $modelpic = new Pictures();
+          $model->scenario = 'create_villa';
+          $dealing_type = $model->findAllDealingType();
+          $document_type = $model->findAllDocumentType();
+          $view = $model->findAllView();
+          $cabinet = $model->findAllCabinet();
+          $floor_covering = $model->findAllFloorCovering();
+          $province_list = $model->findAllProvince();
+          $property_type = $model->findAllPropertyType();
+          $facilities = $model->findAllFacilities();
+          $vila_type = $model->findAllVilaType();
+
+          $model->user_id = Yii::$app->user->id;
+          $model->property_type_id = 2;
+          if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $facility = $_POST['Property']['facilities_id'];
+            $facilities_id = implode(',', $facility);
+
+            $model->number_of_rooms = $_POST['Property']['number_of_rooms'];
+            $model->geographical_pos = $_POST['Property']['geographical_pos'];
+            $model->number_of_parkings = $_POST['Property']['number_of_parkings'];
+            $model->telephone_line_count = $_POST['Property']['telephone_line_count'];
+            $model->facilities_id = $facilities_id;
+            $model->status = 0;
+            $model->save();
+
+            $find_ax = Pictures::find()->where(['user_id' => Yii::$app->user->id])->andWhere(['agahi_id' => null])->all();
+            foreach($find_ax as $ax) {
+                $ax->agahi_id = $model->id;
+                $ax->save();
+            }
+            return $this->redirect(['view', 'id' => $model->id]);
+          }
+          else {
+              return $this->render('create', [
+                  'model' => $model,
+                  'modelpic' => $modelpic,
+                  'dealing_type' => $dealing_type,
+                  'document_type' => $document_type,
+                  'view' => $view,
+                  'cabinet' => $cabinet,
+                  'floor_covering' => $floor_covering,
+                  'province_list' => $province_list,
+                  'property_type' => $property_type,
+                  'facilities' => $facilities,
+                  'vila_type' => $vila_type,
+              ]);
+          }
+
+    }
+
+    public function actionCreate_complex()
+    {
+          $model = new Property();
+          $modelpic = new Pictures();
+
+          $dealing_type = $model->findAllDealingType();
+          $document_type = $model->findAllDocumentType();
+          $view = $model->findAllView();
+          $cabinet = $model->findAllCabinet();
+          $floor_covering = $model->findAllFloorCovering();
+          $province_list = $model->findAllProvince();
+          $property_type = $model->findAllPropertyType();
+          $facilities = $model->findAllFacilities();
+
+          $model->user_id = Yii::$app->user->id;
+          $model->property_type_id = 3;
+
+          if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $facility = $_POST['Property']['facilities_id'];
+            $facilities_id = implode(',', $facility);
+
+            $model->geographical_pos = $_POST['Property']['geographical_pos'];
+            $model->number_of_parkings = $_POST['Property']['number_of_parkings'];
+            $model->telephone_line_count = $_POST['Property']['telephone_line_count'];
+            $model->facilities_id = $facilities_id;
+            $model->status = 0;
+            $model->save();
+
+            $find_ax = Pictures::find()->where(['user_id' => Yii::$app->user->id])->andWhere(['agahi_id' => null])->all();
+            foreach($find_ax as $ax) {
+                $ax->agahi_id = $model->id;
+                $ax->save();
+            }
+            return $this->redirect(['view', 'id' => $model->id]);
+          }
+          else {
+              return $this->render('create', [
+                  'model' => $model,
+                  'modelpic' => $modelpic,
+                  'dealing_type' => $dealing_type,
+                  'document_type' => $document_type,
+                  'view' => $view,
+                  'cabinet' => $cabinet,
+                  'floor_covering' => $floor_covering,
+                  'province_list' => $province_list,
+                  'property_type' => $property_type,
+                  'facilities' => $facilities,
+              ]);
+          }
+
+    }
+
+    public function actionCreate_store()
+    {
+          $model = new Property();
+          $modelpic = new Pictures();
+
+          $dealing_type = $model->findAllDealingType();
+          $document_type = $model->findAllDocumentType();
+          $view = $model->findAllView();
+          $cabinet = $model->findAllCabinet();
+          $floor_covering = $model->findAllFloorCovering();
+          $province_list = $model->findAllProvince();
+          $property_type = $model->findAllPropertyType();
+          $facilities = $model->findAllFacilities();
+
+          $model->user_id = Yii::$app->user->id;
+          $model->property_type_id = 4;
+
+          if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $facility = $_POST['Property']['facilities_id'];
+            $facilities_id = implode(',', $facility);
+
+            $model->geographical_pos = $_POST['Property']['geographical_pos'];
+            $model->number_of_parkings = $_POST['Property']['number_of_parkings'];
+            $model->telephone_line_count = $_POST['Property']['telephone_line_count'];
+            $model->facilities_id = $facilities_id;
+            $model->status = 0;
+            $model->save();
+
+            $find_ax = Pictures::find()->where(['user_id' => Yii::$app->user->id])->andWhere(['agahi_id' => null])->all();
+            foreach($find_ax as $ax) {
+                $ax->agahi_id = $model->id;
+                $ax->save();
+            }
+            return $this->redirect(['view', 'id' => $model->id]);
+          }
+          else {
+              return $this->render('create', [
+                  'model' => $model,
+                  'modelpic' => $modelpic,
+                  'dealing_type' => $dealing_type,
+                  'document_type' => $document_type,
+                  'view' => $view,
+                  'cabinet' => $cabinet,
+                  'floor_covering' => $floor_covering,
+                  'province_list' => $province_list,
+                  'property_type' => $property_type,
+                  'facilities' => $facilities,
+              ]);
+          }
+
+    }
+
+    public function actionCreate_land()
+    {
+          $model = new Property();
+          $modelpic = new Pictures();
+
+          $dealing_type = $model->findAllDealingType();
+          $document_type = $model->findAllDocumentType();
+          $view = $model->findAllView();
+          $cabinet = $model->findAllCabinet();
+          $floor_covering = $model->findAllFloorCovering();
+          $province_list = $model->findAllProvince();
+          $property_type = $model->findAllPropertyType();
+          $facilities = $model->findAllFacilities();
+
+          $model->user_id = Yii::$app->user->id;
+          $model->property_type_id = 5;
+
+          if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $facility = $_POST['Property']['facilities_id'];
+            $facilities_id = implode(',', $facility);
+
+            $model->geographical_pos = $_POST['Property']['geographical_pos'];
+            $model->facilities_id = $facilities_id;
+            $model->status = 0;
+            $model->save();
+
+            $find_ax = Pictures::find()->where(['user_id' => Yii::$app->user->id])->andWhere(['agahi_id' => null])->all();
+            foreach($find_ax as $ax) {
+                $ax->agahi_id = $model->id;
+                $ax->save();
+            }
+            return $this->redirect(['view', 'id' => $model->id]);
+          }
+          else {
+              return $this->render('create', [
+                  'model' => $model,
+                  'modelpic' => $modelpic,
+                  'dealing_type' => $dealing_type,
+                  'document_type' => $document_type,
+                  'view' => $view,
+                  'cabinet' => $cabinet,
+                  'floor_covering' => $floor_covering,
+                  'province_list' => $province_list,
+                  'property_type' => $property_type,
+                  'facilities' => $facilities,
+              ]);
+          }
+
+    }
+
+    public function actionCreate_farm()
+    {
+          $model = new Property();
+          $modelpic = new Pictures();
+          $model->scenario = 'create_farm';
+
+          $dealing_type = $model->findAllDealingType();
+          $document_type = $model->findAllDocumentType();
+          $view = $model->findAllView();
+          $cabinet = $model->findAllCabinet();
+          $floor_covering = $model->findAllFloorCovering();
+          $province_list = $model->findAllProvince();
+          $property_type = $model->findAllPropertyType();
+          $facilities = $model->findAllFacilities();
+
+          $model->user_id = Yii::$app->user->id;
+          $model->property_type_id = 6;
+
+          if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $facility = $_POST['Property']['facilities_id'];
+            $facilities_id = implode(',', $facility);
+
+            $model->facilities_id = $facilities_id;
+            $model->status = 0;
+            $model->save();
+
+            $find_ax = Pictures::find()->where(['user_id' => Yii::$app->user->id])->andWhere(['agahi_id' => null])->all();
+            foreach($find_ax as $ax) {
+                $ax->agahi_id = $model->id;
+                $ax->save();
+            }
+            return $this->redirect(['view', 'id' => $model->id]);
+          }
+          else {
+              return $this->render('create', [
+                  'model' => $model,
+                  'modelpic' => $modelpic,
+                  'dealing_type' => $dealing_type,
+                  'document_type' => $document_type,
+                  'view' => $view,
+                  'cabinet' => $cabinet,
+                  'floor_covering' => $floor_covering,
+                  'province_list' => $province_list,
+                  'property_type' => $property_type,
+                  'facilities' => $facilities,
+              ]);
+          }
+    }
+
+    public function actionCreate_damdari()
+    {
+          $model = new Property();
+          $modelpic = new Pictures();
+          $model->scenario = 'create_damdari';
+
+          $dealing_type = $model->findAllDealingType();
+          $document_type = $model->findAllDocumentType();
+          $view = $model->findAllView();
+          $cabinet = $model->findAllCabinet();
+          $floor_covering = $model->findAllFloorCovering();
+          $province_list = $model->findAllProvince();
+          $property_type = $model->findAllPropertyType();
+          $facilities = $model->findAllFacilities();
+
+          $model->user_id = Yii::$app->user->id;
+          $model->property_type_id = 7;
+
+          if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $facility = $_POST['Property']['facilities_id'];
+            $facilities_id = implode(',', $facility);
+
+            $model->facilities_id = $facilities_id;
+            $model->status = 0;
+            $model->save();
+
+            $find_ax = Pictures::find()->where(['user_id' => Yii::$app->user->id])->andWhere(['agahi_id' => null])->all();
+            foreach($find_ax as $ax) {
+                $ax->agahi_id = $model->id;
+                $ax->save();
+            }
+            return $this->redirect(['view', 'id' => $model->id]);
+          }
+          else {
+              return $this->render('create', [
+                  'model' => $model,
+                  'modelpic' => $modelpic,
+                  'dealing_type' => $dealing_type,
+                  'document_type' => $document_type,
+                  'view' => $view,
+                  'cabinet' => $cabinet,
+                  'floor_covering' => $floor_covering,
+                  'province_list' => $province_list,
+                  'property_type' => $property_type,
+                  'facilities' => $facilities,
+              ]);
+          }
+    }
+
+    public function actionCreate_factory()
+    {
+      
+          $model = new Property();
+          $modelpic = new Pictures();
+          $model->scenario = 'create_factory';
+
+          $dealing_type = $model->findAllDealingType();
+          $document_type = $model->findAllDocumentType();
+          $view = $model->findAllView();
+          $cabinet = $model->findAllCabinet();
+          $floor_covering = $model->findAllFloorCovering();
+          $province_list = $model->findAllProvince();
+          $property_type = $model->findAllPropertyType();
+          $facilities = $model->findAllFacilities();
+
+          $model->user_id = Yii::$app->user->id;
+          $model->property_type_id = 8;
+
+          if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $facility = $_POST['Property']['facilities_id'];
+            $facilities_id = implode(',', $facility);
+
+            $model->facilities_id = $facilities_id;
+            $model->status = 0;
+            $model->save();
+
+            $find_ax = Pictures::find()->where(['user_id' => Yii::$app->user->id])->andWhere(['agahi_id' => null])->all();
+            foreach($find_ax as $ax) {
+                $ax->agahi_id = $model->id;
+                $ax->save();
+            }
+            return $this->redirect(['view', 'id' => $model->id]);
+          }
+          else {
+              return $this->render('create', [
+                  'model' => $model,
+                  'modelpic' => $modelpic,
+                  'dealing_type' => $dealing_type,
+                  'document_type' => $document_type,
+                  'view' => $view,
+                  'cabinet' => $cabinet,
+                  'floor_covering' => $floor_covering,
+                  'province_list' => $province_list,
+                  'property_type' => $property_type,
+                  'facilities' => $facilities,
+              ]);
+          }
+    }
+
     public function actionUpload() {
           $model = new Property();
           $modelPic = new Pictures();
@@ -168,6 +570,20 @@ class PropertyController extends Controller
             return true;
           }
           }
+    }
+
+    public function actionDelsingle($key){
+      $find_ax = Pictures::findOne(['id' => $key]);
+      if ($find_ax != null){
+        $find_ax->delete();
+
+        $dir_pic = str_replace("frontend","",$find_ax->src);
+        $pics = explode(',', $dir_pic);
+        foreach($pics as $pic) {
+          unlink(Yii::getAlias('@frontend').$pic);
+        }
+      }
+      echo json_encode(['redirect'=>'_form',]);
     }
 
     public function actionSubcat() {

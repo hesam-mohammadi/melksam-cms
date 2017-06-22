@@ -6,6 +6,15 @@ use Yii;
 use yii\web\UploadedFile;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use backend\models\DealingType;
+use backend\models\DocumentType;
+use backend\models\PropertyView;
+use backend\models\PropertyType;
+use backend\models\Cabinet;
+use backend\models\FloorCovering;
+use backend\models\Province;
+use backend\models\Facilities;
+use backend\models\VilaType;
 /**
  * This is the model class for table "property".
  *
@@ -104,7 +113,9 @@ class Property extends \yii\db\ActiveRecord
             [['view_id', 'cabinet_id', 'floor_covering_id', 'user_id', 'region_id', 'city_id', 'property_type_id', 'dealing_type_id', 'document_type_id', 'phone_number1', 'phone_number2', 'mobile_number', 'area_size', 'floor_num', 'number_of_floors', 'number_of_units_in_floor', 'number_of_units', 'price_per_meter_rent', 'total_price', 'total_area', 'vila_type_id', 'front_area', 'alley_width', 'height', 'revisory', 'balcony_area', 'has_store', 'created_at', 'status'], 'integer'],
             [['number_of_rooms', 'number_of_parkings', 'telephone_line_count'], 'string', 'max' => 2],
             [['descriptions', 'address'], 'string'],
-            [['region_id', 'city_id', 'property_type_id', 'dealing_type_id', 'document_type_id', 'address', 'phone_number1', 'area_size', 'number_of_rooms', 'price_per_meter_rent', 'total_price', 'owner_name', 'province_id'], 'required'],
+            [['region_id', 'city_id', 'property_type_id', 'dealing_type_id', 'document_type_id', 'address', 'phone_number1', 'area_size', 'price_per_meter_rent', 'total_price', 'owner_name', 'province_id'], 'required'],
+            [['number_of_rooms'], 'required', 'on' => ['create_apartment','create_villa']],
+            [['total_area'], 'required', 'on' => ['create_farm','create_damdari']],
             [['residence_status', 'geographical_pos'], 'string', 'max' => 55],
             [['proeperty_age', 'activities_product', 'building_sell', 'water', 'electric', 'gas', 'equipment'], 'string', 'max' => 100],
             // [['facilities_id'], 'string', 'max' => 255],
@@ -160,12 +171,12 @@ class Property extends \yii\db\ActiveRecord
              'total_price' => Yii::t('app', 'قیمت کل / ودیعه'),
              'number_of_parkings' => Yii::t('app', 'تعداد پارکینگ'),
              'facilities_id' => Yii::t('app', 'امکانات'),
-             'total_area' => Yii::t('app', 'مساحت / مساحت زمین'),
+             'total_area' => Yii::t('app', 'مساحت'),
              'toilet_type' => Yii::t('app', 'سرویس بهداشتی'),
              'telephone_line_count' => Yii::t('app', 'Telephone Line Count'),
              'vila_type_id' => Yii::t('app', 'Vila Type ID'),
-             'front_area' => Yii::t('app', 'Front Area'),
-             'alley_width' => Yii::t('app', 'Alley Width'),
+             'front_area' => Yii::t('app', 'طول بر (متر)'),
+             'alley_width' => Yii::t('app', 'عرض گذر (متر)'),
              'owner_name' => Yii::t('app', 'Owner Name'),
              'activities_product' => Yii::t('app', 'Activities Product'),
              'building_sell' => Yii::t('app', 'Building Sell'),
@@ -272,5 +283,61 @@ class Property extends \yii\db\ActiveRecord
     {
         return $this->hasOne(DocumentType::className(), ['id' => 'document_type_id']);
     }
+
+    public function findAllDealingType()
+    {
+      $dealing_type = DealingType::find()->all();
+      return $dealing_type;
+    }
+
+    public function findAllDocumentType()
+    {
+      $document_type = DocumentType::find()->all();
+      return $document_type;
+    }
+
+    public function findAllView()
+    {
+      $view = PropertyView::find()->all();
+      return $view;
+    }
+
+    public function findAllCabinet()
+    {
+      $cabinet = Cabinet::find()->all();
+      return $cabinet;
+    }
+
+    public function findAllFloorCovering()
+    {
+      $floor_covering = FloorCovering::find()->all();
+      return $floor_covering;
+    }
+
+    public function findAllProvince()
+    {
+      $province_list = Province::find()->all();
+      return $province_list;
+    }
+
+    public function findAllPropertyType()
+    {
+      $property_type = PropertyType::find()->all();
+      return $property_type;
+    }
+
+    public function findAllFacilities()
+    {
+      $facilities = Facilities::find()->all();
+      return $facilities;
+    }
+
+    public function findAllVilaType()
+    {
+      $vila_type = VilaType::find()->all();
+      return $vila_type;
+    }
+
+
 
 }

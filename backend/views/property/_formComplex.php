@@ -24,8 +24,9 @@ use backend\models\Province;
     </div>
 
     <div class="col-sm-4">
-      <?php $model->property_type_id = 1;?>
-      <?= $form->field($model, 'property_type_id')->dropDownList(ArrayHelper::map($property_type,'id','name'), ['prompt'=>'-- انتخاب نوع ملک --','disabled' => 'disabled'] ); ?>    </div>
+      <?php $model->property_type_id = 3;?>
+      <?= $form->field($model, 'property_type_id')->dropDownList(ArrayHelper::map($property_type,'id','name'), ['prompt'=>'-- انتخاب نوع ملک --','disabled' => 'disabled'] ); ?>
+    </div>
 
     <div class="col-sm-4">
       <?= $form->field($model, 'document_type_id')->dropDownList(ArrayHelper::map($document_type,'id','name'), ['prompt'=>'-- انتخاب نوع سند --']); ?>
@@ -135,73 +136,36 @@ use backend\models\Province;
 
     <ul class="nav nav-tabs create_property_title"> <li class="active"><a>مشخصات اختصاصی ملک</a></li> </ul>
 
-    <div class="col-sm-6">
-      <?= $form->field($model, 'area_size')->textInput() ?>
+    <div class="col-sm-3">
+      <?= $form->field($model, 'area_size')->textInput()->label('زیربنای کل') ?>
     </div>
 
-    <div class="col-sm-6">
-      <?= $form->field($model, 'total_area')->textInput() ?>
+    <div class="col-sm-3">
+      <?= $form->field($model, 'total_area')->textInput()->label('مساحت زمین') ?>
+    </div>
+
+    <div class="col-sm-3">
+      <?= $form->field($model, 'front_area')->textInput() ?>
+    </div>
+
+    <div class="col-sm-3">
+      <?= $form->field($model, 'alley_width')->textInput() ?>
+    </div>
+
+    <div class="col-sm-4">
+      <?= $form->field($model, 'number_of_floors')->textInput() ?>
+    </div>
+
+    <div class="col-sm-4">
+      <?= $form->field($model, 'number_of_units_in_floor')->textInput() ?>
+    </div>
+
+    <div class="col-sm-4">
+      <?= $form->field($model, 'number_of_units')->textInput() ?>
     </div>
 
     <div class="col-sm-6">
       <?= $form->field($model, 'view_id')->dropDownList(ArrayHelper::map($view,'id','name'), ['prompt'=>'-- انتخاب نوع نما --']); ?>
-    </div>
-
-    <div class="col-sm-6">
-      <div class="form-group">
-          <label>تعداد اتاق</label>
-          <div class="btn-group btn-group-justified" data-toggle="buttons">
-              <?php if($model->isNewRecord): ?>
-              <label class="btn">
-                  <input type="radio" name="Property[number_of_rooms]" value="1">1
-              </label>
-              <label class="btn active">
-                  <input type="radio" name="Property[number_of_rooms]" value="2" checked>2
-              </label>
-              <label class="btn">
-                  <input type="radio" name="Property[number_of_rooms]" value="3">3
-              </label>
-              <label class="btn">
-                  <input type="radio" name="Property[number_of_rooms]" value="4">4
-              </label>
-              <label class="btn">
-                  <input type="radio" name="Property[number_of_rooms]" value="+4">4+
-              </label>
-            <?php else: ?>
-              <label class="btn <?php echo ($model->number_of_rooms == '1') ? "active" : ""; ?>">
-                  <input type="radio" name="Property[number_of_rooms]" value="1" <?php echo ($model->number_of_rooms == '1') ? "checked" : ""; ?>>1
-              </label>
-              <label class="btn <?php echo ($model->number_of_rooms == '2') ? "active" : ""; ?>">
-                  <input type="radio" name="Property[number_of_rooms]" value="2" <?php echo ($model->number_of_rooms == '2') ? "checked" : ""; ?>>2
-              </label>
-              <label class="btn <?php echo ($model->number_of_rooms == '3') ? "active" : ""; ?>">
-                  <input type="radio" name="Property[number_of_rooms]" value="3" <?php echo ($model->number_of_rooms == '3') ? "checked" : ""; ?>>3
-              </label>
-              <label class="btn <?php echo ($model->number_of_rooms == '4') ? "active" : ""; ?>">
-                  <input type="radio" name="Property[number_of_rooms]" value="4" <?php echo ($model->number_of_rooms == '4') ? "checked" : ""; ?>>4
-              </label>
-              <label class="btn <?php echo ($model->number_of_rooms == "4+") ? "active" : ""; ?>">
-                  <input type="radio" name="Property[number_of_rooms]" value="4+" <?php echo ($model->number_of_rooms == "4+") ? "checked" : ""; ?>>4+
-              </label>
-            <?php endif ?>
-          </div>
-      </div>
-    </div>
-
-    <div class="col-sm-3">
-      <?= $form->field($model, 'floor_num')->textInput() ?>
-    </div>
-
-    <div class="col-sm-3">
-      <?= $form->field($model, 'number_of_floors')->textInput() ?>
-    </div>
-
-    <div class="col-sm-3">
-      <?= $form->field($model, 'number_of_units_in_floor')->textInput() ?>
-    </div>
-
-    <div class="col-sm-3">
-      <?= $form->field($model, 'number_of_units')->textInput() ?>
     </div>
 
     <div class="col-sm-6">
