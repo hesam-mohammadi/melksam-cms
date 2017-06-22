@@ -12,9 +12,21 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="property-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
-        <?= Html::a(Yii::t('app', 'Create Property'), ['create'], ['class' => 'btn btn-success']) ?>
+    <div class="dropdown">
+      <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown">ثبت ملک جدید
+      <span class="caret"></span></button>
+      <ul class="dropdown-menu">
+        <li><a href="/admin/property/create_apartment">آپارتمان</a></li>
+        <li><a href="/admin/property/create_villa">ویلا - خانه</a></li>
+        <li><a href="/admin/property/create_complex">مجتمع های مسکونی - اداری - تجاری</a></li>
+        <li><a href="/admin/property/create_store">مغازه و املاک تجاری</a></li>
+        <li><a href="/admin/property/create_land">زمین - کلنگی</a></li>
+        <li><a href="/admin/property/create_farm">باغ - باغچه و املاک کشاورزی</a></li>
+        <li><a href="/admin/property/create_damdari">دامداری و دامپروری</a></li>
+        <li><a href="/admin/property/create_factory">املاک صنعتی</a></li>
+      </ul>
+    </div>
     </p>
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,

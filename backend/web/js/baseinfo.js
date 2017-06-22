@@ -20,8 +20,6 @@ return false;
 })
   );
 
-
-
   $(document).ready(
     $('#city-form').on('beforeSubmit', function(event, jqXHR, settings) {
   var form = $(this);

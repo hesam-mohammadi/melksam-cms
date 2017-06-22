@@ -12,14 +12,14 @@
           <a href="<?= \Yii::$app->homeUrl ?>property"><i class="zmdi zmdi-view-list"></i> لیست املاک ثبت شده</a>
         </li>
 
-        <li <?php if(in_array(\Yii::$app->controller->id,['property'])) {echo 'class="active"';} ?>>
+        <!-- <li <?php if(in_array(\Yii::$app->controller->id,['property'])) {echo 'class="active"';} ?>>
           <a href="#" id="btn-1" data-toggle="collapse" data-target="#submenu1" aria-expanded="false"><i class="zmdi zmdi-view-list"></i> ثبت ملک جدید <span class="zmdi zmdi-chevron-down"></span></a>
           <ul class="nav collapse" id="submenu1" role="menu" aria-labelledby="btn-1">
 				<li><a href="#">Link 2.1</a></li>
 				<li><a href="#">Link 2.2</a></li>
 				<li><a href="#">Link 2.3</a></li>
 			</ul>
-        </li>
+        </li> -->
 
         <li <?php if(in_array(\Yii::$app->controller->id,['user'])) {echo 'class="active"';} ?>>
           <a href="<?= Yii::$app->homeUrl ?>user"><i class="zmdi zmdi-account-box"></i> کاربران</a>

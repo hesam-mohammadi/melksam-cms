@@ -9592,8 +9592,8 @@ a.mdc-text-black-darker:hover {
 
 .dropdown-menu {
     position: absolute;
-    right: auto !important;
-		left: 0 !important;
+    left: auto !important;
+		right: 0 !important;
     z-index: 1000;
     display: none;
     min-width: 160px;

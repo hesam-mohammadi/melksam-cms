@@ -72,8 +72,6 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'telephone_line_count')->textInput() ?>
 
-    <?= $form->field($model, 'parking_count')->textInput() ?>
-
     <?= $form->field($model, 'vila_type_id')->textInput() ?>
 
     <?= $form->field($model, 'front_area')->textInput() ?>
