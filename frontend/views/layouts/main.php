@@ -231,7 +231,7 @@ if (Yii::$app->session->hasFlash('success_password_saved')){
                       }?>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="after-login.html"><i class="zmdi zmdi-assignment-account"></i> حساب کاربری</a></li>
+                        <li><a href="<?= Yii::$app->params['backendUrl'] ?>"><i class="zmdi zmdi-assignment-account"></i> حساب کاربری</a></li>
                         <li><a href="after-login.html"><i class="zmdi zmdi-favorite-outline"></i> علاقمندی  ها</a></li>
                         <li><?= Html::a('<i class="zmdi zmdi-power"></i> خروج', ['/site/logout'],['data' => ['method' => 'post',]]);?></li>
                     </ul>

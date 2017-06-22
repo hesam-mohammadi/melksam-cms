@@ -4,15 +4,16 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model backend\models\User */
+/* @var $model backend\models\Inbox */
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Users'), 'url' => ['index']];
+$this->title = $model->name;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Inboxes'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="user-view">
+<div class="inbox-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
+
     <p>
         <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
@@ -28,17 +29,13 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'fname',
-            'lname:ntext',
-            'auth_key',
-            'password_hash',
-            'password_reset_token',
-            'email:email',
-            'mobile',
-            'city_id',
-            'status:boolean',
-            'created_at:date',
-            'updated_at:date',
+            'name',
+            'section',
+            'property_id',
+            'message:ntext',
+            'phone_number',
+            'created_at',
+            'status',
         ],
     ]) ?>
 

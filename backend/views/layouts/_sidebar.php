@@ -1,6 +1,6 @@
 <aside id="main__sidebar">
     <a class="hidden-lg main__block-close" href="index.html" data-rmd-action="block-close" data-rmd-target="#main__sidebar">
-        <i class="zmdi zmdi-long-arrow-left"></i>
+        <i class="zmdi zmdi-long-arrow-right"></i>
     </a>
 
     <ul class="main-menu">
@@ -22,10 +22,10 @@
         </li> -->
 
         <li <?php if(in_array(\Yii::$app->controller->id,['user'])) {echo 'class="active"';} ?>>
-          <a href="<?= Yii::$app->homeUrl ?>user"><i class="zmdi zmdi-account-box"></i> کاربران</a>
+          <a href="<?= Yii::$app->homeUrl ?>/user"><i class="zmdi zmdi-account-box"></i> کاربران</a>
         </li>
         <li <?php if(in_array(\Yii::$app->controller->id,['inbox'])) {echo 'class="active"';} ?>>
-          <a href="leads.html"><i class="zmdi zmdi-inbox "></i> صندوق پیام های دریافتی</a>
+          <a href="<?= Yii::$app->homeUrl ?>/inbox"><i class="zmdi zmdi-inbox "></i> صندوق پیام های دریافتی</a>
         </li>
         <li <?php if(in_array(\Yii::$app->controller->id,['tasks'])) {echo 'class="active"';} ?>>
           <a href="tasks-lists.html"><i class="zmdi zmdi-check-circle"></i> لیست وظایف</a>

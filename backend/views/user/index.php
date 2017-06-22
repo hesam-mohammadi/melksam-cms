@@ -29,11 +29,16 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'password_hash',
             // 'password_reset_token',
             'email:email',
+            [
+              'attribute' =>'userRole',
+                    //filter is dropdown - static data
+                    'filter'=> array('دانشجو'=>'دانشجو','مدرس'=>'مدرس', 'مدیر' => 'مدیر'),
+            ],
             // 'mobile',
             // 'gender',
             // 'city_id',
-            'status',
-            'created_at',
+            'status:boolean',
+            'created_at:date',
             // 'updated_at',
 
             ['class' => 'yii\grid\ActionColumn'],

@@ -14,7 +14,7 @@
         <li class="dropdown">
             <a href="index.html" data-toggle="dropdown"><i class="zmdi zmdi-notifications"></i></a>
 
-            <div class="dropdown-menu dropdown-menu--lg pull-right">
+            <div class="dropdown-menu dropdown-menu--lg pull-left">
                 <div class="list-group__header">
                     NOTIFICATIONS
                 </div>
@@ -121,7 +121,7 @@
             </div>
         </li>
         <li class="hidden-xs">
-            <a href="../index.html"><i class="zmdi zmdi-home"></i></a>
+            <a href="<?= Yii::$app->params['frontendUrl'] ?>" target="_blank"><i class="zmdi zmdi-home"></i></a>
         </li>
         <li class="header-alt__profile dropdown">
             <a href="index.html" data-toggle="dropdown">

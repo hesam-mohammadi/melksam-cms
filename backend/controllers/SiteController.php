@@ -34,17 +34,20 @@ class SiteController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => [
-                          'login', 'error', 'baseinfo', 'create_province', 'edit_province', 'delete_province', 'create_city', 'edit_city', 'delete_city',
-                          'create_region', 'subcity', 'prod', 'edit_region', 'delete_region', 'create_dealing', 'edit_dealing', 'delete_dealing',
-                          'create_view', 'edit_view', 'delete_view', 'create_cover', 'edit_cover', 'delete_cover', 'create_cabinet', 'edit_cabinet', 'delete_cabinet',
-                          'create_vila', 'edit_vila', 'delete_vila', 'create_facilities', 'edit_facilities', 'delete_facilities'],
+                        'actions' => ['baseinfo'],
+                        'roles' => ['admin'],
                         'allow' => true,
                     ],
+
                     [
-                        'actions' => ['logout', 'index'],
+                        'actions' => ['index','logout', 'subcity'],
                         'allow' => true,
                         'roles' => ['@'],
+                    ],
+                    [
+                        'actions' => ['login'],
+                        'allow' => true,
+                        'roles' => ['?'],
                     ],
                 ],
             ],
@@ -80,6 +83,46 @@ class SiteController extends Controller
         $this->layout = 'dashboard';
         return $this->render('index');
     }
+
+   public function actionInit()
+   {
+       $auth = Yii::$app->authManager;
+
+
+      //  // add "createPost" permission
+      //  $createPost = $auth->createPermission('Propertylist');
+      //  $createPost->description = '';
+      //  $auth->add($createPost);
+
+
+      //  // add "updatePost" permission
+      //  $updatePost = $auth->createPermission('updatePost');
+      //  $updatePost->description = 'Update post';
+      //  $auth->add($updatePost);
+       //
+       //
+      //  // add "author" role and give this role the "createPost" permission
+      //  $author = $auth->createRole('author');
+      //  $auth->add($author);
+      //  $auth->addChild($author, $createPost);
+       //
+       //
+       // add "admin" role and give this role the "updatePost" permission
+       // as well as the permissions of the "author" role
+       $admin = $auth->createRole('admin');
+       $agent = $auth->createRole('agent');
+      //  $auth->add($admin);
+      //  $auth->addChild($admin, $updatePost);
+      //  $auth->addChild($admin, $agent);
+      $auth->assign($admin, 1);
+       //
+       //
+      //  // Assign roles to users. 1 and 2 are IDs returned by IdentityInterface::getId()
+      //  // usually implemented in your User model.
+      //  $auth->assign($author, 2);
+      //  $auth->assign($admin, 1);
+   }
+
 
     /**
      * Login action.
