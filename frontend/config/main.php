@@ -14,7 +14,8 @@ return [
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
         'request' => [
-            'csrfParam' => '_csrf-frontend',
+          'baseUrl' => '/',
+          'csrfParam' => '_csrf-frontend',
         ],
         'user' => [
             'identityClass' => 'common\models\User',
@@ -39,6 +40,7 @@ return [
         ],
 
         'urlManager' => [
+            'baseUrl' => '/',
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [

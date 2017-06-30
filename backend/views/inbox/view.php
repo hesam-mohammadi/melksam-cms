@@ -34,8 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'property_id',
             'message:ntext',
             'phone_number',
-            'created_at',
-            'status',
+            'created_at:datetime',
         ],
     ]) ?>
 

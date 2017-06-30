@@ -9761,7 +9761,7 @@ a.mdc-text-black-darker:hover {
 .list-group__actions {
     position: absolute;
     top: 18px;
-    right: 10px
+    left: 10px
 }
 
 @media (min-width:992px) {
@@ -9967,7 +9967,6 @@ a.mdc-text-black-darker:hover {
     font-weight: 500;
     padding: 18px 10px 15px;
     display: block;
-    text-align: center;
     position: relative
 }
 
@@ -11809,7 +11808,7 @@ only screen and (min-resolution:2dppx) {
 
 .detail-info__list>li {
     width: 50%;
-    float: left;
+    float: right;
     padding: 15px 30px;
     border-top: 1px solid #f5f5f5
 }
@@ -12702,6 +12701,7 @@ only screen and (min-resolution:2dppx) {
 
 .actions__toggle input[type=checkbox] {
     position: absolute;
+		cursor: pointer;
     left: 0;
     top: 0;
     width: 100%;
@@ -16034,9 +16034,4 @@ html:not(.ie9) .page-loader__spinner {
 		right: 6px;
 		padding: 2px 5px;
 		border-radius: 2px;
-}
-.img-count {
-		background: rgba(0, 0, 0, .9);
-		border-left: black solid 1px;
-		padding-left: 5px;
 }

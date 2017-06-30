@@ -23,14 +23,41 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'name',
+            'created_at:datetime',
             'section',
             'property_id',
             'message:ntext',
             // 'phone_number',
-            // 'created_at',
-            // 'status',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+             'label'=>'وضعیت',
+             'format'=>'raw',
+             'value' => function($model, $key, $index, $column) { return $model->status == 0 ? '<span class="text-danger"><i class="zmdi zmdi-email"></i> خوانده نشده</span>' : '<span class="text-success"><i class="zmdi zmdi-email-open"></i> خوانده شده</span>';},
+            ],
+            // 'status:boolean',
+
+            [
+              'class' => 'yii\grid\ActionColumn',
+              'template' => '{view} &nbsp; {delete_inbox}',
+              'buttons' => [
+                  'view' => function ($url, $model, $key) {
+                          return Html::a('<span"><i class="zmdi zmdi-eye"></i> مشاهده پیام</span>', '/admin/inbox/view?id='.$model->id, [
+                              'title' => Yii::t('yii', 'View'),
+                              'aria-label' => Yii::t('yii', 'View'),
+                          ]);
+                  },
+                  'delete_inbox' => function ($url, $model, $key) {
+                    if(\Yii::$app->user->can('admin')) {
+                      return Html::a('<span class="text-danger"><i class="zmdi zmdi-delete"></i> حذف پیام</span>', '/admin/inbox/delete?id='.$model->id, [
+                          'title' => Yii::t('yii', 'Delete'),
+                          'data-confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),
+                          'data-method'  => 'post',
+                      ]);
+                    }
+                },
+
+              ],
+            ],
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>

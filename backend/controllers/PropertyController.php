@@ -40,9 +40,16 @@ class PropertyController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Property::find(),
-        ]);
+        if(\Yii::$app->user->can('agent')) {
+          $dataProvider = new ActiveDataProvider([
+              'query' => Property::find(),
+          ]);
+        }
+        else {
+          $dataProvider = new ActiveDataProvider([
+            'query' => Property::find()->where(['user_id' => \Yii::$app->user->id]),
+          ]);
+        }
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
@@ -56,9 +63,17 @@ class PropertyController extends Controller
      */
     public function actionView($id)
     {
+      $model = $this->findModel($id);
+      if(\Yii::$app->user->can('admin') || $model->user->id == \Yii::$app->user->id) {
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
         ]);
+      }
+      else {
+        Yii::$app->getSession()->setFlash('error', 'شما اجازه دسترسی به صفحه مورد نظر را ندارید!');
+        return Yii::$app->getResponse()->redirect('index');
+      }
     }
 
     /**
@@ -102,33 +117,39 @@ class PropertyController extends Controller
         $facilities = $model->findAllFacilities();
         $vila_type = $model->findAllVilaType();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $facility = $_POST['Property']['facilities_id'];
-            $facilities_id = implode(',', $facility);
-            $model->facilities_id = $facilities_id;
-            $model->save();
+        if(\Yii::$app->user->can('admin') || $model->user->id == \Yii::$app->user->id) {
+          if ($model->load(Yii::$app->request->post()) && $model->save()) {
+              $facility = $_POST['Property']['facilities_id'];
+              $facilities_id = implode(',', $facility);
+              $model->facilities_id = $facilities_id;
+              $model->save();
 
-            $modelpic = Pictures::find()->where(['user_id'=> Yii::$app->user->id])->andWhere(['agahi_id' => null])->all();
-            foreach($modelpic as $ax){
-                $ax->agahi_id = $model->id;
-                $ax->save();
-            }
+              $modelpic = Pictures::find()->where(['user_id'=> Yii::$app->user->id])->andWhere(['agahi_id' => null])->all();
+              foreach($modelpic as $ax){
+                  $ax->agahi_id = $model->id;
+                  $ax->save();
+              }
 
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-                'modelpic' => $modelpic,
-                'dealing_type' => $dealing_type,
-                'document_type' => $document_type,
-                'view' => $view,
-                'cabinet' => $cabinet,
-                'floor_covering' => $floor_covering,
-                'province_list' => $province_list,
-                'property_type' => $property_type,
-                'facilities' => $facilities,
-                'vila_type' => $vila_type,
-            ]);
+              return $this->redirect(['view', 'id' => $model->id]);
+          } else {
+              return $this->render('update', [
+                  'model' => $model,
+                  'modelpic' => $modelpic,
+                  'dealing_type' => $dealing_type,
+                  'document_type' => $document_type,
+                  'view' => $view,
+                  'cabinet' => $cabinet,
+                  'floor_covering' => $floor_covering,
+                  'province_list' => $province_list,
+                  'property_type' => $property_type,
+                  'facilities' => $facilities,
+                  'vila_type' => $vila_type,
+              ]);
+          }
+        }
+        else {
+          Yii::$app->getSession()->setFlash('error', 'شما اجازه دسترسی به صفحه مورد نظر را ندارید!');
+          return Yii::$app->getResponse()->redirect('index');
         }
     }
 
@@ -642,7 +663,6 @@ public function actionProd() {
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
         return $this->redirect(['index']);
     }
 

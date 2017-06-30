@@ -8,6 +8,7 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * InboxController implements the CRUD actions for Inbox model.
@@ -20,6 +21,21 @@ class InboxController extends Controller
     public function behaviors()
     {
         return [
+          'access' => [
+              'class' => AccessControl::className(),
+              'rules' => [
+                  [
+                      'actions' => ['index','view'],
+                      'roles' => ['@'],
+                      'allow' => true,
+                  ],
+                  [
+                      'actions' => ['update','delete'],
+                      'roles' => ['admin'],
+                      'allow' => true,
+                  ],
+              ],
+          ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -35,9 +51,17 @@ class InboxController extends Controller
      */
     public function actionIndex()
     {
+      if(\Yii::$app->user->can('agent')) {
         $dataProvider = new ActiveDataProvider([
             'query' => Inbox::find(),
         ]);
+      }
+      else {
+        $model = new Inbox();
+        $dataProvider = new ActiveDataProvider([
+            'query' => $model->findUserMessages(),
+        ]);
+      }
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
@@ -51,9 +75,19 @@ class InboxController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        $model = $this->findModel($id);
+        if(\Yii::$app->user->can('admin') || $model->property->user->id == \Yii::$app->user->id) {
+          $model->status = 1;
+          $model->save();
+          return $this->render('view', [
+              'model' => $model,
+          ]);
+        }
+        else {
+          Yii::$app->getSession()->setFlash('error', 'شما اجازه دسترسی به صفحه مورد نظر را ندارید!');
+          return Yii::$app->getResponse()->redirect('index');
+        }
+
     }
 
     /**

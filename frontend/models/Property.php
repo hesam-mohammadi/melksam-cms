@@ -3,7 +3,7 @@
 namespace frontend\models;
 
 use Yii;
-
+use backend\models\Pictures;
 /**
  * This is the model class for table "property".
  *
@@ -244,5 +244,18 @@ class Property extends \yii\db\ActiveRecord
     public function getDocumentType()
     {
         return $this->hasOne(DocumentType::className(), ['id' => 'document_type_id']);
+    }
+
+    public function findPictures($id)
+    {
+      $pictures = Pictures::find()->where(['agahi_id' => $id])->all();
+      return $pictures;
+    }
+
+    public function findSimilarProperties($id)
+    {
+      $model = Property::find()->where(['id' => $id])->one();
+      $property = Property::find()->where(['property_type_id' => $model->property_type_id])->andWhere(['not',['id'=>$id]])->andWhere(['status' => 1])->limit(5);
+      return $property;
     }
 }

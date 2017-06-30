@@ -158,6 +158,11 @@ class SiteController extends Controller
         return $this->render('about');
     }
 
+    public function actionFav()
+    {
+      return $this->render('favorite-listings');
+    }
+
     /**
      * Signs user up.
      *

@@ -3,7 +3,9 @@
 namespace backend\models;
 
 use Yii;
-
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
+use backend\models\Property;
 /**
  * This is the model class for table "inbox".
  *
@@ -28,13 +30,26 @@ class Inbox extends \yii\db\ActiveRecord
         return 'inbox';
     }
 
+    public function behaviors()
+    {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at'],
+                ],
+                'value' => function() { return date('U'); },
+            ],
+        ];
+    }
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['name', 'section', 'property_id', 'message', 'phone_number', 'created_at', 'status'], 'required'],
+            [['name', 'message', 'phone_number'], 'required'],
             [['property_id', 'created_at', 'status'], 'integer'],
             [['message'], 'string'],
             [['name'], 'string', 'max' => 200],
@@ -51,13 +66,13 @@ class Inbox extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'name' => Yii::t('app', 'Name'),
-            'section' => Yii::t('app', 'Section'),
-            'property_id' => Yii::t('app', 'Property ID'),
-            'message' => Yii::t('app', 'Message'),
-            'phone_number' => Yii::t('app', 'Phone Number'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'status' => Yii::t('app', 'Status'),
+            'name' => Yii::t('app', 'نام و نام خانوادگی'),
+            'section' => Yii::t('app', 'بخش'),
+            'property_id' => Yii::t('app', 'کد ملک'),
+            'message' => Yii::t('app', 'متن پیام'),
+            'phone_number' => Yii::t('app', 'تلفن'),
+            'created_at' => Yii::t('app', 'زمان ارسال'),
+            'status' => Yii::t('app', 'وضعیت'),
         ];
     }
 
@@ -68,4 +83,29 @@ class Inbox extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Property::className(), ['id' => 'property_id']);
     }
+
+    public function sendMessage($id)
+    {
+        $this->section = 'تماس با مالک';
+        $this->property_id = $id;
+        $this->message = $_POST['Inbox']['message'];
+        $this->phone_number = $_POST['Inbox']['phone_number'];
+        $this->status = 0;
+        $this->save();
+        if($this->save()) {
+          \Yii::$app->session->setFlash('success', '.پیام شما با موفقیت ارسال شد');
+        }
+        else {
+          \Yii::$app->session->setFlash('danger', '.متاسفانه مشکلی در ارسال پیام پیش آمد. لطفا دوباره امتحان کنید');
+        }
+        return true;
+    }
+
+    public function findUserMessages() {
+      $inbox = Inbox::find()
+      ->joinWith('property')
+      ->where(['property.user_id' => \Yii::$app->user->id]);
+      return $inbox;
+    }
+
 }

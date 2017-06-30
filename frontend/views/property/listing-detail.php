@@ -3,52 +3,33 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\widgets\Pjax;
-
-$this->title = \Yii::$app->name.' | '.$listing->dealingType->name.' '.$listing->propertyType->name.' '.$listing->area_size . ' متری در '.$listing->city->name.' ، '.$listing->region->name;
+use yii\widgets\ListView;
+$this->title = \Yii::$app->name.' | '.$model->dealingType->name.' '.$model->propertyType->name.' '.$model->area_size . ' متری در '.$model->city->name.' ، '.$model->region->name;
 
 ?>
 <section class="section">
     <div class="container">
         <header class="section__title section__title-alt">
-            <h2><?= $listing->dealingType->name ?> <?= $listing->propertyType->name ?> <?= $listing->area_size ?> متری</h2>
-            <small><?= $listing->city->name?>، <?= $listing->region->name; ?></small>
+            <h2><?= $model->dealingType->name ?> <?= $model->propertyType->name ?> <?= $model->area_size ?> متری</h2>
+            <small><?= $model->city->name?>، <?= $model->region->name; ?></small>
 
             <div class="actions actions--section">
+              <?php
+              $reqcookies = Yii::$app->request->cookies;
+              if ($reqcookies->has('fav-'.$model->id)) {
+                $checked = 'checked';
+              }
+              else {
+                $checked = '';
+              }
+              ?>
                 <div class="actions__toggle">
-                    <input type="checkbox">
-                    <i class="zmdi zmdi-favorite-outline"></i>
-                    <i class="zmdi zmdi-favorite"></i>
+                  <?php echo Html::hiddenInput('property_id', $model->id, ['class' => 'property_id']); ?>
+                  <input type="checkbox" id="fav" <?=$checked?>>
+                  <i class="zmdi zmdi-favorite-outline"></i>
+                  <i class="zmdi zmdi-favorite"></i>
                 </div>
                 <a href="listing-detail.html" data-rmd-action="print"><i class="zmdi zmdi-print"></i></a>
-                <div class="dropdown actions__email">
-                    <a href="listing-detail.html" data-toggle="dropdown"><i class="zmdi zmdi-email"></i></a>
-
-                    <div class="dropdown-menu stop-propagate">
-                        <form>
-                            <p><strong>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</strong></p>
-
-                            <div class="clearfix"></div>
-
-                            <div class="form-group form-group--float m-t-10">
-                                <input type="text" class="form-control">
-                                <label>Recipient Email Address</label>
-                                <i class="form-group__bar"></i>
-                            </div>
-                            <div class="form-group form-group--float">
-                                <textarea class="form-control textarea-autoheight">I came across this listing from Roost and thought of sharing with you.</textarea>
-                                <label>Message (optional)</label>
-                                <i class="form-group__bar"></i>
-                            </div>
-
-                            <div class="clearfix"></div>
-
-                            <div class="m-t-15">
-                                <button class="btn btn-primary">Send</button>
-                                <a href="email/listing-mail.html" target="_blank" class="btn btn-link">View Email</a>
-                            </div>
-                        </form>
-                    </div>
-                </div>
                 <div class="dropdown">
                     <a href="listing-detail.html" data-toggle="dropdown"><i class="zmdi zmdi-share"></i></a>
 
@@ -56,6 +37,7 @@ $this->title = \Yii::$app->name.' | '.$listing->dealingType->name.' '.$listing->
                         <div></div>
                     </div>
                 </div>
+
             </div>
         </header>
 
@@ -66,36 +48,24 @@ $this->title = \Yii::$app->name.' | '.$listing->dealingType->name.' '.$listing->
                         <div class="tab-content">
                             <div class="tab-pane fade in active light-gallery" id="detail-media-images">
 
-                              <?php if($listing->pic==null): ?>
-                                  <img src="<?=Yii::$app->homeUrl;?>uploads/no_image.jpg" class="img-responsive" alt="<?= $listing->dealingType->name ?> <?= $listing->propertyType->name ?> <?= $listing->area_size ?> متری در <?= $listing->city->name?>">
+                              <?php if($pictures==null): ?>
+                                  <img src="<?=Yii::$app->homeUrl;?>uploads/no_image.jpg" class="img-responsive" alt="<?= $model->dealingType->name ?> <?= $model->propertyType->name ?> <?= $model->area_size ?> متری در <?= $model->city->name?>">
                               <?php else: ?>
-
-                                  <?php $picture= explode(',',$listing->pic);
-                                  $pic_count = count($picture);
-                                    foreach($picture as $pic):
-                                  ?>
-                                  <a href="<?=Yii::$app->homeUrl;?><?= $pic ?>">
-                                      <img src="<?=Yii::$app->homeUrl;?><?= $pic ?>" alt="<?= $listing->dealingType->name ?> <?= $listing->propertyType->name ?> <?= $listing->area_size ?> متری در <?= $listing->city->name?>">
-                                      <div class="caption"> <i class="zmdi zmdi-collection-image"></i> <span class="img-count"><?= $pic_count ?></span> برای مشاهده تصویر در اندازه بزرگتر روی آن کلیک کنید</div>
+                                  <?php
+                                  foreach($pictures as $picture):
+                                  $pic = explode(',', $picture->src);?>
+                                  <a href="<?= '/'.$pic[0] ?>">
+                                      <img src="<?= '/'.$pic[3] ?>" alt="<?= $model->dealingType->name ?> <?= $model->propertyType->name ?> <?= $model->area_size ?> متری در <?= $model->city->name?>">
+                                      <div class="caption hidden-print"> برای مشاهده تصویر در اندازه بزرگتر روی آن کلیک کنید</div>
                                   </a>
-                              <?php endforeach;
-                              endif ?>
+                                <?php endforeach; ?>
+                              <?php endif ?>
 
-                            </div>
-                            <div class="tab-pane fade light-gallery" id="detail-media-floorplan">
-                                <a href="<?=Yii::$app->homeUrl;?>img/demo/floor-plan.png">
-                                    <img src="<?=Yii::$app->homeUrl;?>img/demo/floor-plan.png" alt="">
-                                </a>
-                            </div>
-                            <div class="tab-pane fade" id="detail-media-map">
-                                <div id="listing-map"></div>
                             </div>
                         </div>
 
                         <ul class="detail-media__nav hidden-print">
-                            <li class="active"><a href="listing-detail.html#detail-media-images" data-toggle="tab"><i class="zmdi zmdi-collection-image"></i></a></li>
-                            <li><a href="listing-detail.html#detail-media-floorplan" data-toggle="tab"><i class="zmdi zmdi-view-dashboard"></i></a></li>
-                            <li><a href="listing-detail.html#detail-media-map" data-toggle="tab"><i class="zmdi zmdi-map"></i></a></li>
+                            <li class="active"><a href="listing-detail.html#detail-media-images" data-toggle="tab"><i class="zmdi zmdi-collection-image"></i> <?= count($pictures); ?></a></li>
                         </ul>
                     </div>
 
@@ -103,105 +73,134 @@ $this->title = \Yii::$app->name.' | '.$listing->dealingType->name.' '.$listing->
                         <div class="detail-info__header clearfix">
                             <strong>
                                 <?php
-                                  switch($listing->dealing_type_id) {
+                                  switch($model->dealing_type_id) {
                                     case 1:
-                                    echo 'قیمت کل: '.$listing->total_price.' تومان' ;
+                                    echo 'قیمت کل: '.$model->total_price.' تومان' ;
                                     break;
 
                                     case 2:
-                                    echo 'ودیعه: '.$listing->total_price.' تومان';
+                                    echo 'ودیعه: '.$model->total_price.' تومان';
                                     break;
 
                                     case 3:
-                                    echo 'مبلغ رهن کامل: '.$listing->total_price.' تومان';
+                                    echo 'مبلغ رهن کامل: '.$model->total_price.' تومان';
                                     break;
 
                                     default:
-                                    echo 'قیمت کل: '.$listing->total_price.' تومان';
+                                    echo 'قیمت کل: '.$model->total_price.' تومان';
                                   }
                                 ?>
                             </strong>
                             <small>
                               <?php
-                                switch($listing->dealing_type_id) {
+                                switch($model->dealing_type_id) {
                                   case 1:
-                                  echo ' متری: '.$listing->price_per_meter_rent.' تومان';
+                                  echo ' متری: '.$model->price_per_meter_rent.' تومان';
                                   break;
 
                                   case 2:
-                                  echo ' مبلغ اجاره ماهیانه: '.$listing->price_per_meter_rent.' تومان';
+                                  echo ' مبلغ اجاره ماهیانه: '.$model->price_per_meter_rent.' تومان';
                                   break;
 
                                   case 8:
-                                    echo ' مبلغ اجاره روزانه: '.$listing->price_per_meter_rent.' تومان';
+                                    echo ' مبلغ اجاره روزانه: '.$model->price_per_meter_rent.' تومان';
                                   break;
 
                                   default:
-                                    echo $listing->price_per_meter_rent;
+                                    echo ' متری: '.$model->price_per_meter_rent.' تومان';
                                 }
                               ?>
                             </small>
 
-                            <span><?= $listing->dealingType->name ?></span>
+                            <span><?= $model->dealingType->name ?></span>
                         </div>
 
                         <ul class="detail-info__list clearfix">
-                            <li>
-                                <span>نوع سند</span>
-                                <span><?= $listing->documentType->name ?></span>
-                            </li>
+                            <?php
+                            if(isset($model->documentType->name)):?>
+                              <li>
+                                  <span>نوع سند</span>
+                                  <span><?= $model->documentType->name ?></span>
+                              </li>
+                          <?php endif;
+                            if(isset($model->area_size)):?>
                             <li>
                                 <span>متراژ بنا</span>
-                                <span><?= $listing->area_size.' متر مربع ' ?></span>
+                                <span><?= $model->area_size.' متر مربع ' ?></span>
                             </li>
+                          <?php endif;
+                            if(isset($model->residence_status)):?>
                             <li>
                                 <span>وضعیت سکونت</span>
-                                <span><?= $listing->residence_status ?></span>
+                                <span><?= $model->residence_status ?></span>
                             </li>
+                          <?php endif;
+                            if(isset($model->proeperty_age)):?>
                             <li>
                                 <span>سن بنا</span>
-                                <span><?= $listing->proeperty_age ?></span>
+                                <span><?= $model->proeperty_age ?></span>
                             </li>
+                          <?php endif;
+                            if(isset($model->view->name)):?>
                             <li>
                                 <span> نما</span>
-                                <span><?= $listing->view->name ?></span>
+                                <span><?= $model->view->name ?></span>
                             </li>
+                          <?php endif;
+                            if(isset($model->geographical_pos)):?>
                             <li>
                                 <span> موقعیت جغرافیایی</span>
-                                <span><?= $listing->geographical_pos ?></span>
+                                <span><?= $model->geographical_pos ?></span>
                             </li>
+                          <?php endif;
+                            if(isset($model->floorCovering->name)):?>
                             <li>
                                 <span> کف پوش</span>
-                                <span><?= $listing->floorCovering->name ?></span>
+                                <span><?= $model->floorCovering->name ?></span>
                             </li>
+                          <?php endif;
+                            if(isset($model->cabinet->name)):?>
                             <li>
                                 <span> کابینت </span>
-                                <span><?= $listing->cabinet->name ?></span>
+                                <span><?= $model->cabinet->name ?></span>
                             </li>
+                          <?php endif;
+                            if(isset($model->number_of_floors)):?>
                             <li>
                                 <span>تعداد طبقات</span>
-                                <span><?= $listing->number_of_floors ?></span>
+                                <span><?= $model->number_of_floors ?></span>
                             </li>
+                          <?php endif;
+                            if(isset($model->number_of_units_in_floor)):?>
                             <li>
                                 <span>واحد در هر طبقه </span>
-                                <span><?= $listing->number_of_units_in_floor ?></span>
+                                <span><?= $model->number_of_units_in_floor ?></span>
                             </li>
+                          <?php endif;
+                            if(isset($model->number_of_units)):?>
                             <li>
                                 <span>جمع واحدها</span>
-                                <span><?= $listing->number_of_units ?></span>
+                                <span><?= $model->number_of_units ?></span>
                             </li>
+                          <?php endif;
+                            if(isset($model->floor_num)):?>
                             <li>
                                 <span>طبقه</span>
-                                <span><?= $listing->floor_num ?></span>
+                                <span><?= $model->floor_num ?></span>
                             </li>
+                          <?php endif;
+                            if(isset($model->number_of_rooms)):?>
                             <li>
                                 <span>تعداد اتاق</span>
-                                <span><?= $listing->number_of_rooms ?></span>
+                                <span><?= $model->number_of_rooms ?></span>
                             </li>
+                          <?php endif;
+                            if(isset($model->toilet_type)):?>
                             <li>
                                 <span>سرویس بهداشتی</span>
-                                <span><?= $listing->toilet_type ?></span>
+                                <span><?= $model->toilet_type ?></span>
                             </li>
+                          <?php endif; ?>
                         </ul>
                     </div>
                 </div>
@@ -215,7 +214,7 @@ $this->title = \Yii::$app->name.' | '.$listing->dealingType->name.' '.$listing->
                     <div class="card__body">
                         <ul class="detail-amenities__list">
                           <?php
-                            $faci = explode(',', $listing->facilities_id);
+                            $faci = explode(',', $model->facilities_id);
                             foreach ($faci as $facil) {
                               $facilities = \frontend\models\Facilities::find()->where(['id' => $facil])->all();
                               foreach ($facilities as $facility) {
@@ -239,10 +238,10 @@ $this->title = \Yii::$app->name.' | '.$listing->dealingType->name.' '.$listing->
                         <h2>بررسی اجمالی ملک</h2>
                     </div>
                     <div class="card__body">
-                        <p><?= $listing->descriptions ?></p>
+                        <p><?= $model->descriptions ?></p>
 
                         <h4>آدرس ملک</h4>
-                        <?= $listing->address ?>
+                        <?= $model->address ?>
                     </div>
                 </div>
 
@@ -259,15 +258,11 @@ $this->title = \Yii::$app->name.' | '.$listing->dealingType->name.' '.$listing->
                     <div class="card__body">
                         <div class="inquire__number">
                             <i class="zmdi zmdi-phone"></i>
-                            013 - 44511234
+                            <?= $model->phone_number1 ?>
                         </div>
-
-
-                            <?= $form->field($model, 'name')->textInput(['placeHolder' => 'نام و نام خانوادگی'])->label(false) ?>
-
-                            <?= $form->field($model, 'phone_number')->textInput(['placeHolder' => 'شماره تماس'])->label(false) ?>
-
-                            <?= $form->field($model, 'message')->textarea(['rows' => 2, 'placeHolder' => 'متن پیام خود را وارد کنید'])->label(false) ?>
+                        <?= $form->field($inbox, 'name')->textInput(['placeHolder' => 'نام و نام خانوادگی'])->label(false) ?>
+                        <?= $form->field($inbox, 'phone_number')->textInput(['placeHolder' => 'شماره تماس'])->label(false) ?>
+                        <?= $form->field($inbox, 'message')->textarea(['rows' => 2, 'placeHolder' => 'متن پیام خود را وارد کنید'])->label(false) ?>
                     </div>
 
                     <div class="card__footer">
@@ -279,93 +274,19 @@ $this->title = \Yii::$app->name.' | '.$listing->dealingType->name.' '.$listing->
 
                 <div class="card hidden-xs hidden-sm hidden-print">
                     <div class="card__header">
-                        <h2>Agents representing</h2>
-                        <small>Etiam porta sem malesuada magna mollis</small>
-                    </div>
-                    <div class="list-group">
-                        <a class="list-group-item media" href="listing-detail.html">
-                            <div class="pull-left">
-                                <img src="<?=Yii::$app->homeUrl;?>img/demo/people/1.jpg" alt="" class="list-group__img img-circle" width="65" height="65">
-                            </div>
-                            <div class="media-body list-group__text">
-                                <strong>Sarah Zelermyer Diaz</strong>
-                                <small class="list-group__text">+1-202-555-0121</small>
-                                <div class="rmd-rate" data-rate-value="5" data-rate-readonly="true"></div>
-                            </div>
-                        </a>
-
-                        <a class="list-group-item media" href="listing-detail.html">
-                            <div class="pull-left">
-                                <img src="<?=Yii::$app->homeUrl;?>img/demo/people/3.jpg" alt="" class="list-group__img img-circle" width="65" height="65">
-                            </div>
-                            <div class="media-body list-group__text">
-                                <strong>Malinda Hollaway</strong>
-                                <small class="list-group__text">+1-202-555-0188</small>
-                                <div class="rmd-rate" data-rate-value="5" data-rate-readonly="true"></div>
-                            </div>
-                        </a>
-
-                        <div class="p-10"></div>
-                    </div>
-                </div>
-
-                <div class="card hidden-xs hidden-sm hidden-print">
-                    <div class="card__header">
                         <h2>املاک مشابه</h2>
                         <small>شاید از موارد زیر هم خوشتان بیاید...</small>
                     </div>
 
                     <div class="list-group">
-                        <a href="listing-detail.html" class="list-group-item media">
-                            <div class="pull-right">
-                                <img src="<?=Yii::$app->homeUrl;?>img/demo/listing/thumbs/2.jpg" alt="" class="list-group__img" width="65">
-                            </div>
-                            <div class="media-body list-group__text">
-                                <strong>Vivamus sagittis lacus vel augue laoreet rutrum faucibus</strong>
-                                <small>$810,000 . 04 Beds . 03 Baths</small>
-                            </div>
-                        </a>
-
-                        <a href="listing-detail.html" class="list-group-item media">
-                            <div class="pull-right">
-                                <img src="<?=Yii::$app->homeUrl;?>img/demo/listing/thumbs/3.jpg" alt="" class="list-group__img" width="65">
-                            </div>
-                            <div class="media-body list-group__text">
-                                <strong>Fusce dapibus tellusac cursus</strong>
-                                <small>$910,300 . 03 Beds . 02 Baths</small>
-                            </div>
-                        </a>
-
-                        <a href="listing-detail.html" class="list-group-item media">
-                            <div class="pull-right">
-                                <img src="<?=Yii::$app->homeUrl;?>img/demo/listing/thumbs/4.jpg" alt="" class="list-group__img" width="65">
-                            </div>
-                            <div class="media-body list-group__text">
-                                <strong>Praesent commodo cursus magnavel scelerisque nisl</strong>
-                                <small>$2,560,000 . 08 Beds . 07 Baths</small>
-                            </div>
-                        </a>
-
-                        <a href="listing-detail.html" class="list-group-item media">
-                            <div class="pull-right">
-                                <img src="<?=Yii::$app->homeUrl;?>img/demo/listing/thumbs/5.jpg" alt="" class="list-group__img" width="65">
-                            </div>
-                            <div class="media-body list-group__text">
-                                <strong>Lorem ipsum dolor sitamet consectetur adipiscing elit</strong>
-                                <small>$1,140,650 . 06 Beds . 03 Baths</small>
-                            </div>
-                        </a>
-
-                        <a href="listing-detail.html" class="list-group-item media">
-                            <div class="pull-right">
-                                <img src="<?=Yii::$app->homeUrl;?>img/demo/listing/thumbs/6.jpg" alt="" class="list-group__img" width="65">
-                            </div>
-                            <div class="media-body list-group__text">
-                                <strong>Fusce dapibus accursus commodo</strong>
-                                <small>$780,900 . 02 Beds . 02 Baths</small>
-                            </div>
-                        </a>
-
+                        <?php
+                        echo ListView::widget([
+                            'dataProvider' => $dataProvider,
+                            'itemOptions' => ['class' => 'item'],
+                            'itemView' => '_similar_item',
+                            'summary'=> false,
+                        ]);
+                        ?>
                         <div class="p-10"></div>
                     </div>
                 </div>
@@ -378,3 +299,19 @@ $this->title = \Yii::$app->name.' | '.$listing->dealingType->name.' '.$listing->
 <button class="btn btn--action btn--circle hidden-md hidden-lg" data-rmd-action="block-open" data-rmd-target="#inquire">
     <i class="zmdi zmdi-phone"></i>
 </button>
+
+<?php
+$js = <<< 'SCRIPT'
+$("#fav").change(function(){
+  var id = $(".property_id").val();
+  $.ajax({
+   url: "/property/fav",
+   type: 'post',
+   data: {
+      id: id,
+    },
+ });
+});
+SCRIPT;
+$this->registerJs($js);
+?>

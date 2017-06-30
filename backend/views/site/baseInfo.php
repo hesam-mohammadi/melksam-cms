@@ -33,7 +33,6 @@ $this->params['breadcrumbs'][] = $this->title;
               'action' => ['create_province'],
               'enableAjaxValidation' => false,
               'enableClientValidation' => true,
-
       ]); ?>
           <div class="col-sm-4">
           <?= $form->field($province_model, 'name')->textInput(['placeHolder' => 'عنوان'])->label(false) ; ?>

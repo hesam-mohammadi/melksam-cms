@@ -139,15 +139,18 @@ $this->title = 'املاک';
       <?php
         $myModels = $dataProvider->getModels();
         foreach ($myModels as $listings):
+        $pictures = \backend\models\Pictures::find()->where(['agahi_id' => $listings->id])->asArray()->all();
       ?>
       <div class="listings-grid__item">
           <a href="<?=\yii\helpers\Url::to(['property/listing-detail','id'=>$listings->id]) ?>">
               <div class="listings-grid__main">
-                <?php if($listings->pic==null): ?>
-                    <img src="/uploads/no_image.jpg" class="img-responsive" alt="<?= $listings->dealingType->name ?> <?= $listings->propertyType->name ?> <?= $listings->area_size ?> متری در <?= $listings->city->name?>">
+                <?php if($pictures==null): ?>
+                    <img src="<?=Yii::$app->homeUrl;?>uploads/no_image.jpg" class="img-responsive" alt="<?= $listings->dealingType->name ?> <?= $listings->propertyType->name ?> <?= $listings->area_size ?> متری در <?= $listings->city->name?>">
                 <?php else: ?>
-                    <?php $picture= explode(',',$listings->pic); ?>
-                    <img src="<?=Yii::$app->homeUrl;?><?=$picture[0]?>" alt="            <?= $listings->dealingType->name ?> <?= $listings->propertyType->name ?> <?= $listings->area_size ?> متری در <?= $listings->city->name?>">
+                    <?php
+                      $pic = explode(',', $pictures[0]['src']);?>
+                    <img src="<?= '/'.$pic[1] ?>" alt="<?= $listings->dealingType->name ?> <?= $listings->propertyType->name ?> <?= $listings->area_size ?> متری در <?= $listings->city->name?>">
+
                 <?php endif ?>
                   <div class="listings-grid__price"><?=$listings->total_price?> تومان</div>
               </div>
@@ -164,8 +167,17 @@ $this->title = 'املاک';
           </a>
 
           <div class="actions listings-grid__favorite">
+            <?php
+            $reqcookies = Yii::$app->request->cookies;
+            if ($reqcookies->has('fav-'.$listings->id)) {
+              $checked = 'checked';
+            }
+            else {
+              $checked = '';
+            }
+            ?>
               <div class="actions__toggle">
-                  <input type="checkbox">
+                  <input type="checkbox" class="fav" id="<?=$listings->id?>" <?=$checked?>>
                   <i class="zmdi zmdi-favorite-outline"></i>
                   <i class="zmdi zmdi-favorite"></i>
               </div>
@@ -517,3 +529,19 @@ $this->title = 'املاک';
     </div>
 </div>
 </section>
+<?php
+$js = <<< 'SCRIPT'
+$(document).on("click",".fav", function () {
+  var clickedBtnID = $(this).attr('id'); // or var clickedBtnID = this.id
+   $.ajax({
+    url: "/property/fav",
+    type: 'post',
+    data: {
+       id: clickedBtnID,
+    },
+  });
+});
+
+SCRIPT;
+$this->registerJs($js);
+?>

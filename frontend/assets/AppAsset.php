@@ -33,7 +33,7 @@ class AppAsset extends AssetBundle
         'bower_components/jssocials/dist/jssocials.min.js',
         'js/app.min.js',
         'js/demo/demo.js',
-        'bower_components/bootstrap/dist/js/bootstrap.min.js'
+        'bower_components/bootstrap/dist/js/bootstrap.min.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
