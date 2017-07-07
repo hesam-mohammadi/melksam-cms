@@ -9033,7 +9033,8 @@ a.mdc-text-black-darker:hover {
     width: 100%;
     font-size: 11px;
     margin-bottom: 8px;
-    color: #8a8a8a
+    color: #8a8a8a;
+		direction: rtl;
 }
 
 .form-group .form-control:focus~.form-group__bar:after,

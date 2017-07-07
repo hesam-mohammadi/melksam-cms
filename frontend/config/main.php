@@ -14,7 +14,8 @@ return [
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
         'request' => [
-          'baseUrl' => '/',
+          // 'web'=> '/frontend/web',
+          // 'baseUrl' => '',
           'csrfParam' => '_csrf-frontend',
         ],
         'user' => [
@@ -40,10 +41,15 @@ return [
         ],
 
         'urlManager' => [
-            'baseUrl' => '/',
+            // 'baseUrl' => '/',
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+            // '<controller:\w+>/<id:\d+>' => '<controller>/view',
+            // '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
+            // '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+            // '/' => 'site/index',
+            // 'fav' => 'site/fav',
             ],
         ],
 

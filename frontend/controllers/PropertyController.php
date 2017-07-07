@@ -33,6 +33,18 @@ class PropertyController extends \yii\web\Controller
 
     }
 
+    public function actionSearch()
+    {
+      $searchModel = new \frontend\models\PropertySearch();
+      $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
+
+      return $this->render('/property/archive', [
+          'searchModel' => $searchModel,
+          'dataProvider' => $dataProvider,
+      ]);
+    }
+
+
     public function actionFav() {
         if(\Yii::$app->request->isAjax) {
             $cookies = \Yii::$app->response->cookies;

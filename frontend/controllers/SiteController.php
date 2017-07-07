@@ -7,13 +7,15 @@ use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\data\ActiveDataProvider;
 use common\models\LoginForm;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use frontend\models\Property;
-use yii\data\ActiveDataProvider;
+use frontend\models\PropertySearch;
+
 
 /**
  * Site controller
@@ -80,7 +82,7 @@ class SiteController extends Controller
     public function actionIndex()
     {
       $query= Property::find()->where(['status' => 1]);
-
+      $model = new Property();
       $provider= new ActiveDataProvider([
         'query' => $query,
         // 'Pagination' => [
@@ -89,6 +91,17 @@ class SiteController extends Controller
 
       ]);
       return $this->render('index', ['dataProvider' => $provider]);
+    }
+
+    public function actionSearch()
+    {
+      $searchModel = new PropertySearch();
+      $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+      return $this->render('/property/archive', [
+          'searchModel' => $searchModel,
+          'dataProvider' => $dataProvider,
+      ]);
     }
 
     /**

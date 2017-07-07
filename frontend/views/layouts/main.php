@@ -262,11 +262,11 @@ if (Yii::$app->session->hasFlash('success_password_saved')){
 
     <div class="header__main">
         <div class="container">
-            <a class="logo" href="index.html">
+            <a class="logo" href="<?=Yii::$app->homeUrl;?>">
                 <img src="<?=Yii::$app->homeUrl;?>img/logo.png" alt="">
                 <div class="logo__text">
-                    <span>پروژه املاک</span>
-                    <span>خرید، فروش، رهن و اجاره ملک</span>
+                    <span>ملکــ ـسام</span>
+                    <span>سامانه مدیریت محتوا مشاوران املاک</span>
                 </div>
             </a>
 
@@ -277,14 +277,8 @@ if (Yii::$app->session->hasFlash('success_password_saved')){
             <ul class="navigation">
                 <li class="visible-xs visible-sm"><a class="navigation__close" data-rmd-action="navigation-close" href="index.html"><i class="zmdi zmdi-long-arrow-right"></i></a></li>
 
-                <li class="active navigation__dropdown">
-                    <a href="<?=Yii::$app->homeUrl;?>">صفحه اصلی</a>
-
-                    <ul class="navigation__drop-menu">
-                        <li><a href="after-login.html">After Login</a></li>
-                        <li><a href="home-alternative.html">Home Alternative</a></li>
-                        <li><a href="dashboard/index.html">Dashboard</a></li>
-                    </ul>
+                <li class="active">
+                    <a href="/site/index">صفحه اصلی</a>
                 </li>
 
                 <li class="navigation__dropdown">

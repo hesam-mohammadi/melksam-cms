@@ -19,7 +19,7 @@ if ($('#property-price-range')[0]) {
     ]
 
     noUiSlider.create (propertyPriceRange, {
-        start: [12000, 70000],
+        start: [200000000, 2],
         connect: true,
         range: {
             'min': 12000,
@@ -215,7 +215,3 @@ $(document).ready(function () {
     }
 
 });
-
-
-
-
