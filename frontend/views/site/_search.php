@@ -34,17 +34,10 @@ use frontend\models\PropertySearch;
                     ])->label(false); ?>
 
                 <div class="search__advanced">
-                    <!-- <div class="col-sm-6">
-                        <div class="form-group form-group--float">
-                            <input type="text" class="form-control" value="New York, NY">
-                            <label>Location</label>
-                            <i class="form-group__bar"></i>
-                        </div>
-                    </div> -->
 
                     <div class="col-sm-6">
                         <div class="form-group">
-                          <label>نوع معامله    </label>
+                        <label>نوع معامله</label>
                         <?php  $dealing_type= \frontend\models\DealingType::find()->all();
                                $listData=ArrayHelper::map($dealing_type,'id','name');
                               echo $form->field($searchModel, 'dealing_type_id')->dropDownList($listData,['prompt' => '-- همه موارد --', 'class' => 'select2']);

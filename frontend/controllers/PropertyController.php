@@ -1,9 +1,9 @@
 <?php
-
 namespace frontend\controllers;
 use yii\data\ActiveDataProvider;
 use frontend\models\Property;
 use backend\models\Inbox;
+use frontend\models\PropertySearch;
 
 class PropertyController extends \yii\web\Controller
 {
@@ -35,12 +35,13 @@ class PropertyController extends \yii\web\Controller
 
     public function actionSearch()
     {
-      $searchModel = new \frontend\models\PropertySearch();
+      $searchModel = new PropertySearch();
       $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
 
       return $this->render('/property/archive', [
           'searchModel' => $searchModel,
           'dataProvider' => $dataProvider,
+
       ]);
     }
 
