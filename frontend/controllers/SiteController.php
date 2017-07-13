@@ -15,8 +15,6 @@ use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use frontend\models\Property;
 use frontend\models\PropertySearch;
-
-
 /**
  * Site controller
  */
@@ -85,12 +83,11 @@ class SiteController extends Controller
       $model = new Property();
       $provider= new ActiveDataProvider([
         'query' => $query,
-        // 'Pagination' => [
-        //   'pageSize' => 10,
-        // ],
-
       ]);
-      return $this->render('index', ['dataProvider' => $provider]);
+      return $this->render('index', [
+        'dataProvider' => $provider,
+        'model' => $model,
+      ]);
     }
 
     public function actionSearch()

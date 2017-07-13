@@ -7,21 +7,22 @@ use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
+use yii\bootstrap\ActiveForm;
+use yii\widgets\Pjax;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
-use yii\bootstrap\ActiveForm;
 use common\models\LoginForm;
 use yii\helpers\Url;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\SignupForm;
 use kartik\growl\Growl;
+use frontend\models\Property;
 use pceuropa\menu\Menu;
-use yii\widgets\Pjax;
 use mdm\admin\components\MenuHelper;
 
 
 AppAsset::register($this);
-
+$model = new Property();
 
 if (Yii::$app->session->hasFlash('confirm_success')){
   echo Growl::widget([
@@ -244,18 +245,43 @@ if (Yii::$app->session->hasFlash('success_password_saved')){
                 </li>
               <?php endif; ?>
 
-                <li class="pull-left top-nav__icon">
-                    <a href="index.html"><i class="zmdi zmdi-facebook"></i></a>
-                </li>
-                <li class="pull-left top-nav__icon">
-                    <a href="index.html"><i class="zmdi zmdi-twitter"></i></a>
-                </li>
-                <li class="pull-left top-nav__icon">
-                    <a href="index.html"><i class="zmdi zmdi-instagram"></i></a>
-                </li>
+                <?php if($model->get_social(3) != null): ?>
+                  <li class="pull-left top-nav__icon">
+                      <a href="<?=$model->get_social(3)?>"><img src="/frontend/web/img/icons/facebook-logo.svg" class="social_svg" alt="facebook"></a>
+                  </li>
+                <?php endif; ?>
+                <?php if($model->get_social(4) != null): ?>
+                  <li class="pull-left top-nav__icon">
+                      <a href="<?=$model->get_social(4)?>"><img src="/frontend/web/img/icons/twitter.svg" class="social_svg" alt="twitter"></a>
+                  </li>
+                <?php endif; ?>
 
-                <li class="pull-left hidden-xs"><span><i class="zmdi zmdi-email"></i>hello@amlak.ir</span></li>
-                <li class="pull-left hidden-xs"><span><i class="zmdi zmdi-phone"></i>013-44511234</span></li>
+                <?php if($model->get_social(6) != null): ?>
+                  <li class="pull-left top-nav__icon">
+                      <a href="<?=$model->get_social(6)?>"><img src="/frontend/web/img/icons/linkedin-logo.svg" class="social_svg" alt="linkedin"></a>
+                  </li>
+                <?php endif; ?>
+
+                <?php if($model->get_social(5) != null): ?>
+                  <li class="pull-left top-nav__icon">
+                      <a href="<?=$model->get_social(5)?>"><img src="/frontend/web/img/icons/google-plus.svg" class="social_svg" alt="google plus"></a>
+                  </li>
+                <?php endif; ?>
+
+                <?php if($model->get_social(2) != null): ?>
+                  <li class="pull-left top-nav__icon">
+                      <a href="<?=$model->get_social(2)?>"><img src="/frontend/web/img/icons/instagram-logo.svg" class="social_svg" alt="instagram"></a>
+                  </li>
+                <?php endif; ?>
+
+                <?php if($model->get_social(1) != null): ?>
+                  <li class="pull-left top-nav__icon">
+                      <a href="<?=$model->get_social(1)?>"><img src="/frontend/web/img/icons/telegram-logo.svg" class="social_svg" alt="telegram"></a>
+                  </li>
+                <?php endif; ?>
+
+                <li class="pull-left hidden-xs"><span><i class="zmdi zmdi-email"></i><?= $model->get_option('ایمیل'); ?></span></li>
+                <li class="pull-left hidden-xs"><span><i class="zmdi zmdi-phone"></i><?= $model->get_option('تلفن'); ?></span></li>
             </ul>
         </div>
     </div>
@@ -263,10 +289,11 @@ if (Yii::$app->session->hasFlash('success_password_saved')){
     <div class="header__main">
         <div class="container">
             <a class="logo" href="<?=Yii::$app->homeUrl;?>">
-                <img src="<?=Yii::$app->homeUrl;?>img/logo.png" alt="">
+                <img src="<?= $model->show_logo(); ?>" alt="">
+                <!-- <?=Yii::$app->homeUrl;?>img/logo.png -->
                 <div class="logo__text">
-                    <span>ملکــ ـسام</span>
-                    <span>سامانه مدیریت محتوا مشاوران املاک</span>
+                    <span><?= $model->get_option('عنوان سایت'); ?></span>
+                    <span><?= $model->get_option('توضیحات'); ?></span>
                 </div>
             </a>
 

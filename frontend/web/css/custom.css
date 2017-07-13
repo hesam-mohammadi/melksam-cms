@@ -16037,3 +16037,6 @@ html:not(.ie9) .page-loader__spinner {
 		padding: 2px 5px;
 		border-radius: 2px;
 }
+.social_svg {
+	width: 18px
+}

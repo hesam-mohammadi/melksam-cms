@@ -1,5 +1,5 @@
 <footer id="footer-alt">
-    Copyright © <?= date('Y'); ?> Roost Real Estate
+    Copyright © <?= date('Y'); ?> Melksam
 
     <ul class="footer-alt__menu">
         <li><a href="index.html">صفحه اصلی سایت </a></li>

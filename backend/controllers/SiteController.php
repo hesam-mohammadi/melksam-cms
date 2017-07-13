@@ -7,6 +7,9 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\helpers\Json;
 use yii\web\Response;
+use yii\data\ActiveDataProvider;
+use yii\widgets\ActiveForm;
+use yii\web\UploadedFile;
 use common\models\LoginForm;
 use backend\models\Province;
 use backend\models\City;
@@ -17,8 +20,9 @@ use backend\models\FloorCovering;
 use backend\models\Cabinet;
 use backend\models\VilaType;
 use backend\models\Facilities;
-use yii\data\ActiveDataProvider;
-use yii\widgets\ActiveForm;
+use backend\models\Options;
+use backend\models\SocialOptions;
+use backend\models\SiteLogo;
 /**
  * Site controller
  */
@@ -34,7 +38,7 @@ class SiteController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['baseinfo'],
+                        'actions' => ['baseinfo', 'options', 'edit_options', 'edit_socials', 'edit_status', 'upload', 'delsingle'],
                         'roles' => ['admin'],
                         'allow' => true,
                     ],
@@ -1042,5 +1046,108 @@ public function actionDelete_province($id)
 
     }
 
+    public function actionOptions()
+    {
+      $options = new ActiveDataProvider([
+          'query' => Options::find(),
+      ]);
+
+      $socails = new ActiveDataProvider([
+          'query' => SocialOptions::find(),
+      ]);
+
+      $modelLogo = new SiteLogo();
+
+      return $this->render('options', [
+        'dataProvider' => $options,
+        'socailProvider' => $socails,
+        'modelLogo' => $modelLogo
+      ]);
+    }
+
+    public function actionEdit_options() {
+      // Check if there is an Editable ajax request
+      if (isset($_POST['hasEditable'])) {
+        $id = $_POST['editableKey'];
+        $index = $_POST['editableIndex'];
+        $value = $_POST['Options'][$index]['option_value'];
+        $model = Options::find()->where(['option_id' => $id])->one();
+        $model['option_value'] = $value;
+        $model->save();
+        $out = Json::encode(['output'=>$value, 'message'=>'']);
+      }
+      echo $out;
+      return;
+  }
+
+  public function actionEdit_socials() {
+    // Check if there is an Editable ajax request
+    if (isset($_POST['hasEditable'])) {
+      $id = $_POST['editableKey'];
+      $index = $_POST['editableIndex'];
+      $value = $_POST['SocialOptions'][$index]['value'];
+      $social = SocialOptions::find()->where(['id' => $id])->one();
+      // print_r($value);
+      $social['value'] = $value;
+      $social->save();
+
+      $out = Json::encode(['output'=>$value, 'message'=>'']);
+    }
+    echo $out;
+    return;
+}
+
+public function actionEdit_status() {
+  // Check if there is an Editable ajax request
+  if (isset($_POST['hasEditable'])) {
+    $id = $_POST['editableKey'];
+    $index = $_POST['editableIndex'];
+    $value = $_POST['SocialOptions'][$index]['status'];
+    $social = SocialOptions::find()->where(['id' => $id])->one();
+    // print_r($_POST);
+    $social['status'] = $value;
+    $social->save();
+
+    $out = Json::encode(['output'=>$value, 'message'=>'']);
+  }
+  echo $out;
+  return;
+}
+
+public function actionUpload() {
+      $model = new SiteLogo();
+      $exceed =  SiteLogo::find()->exists();
+      if(count($exceed) == 1){
+          echo 'شما فقط مجاز به ارسال یک فایل می باشید. برای ادامه عملیات باید فایل فعلی را حذف کنید!';
+          echo json_encode(['error']);
+          return;
+      }
+      if (Yii::$app->request->isPost) {
+        $ranStr = Yii::$app->security->generateRandomString($length = 9);
+        $model->src = UploadedFile::getInstances($model, 'src');
+        if ($model->src) {
+        foreach ($model->src as $file) {
+            $name = trim($file->baseName, '_-\t\n\r\0\x0B""');
+            $file->saveAs(Yii::getAlias('@frontend').'/web/img/' . $name . $ranStr . '.' . $file->extension);
+            $model->src = 'frontend/web/img/'.$name.$ranStr.'.png';
+            $model->save();
+        }
+        return true;
+        }
+      }
+      }
+
+
+public function actionDelsingle($key){
+  $find_ax = SiteLogo::findOne(['id' => $key]);
+  $dir_pic = str_replace("frontend","",$find_ax->src);
+  // echo Json::encode(['output'=>\Yii::getAlias('@frontend').$dir_pic, 'message'=>'']);
+  // return;
+  if ($find_ax != null){
+    $find_ax->delete();
+      unlink(\Yii::getAlias('@frontend').$dir_pic);
+  }
+  echo json_encode(['redirect'=>'_form',]);
+}
 
 }

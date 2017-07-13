@@ -258,4 +258,24 @@ class Property extends \yii\db\ActiveRecord
       $property = Property::find()->where(['property_type_id' => $model->property_type_id])->andWhere(['not',['id'=>$id]])->andWhere(['status' => 1])->limit(5);
       return $property;
     }
+
+    public function get_option($option)
+    {
+      $options = \backend\models\Options::find()->where(['option_name' => $option])->one();
+      return $options->option_value;
+    }
+
+    public function show_logo()
+    {
+      $logo = \backend\models\SiteLogo::find()->one();
+      return $logo->src;
+    }
+
+    public function get_social($id)
+    {
+      $social = \backend\models\SocialOptions::find()->where(['social_id' => $id])->andWhere(['status' => 1])->one();
+      if($social != null)
+      return $social->value;
+      else return null;
+    }
 }
