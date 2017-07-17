@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\widgets\Pjax;
 use yii\widgets\ListView;
-$this->title = \Yii::$app->name.' | '.$model->dealingType->name.' '.$model->propertyType->name.' '.$model->area_size . ' متری در '.$model->city->name.' ، '.$model->region->name;
+$this->title = \frontend\models\Property::get_option('عنوان سایت').' | '.$model->dealingType->name.' '.$model->propertyType->name.' '.$model->area_size . ' متری در '.$model->city->name.' ، '.$model->region->name;
 
 ?>
 <section class="section">

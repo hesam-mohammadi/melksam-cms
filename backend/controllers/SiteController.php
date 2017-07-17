@@ -85,7 +85,28 @@ class SiteController extends Controller
     public function actionIndex()
     {
         $this->layout = 'dashboard';
-        return $this->render('index');
+
+        $userModel = new \backend\models\User();
+        $prModel = new \backend\models\Property();
+        $inboxModel = new \backend\models\Inbox();
+        $userModel = new \backend\models\User();
+
+        $users = $userModel->countUsers();
+        $properties = $prModel->countProperties();
+        $messages = $inboxModel->countMessages();
+
+        $latestpr = $prModel->latest5Properties();
+        $latestmsg = $inboxModel->latest5Messages();
+        $latestuser = $userModel->latest5Users();
+
+        return $this->render('index', [
+          'users' => $users,
+          'properties' => $properties,
+          'messages' => $messages,
+          'latestpr' => $latestpr,
+          'latestmsg' => $latestmsg,
+          'latestuser' => $latestuser,
+        ]);
     }
 
    public function actionInit()
@@ -1129,7 +1150,7 @@ public function actionUpload() {
         foreach ($model->src as $file) {
             $name = trim($file->baseName, '_-\t\n\r\0\x0B""');
             $file->saveAs(Yii::getAlias('@frontend').'/web/img/' . $name . $ranStr . '.' . $file->extension);
-            $model->src = 'frontend/web/img/'.$name.$ranStr.'.png';
+            $model->src = 'frontend/web/img/'.$name.$ranStr.'.jpg';
             $model->save();
         }
         return true;
@@ -1149,5 +1170,7 @@ public function actionDelsingle($key){
   }
   echo json_encode(['redirect'=>'_form',]);
 }
+
+
 
 }

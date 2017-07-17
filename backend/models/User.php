@@ -167,4 +167,16 @@ class User extends \yii\db\ActiveRecord
         foreach($roles as $key => $value) { $role = $key; }
         return $role;
     }
+
+    public function countUsers()
+    {
+      $allusers = User::find()->all();
+      $users = count($allusers);
+      return $users;
+    }
+
+    public function latest5Users() {
+      $latestuser = User::find()->limit(5)->OrderBy(['created_at' => SORT_DESC])->all();
+      return $latestuser;
+    }
 }

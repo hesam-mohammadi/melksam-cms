@@ -9589,11 +9589,14 @@ a.mdc-text-black-darker:hover {
     font-size: 20px;
     padding: 0
 }
-
+.property-index .dropdown-menu {
+		left: auto !important;
+		right: 0 !important;
+}
 .dropdown-menu {
     position: absolute;
-    left: auto !important;
-		right: 0 !important;
+    right: auto !important;
+		left: 0 !important;
     z-index: 1000;
     display: none;
     min-width: 160px;
@@ -16268,4 +16271,8 @@ html:not(.ie9) .page-loader__spinner {
 }
 .radio label, .checkbox label {
     padding-left: 0;
+}
+.quick-stats-c small {
+	font-size: 14px;
+	color: white;
 }

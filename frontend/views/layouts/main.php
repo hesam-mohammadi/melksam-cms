@@ -22,7 +22,6 @@ use mdm\admin\components\MenuHelper;
 
 
 AppAsset::register($this);
-$model = new Property();
 
 if (Yii::$app->session->hasFlash('confirm_success')){
   echo Growl::widget([
@@ -245,43 +244,43 @@ if (Yii::$app->session->hasFlash('success_password_saved')){
                 </li>
               <?php endif; ?>
 
-                <?php if($model->get_social(3) != null): ?>
+                <?php if(Property::get_social(3) != null): ?>
                   <li class="pull-left top-nav__icon">
-                      <a href="<?=$model->get_social(3)?>"><img src="/frontend/web/img/icons/facebook-logo.svg" class="social_svg" alt="facebook"></a>
+                      <a href="<?=Property::get_social(3)?>"><img src="<?= Yii::$app->homeUrl?>img/icons/facebook-logo.svg" class="social_svg" alt="facebook"></a>
                   </li>
                 <?php endif; ?>
-                <?php if($model->get_social(4) != null): ?>
+                <?php if(Property::get_social(4) != null): ?>
                   <li class="pull-left top-nav__icon">
-                      <a href="<?=$model->get_social(4)?>"><img src="/frontend/web/img/icons/twitter.svg" class="social_svg" alt="twitter"></a>
-                  </li>
-                <?php endif; ?>
-
-                <?php if($model->get_social(6) != null): ?>
-                  <li class="pull-left top-nav__icon">
-                      <a href="<?=$model->get_social(6)?>"><img src="/frontend/web/img/icons/linkedin-logo.svg" class="social_svg" alt="linkedin"></a>
+                      <a href="<?=Property::get_social(4)?>"><img src="<?= Yii::$app->homeUrl?>img/icons/twitter.svg" class="social_svg" alt="twitter"></a>
                   </li>
                 <?php endif; ?>
 
-                <?php if($model->get_social(5) != null): ?>
+                <?php if(Property::get_social(6) != null): ?>
                   <li class="pull-left top-nav__icon">
-                      <a href="<?=$model->get_social(5)?>"><img src="/frontend/web/img/icons/google-plus.svg" class="social_svg" alt="google plus"></a>
+                      <a href="<?=Property::get_social(6)?>"><img src="<?= Yii::$app->homeUrl?>img/icons/linkedin-logo.svg" class="social_svg" alt="linkedin"></a>
                   </li>
                 <?php endif; ?>
 
-                <?php if($model->get_social(2) != null): ?>
+                <?php if(Property::get_social(5) != null): ?>
                   <li class="pull-left top-nav__icon">
-                      <a href="<?=$model->get_social(2)?>"><img src="/frontend/web/img/icons/instagram-logo.svg" class="social_svg" alt="instagram"></a>
+                      <a href="<?=Property::get_social(5)?>"><img src="<?= Yii::$app->homeUrl?>img/icons/google-plus.svg" class="social_svg" alt="google plus"></a>
                   </li>
                 <?php endif; ?>
 
-                <?php if($model->get_social(1) != null): ?>
+                <?php if(Property::get_social(2) != null): ?>
                   <li class="pull-left top-nav__icon">
-                      <a href="<?=$model->get_social(1)?>"><img src="/frontend/web/img/icons/telegram-logo.svg" class="social_svg" alt="telegram"></a>
+                      <a href="<?=Property::get_social(2)?>"><img src="<?= Yii::$app->homeUrl?>img/icons/instagram-logo.svg" class="social_svg" alt="instagram"></a>
                   </li>
                 <?php endif; ?>
 
-                <li class="pull-left hidden-xs"><span><i class="zmdi zmdi-email"></i><?= $model->get_option('ایمیل'); ?></span></li>
-                <li class="pull-left hidden-xs"><span><i class="zmdi zmdi-phone"></i><?= $model->get_option('تلفن'); ?></span></li>
+                <?php if(Property::get_social(1) != null): ?>
+                  <li class="pull-left top-nav__icon">
+                      <a href="<?=Property::get_social(1)?>"><img src="<?= Yii::$app->homeUrl?>img/icons/telegram-logo.svg" class="social_svg" alt="telegram"></a>
+                  </li>
+                <?php endif; ?>
+
+                <li class="pull-left hidden-xs"><span><i class="zmdi zmdi-email"></i><?= Property::get_option('ایمیل'); ?></span></li>
+                <li class="pull-left hidden-xs"><span><i class="zmdi zmdi-phone"></i><?= Property::get_option('تلفن'); ?></span></li>
             </ul>
         </div>
     </div>
@@ -289,11 +288,11 @@ if (Yii::$app->session->hasFlash('success_password_saved')){
     <div class="header__main">
         <div class="container">
             <a class="logo" href="<?=Yii::$app->homeUrl;?>">
-                <img src="<?= $model->show_logo(); ?>" alt="">
+                <img src="<?= Property::show_logo(); ?>" alt="">
                 <!-- <?=Yii::$app->homeUrl;?>img/logo.png -->
                 <div class="logo__text">
-                    <span><?= $model->get_option('عنوان سایت'); ?></span>
-                    <span><?= $model->get_option('توضیحات'); ?></span>
+                    <span><?= Property::get_option('عنوان سایت'); ?></span>
+                    <span><?= Property::get_option('توضیحات'); ?></span>
                 </div>
             </a>
 

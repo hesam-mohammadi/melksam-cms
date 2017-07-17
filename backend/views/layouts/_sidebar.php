@@ -9,17 +9,8 @@
         </li>
 
         <li <?php if(in_array(\Yii::$app->controller->id,['property'])) {echo 'class="active"';} ?>>
-          <a href="<?= \Yii::$app->homeUrl ?>property"><i class="zmdi zmdi-view-list"></i> لیست املاک ثبت شده</a>
+          <a href="<?= \Yii::$app->homeUrl ?>/property"><i class="zmdi zmdi-view-list"></i> لیست املاک ثبت شده</a>
         </li>
-
-        <!-- <li <?php if(in_array(\Yii::$app->controller->id,['property'])) {echo 'class="active"';} ?>>
-          <a href="#" id="btn-1" data-toggle="collapse" data-target="#submenu1" aria-expanded="false"><i class="zmdi zmdi-view-list"></i> ثبت ملک جدید <span class="zmdi zmdi-chevron-down"></span></a>
-          <ul class="nav collapse" id="submenu1" role="menu" aria-labelledby="btn-1">
-				<li><a href="#">Link 2.1</a></li>
-				<li><a href="#">Link 2.2</a></li>
-				<li><a href="#">Link 2.3</a></li>
-			</ul>
-        </li> -->
 
         <li <?php if(in_array(\Yii::$app->controller->id,['user'])) {echo 'class="active"';} ?>>
           <a href="<?= Yii::$app->homeUrl ?>/user"><i class="zmdi zmdi-account-box"></i> کاربران</a>
@@ -34,16 +25,16 @@
           <a href="notes.html"><i class="zmdi zmdi-file-text"></i> یادداشت های روزانه</a>
         </li>
         <li <?php if(in_array(\Yii::$app->controller->id,['blog'])) {echo 'class="active"';} ?>>
-          <a href="calendar.html"><i class="zmdi zmdi-blogger"></i> مدیریت مطالب بلاگ</a>
+          <a href="<?= \Yii::$app->homeUrl ?>/blog"><i class="zmdi zmdi-blogger"></i> مدیریت مطالب بلاگ</a>
         </li>
-        <li <?php if(in_array(\Yii::$app->controller->id,['q&a'])) {echo 'class="active"';} ?>>
+        <!-- <li <?php if(in_array(\Yii::$app->controller->id,['q&a'])) {echo 'class="active"';} ?>>
           <a href="questions-answers.html"><i class="zmdi zmdi-help"></i> Questions & Answers</a>
-        </li>
+        </li> -->
         <li <?php if(in_array(\Yii::$app->controller->action->id,['baseinfo'])) {echo 'class="active"';} ?>>
-          <a href="<?= \Yii::$app->homeUrl ?>site/baseinfo"><i class="zmdi zmdi-view-dashboard"></i> مدیریت اطلاعات ملکی</a>
+          <a href="<?= \Yii::$app->homeUrl ?>/site/baseinfo"><i class="zmdi zmdi-view-dashboard"></i> مدیریت اطلاعات ملکی</a>
         </li>
         <li <?php if(in_array(\Yii::$app->controller->id,['settings'])) {echo 'class="active"';} ?>>
-          <a href="#"><i class="zmdi zmdi-settings"></i>تنظیمات سایت </a>
+          <a href="<?= \Yii::$app->homeUrl ?>/site/options"><i class="zmdi zmdi-settings"></i>تنظیمات سایت </a>
         </li>
         <!-- <li <?php if(in_array(\Yii::$app->controller->id,['log'])) {echo 'class="active"';} ?>>
           <a href="activity-log.html"><i class="zmdi zmdi-time"></i> Activity Log</a>

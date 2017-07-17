@@ -2,11 +2,14 @@
 
 $(document).ready(function(){
     var pieData = [
-        {data: 1, color: '#F44336', label: 'July'},
-        {data: 2, color: '#03A9F4', label: 'June'},
-        {data: 3, color: '#8BC34A', label: 'May'},
-        {data: 4, color: '#FFEB3B', label: 'April'},
-        {data: 4, color: '#009688', label: 'March'},
+        {data: 1, color: '#F44336', label: 'آپارتمان'},
+        {data: 2, color: '#03A9F4', label: 'مجتمع های آپارتمانی'},
+        {data: 3, color: '#8BC34A', label: 'ویلا - خانه'},
+        {data: 4, color: '#FFEB3B', label: 'مغازه و املاک تجاری'},
+        {data: 4, color: '#009688', label: 'زمین و کلنگی'},
+        {data: 4, color: '#009688', label: 'زمین و املاک کشاورزی'},
+        {data: 4, color: '#009688', label: 'دامداری و دامپروری'},
+        {data: 4, color: '#009688', label: 'املاک صنعتی'},
     ];
 
 
@@ -18,7 +21,7 @@ $(document).ready(function(){
             series: {
                 pie: {
                     show: true,
-                    stroke: { 
+                    stroke: {
                         width: 2,
                     },
                 },
@@ -45,7 +48,7 @@ $(document).ready(function(){
                 defaultTheme: false,
                 cssClass: 'flot-tooltip'
             }
-            
+
         });
     }
 
@@ -58,7 +61,7 @@ $(document).ready(function(){
                 pie: {
                     innerRadius: 0.5,
                     show: true,
-                    stroke: { 
+                    stroke: {
                         width: 2,
                     },
                 },
@@ -84,7 +87,7 @@ $(document).ready(function(){
                 defaultTheme: false,
                 cssClass: 'flot-tooltip'
             }
-            
+
         });
     }
 });

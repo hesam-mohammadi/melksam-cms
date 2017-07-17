@@ -108,4 +108,16 @@ class Inbox extends \yii\db\ActiveRecord
       return $inbox;
     }
 
+    public function countMessages()
+    {
+      $allinboxes = Inbox::find()->all();
+      $messages = count($allinboxes);
+      return $messages;
+    }
+
+    public function latest5Messages() {
+      $latestmsg = Inbox::find()->limit(5)->OrderBy(['created_at' => SORT_DESC])->all();
+      return $latestmsg;
+    }
+
 }

@@ -16040,3 +16040,6 @@ html:not(.ie9) .page-loader__spinner {
 .social_svg {
 	width: 18px
 }
+.social_svg-blog {
+	width: 30px;
+}

@@ -271,7 +271,7 @@ class Property extends \yii\db\ActiveRecord
       return $logo->src;
     }
 
-    public function get_social($id)
+    public static function get_social($id)
     {
       $social = \backend\models\SocialOptions::find()->where(['social_id' => $id])->andWhere(['status' => 1])->one();
       if($social != null)

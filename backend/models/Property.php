@@ -338,6 +338,16 @@ class Property extends \yii\db\ActiveRecord
       return $vila_type;
     }
 
+    public function countProperties()
+    {
+      $allproperties = Property::find()->all();
+      $properties = count($allproperties);
+      return $properties;
+    }
 
+    public function latest5Properties() {
+      $latestpr = Property::find()->limit(5)->OrderBy(['created_at' => SORT_DESC])->all();
+      return $latestpr;
+    }
 
 }

@@ -5,130 +5,31 @@
 $this->title = 'My Yii Application';
 ?>
 <section id="main__content">
-    <div class="quick-stats clearfix">
-        <div class="col-md-3 col-sm-6 hidden-xs">
-            <div class="quick-stats__item">
-                <header>
-                    <h2>288</h2>
-                    <small>کل کاربران ثبت شده</small>
-
-                    <div class="quick-stats__change quick-stats__change--up">
-                        <i class="zmdi zmdi-long-arrow-up"></i>
-                    </div>
-                </header>
-
-                <div class="quick-stats__list">
-                    <h3>32</h3>
-                    <small>جدیدترین کاربران </small>
-
-                    <div class="quick-stats__change quick-stats__change--sm quick-stats__change--down">
-                        <i class="zmdi zmdi-long-arrow-down"></i>
-                    </div>
-                </div>
-
-                <div class="quick-stats__list">
-                    <h3>14</h3>
-                    <small>کاربران غیر فعال</small>
-
-                    <div class="quick-stats__change quick-stats__change--sm quick-stats__change--up">
-                        <i class="zmdi zmdi-long-arrow-up"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3 col-sm-6 hidden-sm hidden-xs">
-            <div class="quick-stats__item">
-                <header>
-                    <h2>3218</h2>
-                    <small>کل پیام های ثبت شده</small>
-
-                    <div class="quick-stats__change quick-stats__change--down">
-                        <i class="zmdi zmdi-long-arrow-down"></i>
-                    </div>
-                </header>
-
-                <div class="quick-stats__list">
-                    <h3>543</h3>
-                    <small>پیام های پاسخ داده شده</small>
-
-                    <div class="quick-stats__change quick-stats__change--sm quick-stats__change--down">
-                        <i class="zmdi zmdi-long-arrow-down"></i>
-                    </div>
-                </div>
-
-                <div class="quick-stats__list">
-                    <h3>125</h3>
-                    <small>پیام های پاسخ داده نشده</small>
-
-                    <div class="quick-stats__change quick-stats__change--sm quick-stats__change--up">
-                        <i class="zmdi zmdi-long-arrow-up"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3 col-sm-6 hidden-sm hidden-xs">
-            <div class="quick-stats__item">
-                <header>
-                    <h2>1542</h2>
-                    <small>کل املاک ثبت شده</small>
-
-                    <div class="quick-stats__change quick-stats__change--down">
-                        <i class="zmdi zmdi-long-arrow-down"></i>
-                    </div>
-                </header>
-
-                <div class="quick-stats__list">
-                    <h3>401</h3>
-                    <small>املاک اجاره ای</small>
-
-                    <div class="quick-stats__change quick-stats__change--sm quick-stats__change--down">
-                        <i class="zmdi zmdi-long-arrow-down"></i>
-                    </div>
-                </div>
-
-                <div class="quick-stats__list">
-                    <h3>1141</h3>
-                    <small>املاک فروشی</small>
-
-                    <div class="quick-stats__change quick-stats__change--sm quick-stats__change--up">
-                        <i class="zmdi zmdi-long-arrow-up"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3 col-sm-6">
-            <div class="quick-stats__item">
-                <header>
-                    <h2>5503</h2>
-                    <small>تعداد کل بازدید ها</small>
-
-                    <div class="quick-stats__change quick-stats__change--up">
-                        <i class="zmdi zmdi-long-arrow-up"></i>
-                    </div>
-                </header>
-
-                <div class="quick-stats__list">
-                    <h3>253</h3>
-                    <small>تعداد بازدید های امروز</small>
-
-                    <div class="quick-stats__change quick-stats__change--sm quick-stats__change--up">
-                        <i class="zmdi zmdi-long-arrow-up"></i>
-                    </div>
-                </div>
-
-                <div class="quick-stats__list">
-                    <h3>135</h3>
-                    <small>تعداد بازدید کننده های امروز</small>
-
-                    <div class="quick-stats__change quick-stats__change--sm quick-stats__change--down">
-                        <i class="zmdi zmdi-long-arrow-down"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="row quick-stats-c clearfix">
+      <div class="col-xs-3">
+          <div class="rmd-stats__item mdc-bg-teal-400">
+              <h2>374</h2>
+              <small><i class="zmdi zmdi-eye"></i> کل بازدید ها </small>
+          </div>
+      </div>
+      <div class="col-xs-3">
+          <div class="rmd-stats__item mdc-bg-amber-400">
+              <h2><?= $messages ?></h2>
+              <small><i class="zmdi zmdi-email"></i> کل پیام ها</small>
+          </div>
+      </div>
+      <div class="col-xs-3">
+          <div class="rmd-stats__item mdc-bg-purple-400">
+              <h2><?= $properties ?></h2>
+              <small><i class="zmdi zmdi-folder"></i> کل املاک  </small>
+          </div>
+      </div>
+      <div class="col-xs-3">
+          <div class="rmd-stats__item mdc-bg-cyan-400">
+              <h2><?= $users ?></h2>
+              <small><i class="zmdi zmdi-accounts"></i>  کل کاربران</small>
+          </div>
+      </div>
     </div>
 
         <div class="row">
@@ -140,57 +41,26 @@ $this->title = 'My Yii Application';
                     </div>
 
                     <div class="list-group">
-                        <a href="index.html" class="list-group-item media">
+                        <?php foreach($latestpr as $property): ?>
+                          <?php $pictures = \backend\models\Pictures::find()->where(['agahi_id' => $property->id])->asArray()->all(); ?>
+                        <a href="/admin/property/view?id=<?=$property->id?>" class="list-group-item media">
                             <div class="pull-right">
-                                <img src="<?=Yii::$app->homeUrl?>img/demo/listing/thumbs/2.jpg" alt="" class="list-group__img" width="60">
+                              <?php if($pictures==null): ?>
+                                  <img src="<?=Yii::$app->homeUrl;?>uploads/no_image.jpg" class="list-group__img" width="60" alt="<?= $property->dealingType->name ?> <?= $property->propertyType->name ?> <?= $property->area_size ?> متری در <?= $property->city->name?>">
+                              <?php else: ?>
+                                  <?php
+                                    $pic = explode(',', $pictures[0]['src']);?>
+                                  <img src="<?= '/'.$pic[1] ?>" alt="<?= $property->dealingType->name ?> <?= $property->propertyType->name ?> <?= $property->area_size ?> متری در <?= $property->city->name?>" class="list-group__img" width="60">
+                              <?php endif ?>
                             </div>
                             <div class="media-body list-group__text">
-                                <strong>Vivamus sagittis lacus vel augue laoreet rutrum faucibus</strong>
-                                <small>$810,000 . 04 Beds . 03 Baths</small>
+                                <strong><?= $property->dealingType->name ?> <?= $property->propertyType->name ?> <?= $property->area_size ?> متری</strong>
+                                <small><?= $property->city->name?>، <?= $property->region->name; ?> - کد ملک: <?= $property->id; ?> (<?= Yii::$app->formatter->asRelativeTime($property->created_at); ?>)</small>
                             </div>
                         </a>
+                      <?php endforeach; ?>
 
-                        <a href="index.html" class="list-group-item media">
-                            <div class="pull-right">
-                                <img src="<?=Yii::$app->homeUrl?>img/demo/listing/thumbs/3.jpg" alt="" class="list-group__img" width="60">
-                            </div>
-                            <div class="media-body list-group__text">
-                                <strong>Fusce dapibus tellusac cursus</strong>
-                                <small>$910,300 . 03 Beds . 02 Baths</small>
-                            </div>
-                        </a>
-
-                        <a href="index.html" class="list-group-item media">
-                            <div class="pull-right">
-                                <img src="<?=Yii::$app->homeUrl?>img/demo/listing/thumbs/4.jpg" alt="" class="list-group__img" width="60">
-                            </div>
-                            <div class="media-body list-group__text">
-                                <strong>Praesent commodo cursus magnavel scelerisque nisl</strong>
-                                <small>$2,560,000 . 08 Beds . 07 Baths</small>
-                            </div>
-                        </a>
-
-                        <a href="index.html" class="list-group-item media">
-                            <div class="pull-right">
-                                <img src="<?=Yii::$app->homeUrl?>img/demo/listing/thumbs/5.jpg" alt="" class="list-group__img" width="60">
-                            </div>
-                            <div class="media-body list-group__text">
-                                <strong>Lorem ipsum dolor sitamet consectetur adipiscing elit</strong>
-                                <small>$1,140,650 . 06 Beds . 03 Baths</small>
-                            </div>
-                        </a>
-
-                        <a href="index.html" class="list-group-item media">
-                            <div class="pull-right">
-                                <img src="<?=Yii::$app->homeUrl?>img/demo/listing/thumbs/6.jpg" alt="" class="list-group__img" width="60">
-                            </div>
-                            <div class="media-body list-group__text">
-                                <strong>Fusce dapibus accursus commodo</strong>
-                                <small>$780,900 . 02 Beds . 02 Baths</small>
-                            </div>
-                        </a>
-
-                        <a class="view-more" href="listings.html">
+                        <a class="view-more" href="/admin/property">
                             مشاهده لیست کامل
                         </a>
                     </div>
@@ -439,6 +309,28 @@ $this->title = 'My Yii Application';
             </div>
 
             <div class="col-sm-6">
+              <div class="card">
+                  <div class="card__header">
+                      <h2>جدیدترین کاربران</h2>
+                      <small>لیست آخرین کاربران ثبت نام شده در سایت</small>
+                  </div>
+
+                  <div class="list-group">
+                      <?php foreach($latestuser as $user): ?>
+                      <a class="list-group-item media" href="/admin/user/view?id=<?=$user->id?>">
+                          <div class="media-body list-group__text">
+                              <strong><?=$user->email?></strong>
+                              <small><?= Yii::$app->formatter->asRelativeTime($user->created_at); ?></small>
+                          </div>
+                      </a>
+                    <?php endforeach; ?>
+
+                      <a class="view-more" href="/admin/user">
+                          مشاهده لیست کامل
+                      </a>
+                  </div>
+              </div>
+              
                 <div class="card">
                     <div class="card__header">
                         <h2>جدیدترین پیام ها</h2>
@@ -446,122 +338,25 @@ $this->title = 'My Yii Application';
                     </div>
 
                     <div class="list-group">
+                        <?php foreach($latestmsg as $message): ?>
                         <div class="list-group-item media">
                             <div class="pull-right">
+                                <?php if($message->status == 1): ?>
                                 <div class="leads-status-alt mdc-bg-green-400">
                                     <i class="zmdi zmdi-check-all"></i>
                                 </div>
-                            </div>
-
-                            <div class="media-body list-group__text">
-                                <strong>304 East Wenatchee, WA 98801</strong>
-
-                                <small class="leads-info">
-                                    David Lentman . <span class="hidden-xs">david_l@gmail.com</span>
-                                </small>
-                            </div>
-
-                            <div class="actions list-group__actions">
-                                <a href="index.html" data-toggle="dropdown"><i class="zmdi zmdi-more-vert"></i></a>
-
-                                <ul class="dropdown-menu pull-right">
-                                    <li><a href="index.html">View listing</a></li>
-                                    <li><a href="index.html">Edit lead</a></li>
-                                    <li><a href="index.html">Delete lead</a></li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="list-group-item media">
-                            <div class="pull-right">
-                                <div class="leads-status-alt mdc-bg-amber-600">
-                                    <i class="zmdi zmdi-minus-circle-outline"></i>
-                                </div>
-                            </div>
-
-                            <div class="media-body list-group__text">
-                                <strong>21 Shop St, San Francisco</strong>
-
-                                <small>
-                                    San Anthony . <span class="hidden-xs">anthony_732@ymail.com</span> . +1-202-555-0120
-                                </small>
-                            </div>
-
-                            <div class="actions list-group__actions">
-                                <a href="index.html" data-toggle="dropdown"><i class="zmdi zmdi-more-vert"></i></a>
-
-                                <ul class="dropdown-menu pull-right">
-                                    <li><a href="index.html">View listing</a></li>
-                                    <li><a href="index.html">Edit lead</a></li>
-                                    <li><a href="index.html">Delete lead</a></li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="list-group-item media">
-                            <div class="pull-right">
-                                <div class="leads-status-alt mdc-bg-green-400">
-                                    <i class="zmdi zmdi-check-all"></i>
-                                </div>
-                            </div>
-
-                            <div class="media-body list-group__text">
-                                <strong>Beverly Hills, CA 90210</strong>
-
-                                <small>
-                                    Deen Jones . <span class="hidden-xs">jjdeen_88@gmail.com</span>
-                                </small>
-                            </div>
-
-                            <div class="actions list-group__actions">
-                                <a href="index.html" data-toggle="dropdown"><i class="zmdi zmdi-more-vert"></i></a>
-
-                                <ul class="dropdown-menu pull-right">
-                                    <li><a href="index.html">View listing</a></li>
-                                    <li><a href="index.html">Edit lead</a></li>
-                                    <li><a href="index.html">Delete lead</a></li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="list-group-item media">
-                            <div class="pull-right">
-                                <div class="leads-status-alt mdc-bg-green-400">
-                                    <i class="zmdi zmdi-check-all"></i>
-                                </div>
-                            </div>
-
-                            <div class="media-body list-group__text">
-                                <strong>132 Lockslee, San Francisco</strong>
-
-                                <small>
-                                    Sarah Diaz . <span class="hidden-xs">sarahdiaz@yahoo.com</span>
-                                </small>
-                            </div>
-
-                            <div class="actions list-group__actions">
-                                <a href="index.html" data-toggle="dropdown"><i class="zmdi zmdi-more-vert"></i></a>
-
-                                <ul class="dropdown-menu pull-right">
-                                    <li><a href="index.html">View listing</a></li>
-                                    <li><a href="index.html">Edit lead</a></li>
-                                    <li><a href="index.html">Delete lead</a></li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="list-group-item media">
-                            <div class="pull-right">
+                              <?php else: ?>
                                 <div class="leads-status-alt mdc-bg-red-400">
                                     <i class="zmdi zmdi-close-circle"></i>
                                 </div>
+                              <?php endif; ?>
                             </div>
 
                             <div class="media-body list-group__text">
-                                <strong>21120 Broadway St, San Fransisco</strong>
+                                <strong><?= $message->name; ?> (بخش  <?= $message->section; ?>)</strong>
 
-                                <small>
-                                    Stephen Franklin . <span class="hidden-xs">stf_599@outlook.com</span>
+                                <small class="leads-info">
+                                    <?= Yii::$app->formatter->asRelativeTime($message->created_at); ?>
                                 </small>
                             </div>
 
@@ -569,28 +364,15 @@ $this->title = 'My Yii Application';
                                 <a href="index.html" data-toggle="dropdown"><i class="zmdi zmdi-more-vert"></i></a>
 
                                 <ul class="dropdown-menu pull-right">
-                                    <li><a href="index.html">View listing</a></li>
-                                    <li><a href="index.html">Edit lead</a></li>
-                                    <li><a href="index.html">Delete lead</a></li>
+                                    <li><a href="/admin/inbox/view?id=<?=$message->id?>">نمایش پیام</a></li>
+                                    <li><a href="/admin/property/view?id=<?=$message->property_id?>">نمایش ملک مربوطه</a></li>
                                 </ul>
                             </div>
                         </div>
-
-                        <a class="view-more" href="leads.html">
+                      <?php endforeach; ?>
+                        <a class="view-more" href="/admin/inbox">
                             مشاهده لیست کامل
                         </a>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card__header">
-                        <h2>Earning Summary</h2>
-                        <small>Vestibulum id ligula porta felis euismod semper</small>
-                    </div>
-
-                    <div class="card__body">
-                        <div class="flot-chart" id="pie-chart"></div>
-                        <div class="flot-chart__legends flot-chart__legends--pie"></div>
                     </div>
                 </div>
 
