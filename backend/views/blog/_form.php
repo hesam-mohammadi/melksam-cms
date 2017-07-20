@@ -68,11 +68,6 @@ use yii\web\UploadedFile;
       </div>
       <div class="col-sm-4">
         <?php
-        // echo Yii::getAlias('@upload').'<br>';
-        // echo Yii::getAlias('@frontend').'<br>';
-        // echo Yii::getAlias('@frontend').'web/'.'<br>';
-        // echo $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'].'<br>';
-        // die();
             $findImage = BlogPictures::find()->where(['blog_id' => $model->id, 'user_id' => Yii::$app->user->id])->one();
             if($findImage !=null ) {
               $preview = Html::img(Yii::$app->params['frontendUrl'].'/'.$findImage['src'],  ['style'=>'max-height: 245px !important;', 'class' => 'img-responsive']);

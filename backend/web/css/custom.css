@@ -9185,9 +9185,9 @@ a.mdc-text-black-darker:hover {
 .checkbox input[type=radio],
 .radio input[type=checkbox],
 .radio input[type=radio] {
-    top: 0;
-    left: 0;
-    margin-left: 0;
+		top: 0;
+		right: 0;
+		margin-right: 0;
     z-index: 1;
     cursor: pointer;
     opacity: 0;
@@ -11337,13 +11337,13 @@ a {
 }
 
 .action-header__item--search {
-    padding: 0 0 0 30px;
+    padding: 0 30px 0 0;
     position: relative
 }
 
 @media (min-width:768px) {
     .action-header__item--search {
-        margin-left: 15px;
+        margin-right: 30px;;
         max-width: 320px;
         width: 100%
     }
@@ -11353,7 +11353,7 @@ a {
     content: '\f1c3';
     font-family: Material-Design-Iconic-Font;
     position: absolute;
-    left: 0;
+    right: 0;
     top: 7px;
     font-size: 22px;
     line-height: 100%
@@ -11394,7 +11394,7 @@ a {
 }
 
 .action-header__add {
-    float: right;
+    float: left;
     padding-top: 1px
 }
 
@@ -13786,7 +13786,7 @@ html:not(.ie9) .page-loader__spinner {
 
 @media (min-width:1200px) {
     .action-header-alt {
-        padding-left: 260px;
+        padding-right: 260px;
         top: 70px
     }
     .main-menu {
@@ -13943,7 +13943,7 @@ html:not(.ie9) .page-loader__spinner {
 }
 
 .tasks-lists .list-group__attrs {
-    padding-left: 50px;
+    padding-right: 50px;
     margin-top: 10px
 }
 
