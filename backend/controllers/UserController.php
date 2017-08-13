@@ -84,8 +84,6 @@ class UserController extends Controller
             }
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            print_r($model->errors);
-            // die();
             return $this->render('create', [
                 'model' => $model,
             ]);

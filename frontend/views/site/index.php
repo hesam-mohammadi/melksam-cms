@@ -6,12 +6,13 @@ $this->title = 'املاک';
 ?>
 
 <div class="header__recommended">
-    <div class="my-location">
-        <div class="my-location__title">پیشنهادات ویژه <i class="zmdi zmdi-star mdc-text-amber animated infinite tada"></i> </div>
-    </div>
 
     <?= $this->render('_search'); ?>
-
+    <?php if($dataProvider->getModels() != null):?>
+      <div class="my-location">
+          <div class="my-location__title">پیشنهادات ویژه <i class="zmdi zmdi-star mdc-text-amber animated infinite tada"></i> </div>
+      </div>
+    <?php endif; ?>
     <div class="listings-grid">
       <?php
         $myModels = $dataProvider->getModels();
@@ -75,7 +76,7 @@ $this->title = 'املاک';
     </header>
 
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="card">
                 <div class="card__header card__header--minimal">
                     <h2>Recent Properties for Sale</h2>
@@ -131,7 +132,7 @@ $this->title = 'املاک';
             </div>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="card">
                 <div class="card__header card__header--minimal">
                     <h2>Recent Properties for Rent</h2>
@@ -183,7 +184,7 @@ $this->title = 'املاک';
             </div>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="card">
                 <div class="card__header card__header--minimal">
                     <h2>Properties by top locations</h2>

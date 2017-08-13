@@ -15,6 +15,11 @@ return [
     'bootstrap' => ['log'],
     'modules' => [],
     'components' => [
+      'assetManager' => [
+ 'bundles' => [
+  'yii\bootstrap\BootstrapPluginAsset' => ['js'=>[]],
+ ]
+],
         'request' => [
             'baseUrl' => '/admin',
             'csrfParam' => '_csrf-backend',

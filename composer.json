@@ -29,7 +29,8 @@
         "kartik-v/yii2-widget-touchspin": "*",
         "kartik-v/yii2-widget-fileinput": "@dev",
         "yiisoft/yii2-imagine": "*",
-        "bajadev/yii2-ckeditor": "*"
+        "bajadev/yii2-ckeditor": "*",
+        "gbksoft/yii2-recaptcha-widget": "@dev"
       },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

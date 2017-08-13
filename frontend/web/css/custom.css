@@ -12994,7 +12994,7 @@ a.text-muted:hover {
 
 .rmd-contact-list>li {
     position: relative;
-    padding-left: 30px
+    padding-right: 30px
 }
 
 .rmd-contact-list>li:not(:last-child):not(.rmd-contact-list__title) {
@@ -13007,7 +13007,7 @@ a.text-muted:hover {
     font-size: 17px;
     top: 2px;
     position: relative;
-    margin: 0 10px 0 -30px
+    margin: 0 -30px 0 10px
 }
 
 .rmd-contact-list__title {
@@ -13307,7 +13307,7 @@ html:not(.ie9) .page-loader__spinner {
 .contact__inner {
     background-color: #fff;
     max-width: 900px;
-    margin: -80px auto 0;
+    margin: 0 auto 0;
     position: relative;
     z-index: 1;
     border-radius: 2px
@@ -13379,7 +13379,7 @@ html:not(.ie9) .page-loader__spinner {
 .four-zero__content {
     position: absolute;
     bottom: 0;
-    left: 0;
+    right: 0;
     padding: 65px;
     max-width: 600px;
     width: 100%;

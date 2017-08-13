@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-
+use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model backend\models\Inbox */
 
@@ -34,8 +34,19 @@ $this->params['breadcrumbs'][] = $this->title;
             'property_id',
             'message:ntext',
             'phone_number',
+            'email',
             'created_at:datetime',
         ],
     ]) ?>
+    <?php if($model->email != null): ?>
+      <br><br>
+      <ul class="nav nav-tabs create_property_title"> <li class="active"><a>پاسخ به ایمیل </a></li> </ul>
+      <?php $form = ActiveForm::begin(); ?>
+      <?= $form->field($model, 'reply')->textarea(['rows' => 6]) ?>
+      <div class="form-group">
+          <?= Html::submitButton(Yii::t('app', 'ارسال'), ['class' => 'btn btn-success']) ?>
+      </div>
+      <?php ActiveForm::end(); ?>
+    <?php endif; ?>
 
 </div>

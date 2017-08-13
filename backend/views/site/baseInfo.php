@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
               'enableClientValidation' => true,
       ]); ?>
           <div class="col-sm-4">
-          <?= $form->field($province_model, 'name')->textInput(['placeHolder' => 'عنوان'])->label(false) ; ?>
+          <?= $form->field($province_model, 'name')->textInput(['placeHolder' => 'عنوان استان'])->label(false) ; ?>
           </div>
           <div class="col-sm-2">
             <?= Html::submitButton('ثبت', ['class' => 'btn btn-success btn-block']); ?>

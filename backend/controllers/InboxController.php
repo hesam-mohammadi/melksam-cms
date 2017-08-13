@@ -76,16 +76,34 @@ class InboxController extends Controller
     public function actionView($id)
     {
         $model = $this->findModel($id);
-        if(\Yii::$app->user->can('admin') || $model->property->user->id == \Yii::$app->user->id) {
-          $model->status = 1;
-          $model->save();
-          return $this->render('view', [
-              'model' => $model,
-          ]);
+
+        if ($model->load(\Yii::$app->request->post()) && $model->validate()) {
+          $email = \Yii::$app->mailer->compose()
+          ->setTo($model->email)
+          ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name . ' robot'])
+          ->setSubject('پاسخ به پیام شما')
+          ->setHtmlBody($_POST['Inbox']['reply'])->send();
+          if($email){
+            \Yii::$app->getSession()->setFlash('success', 'پیام شما با موفقیت ارسال شد!');
+          }
+          else{
+          \Yii::$app->getSession()->setFlash('danger', 'مشکلی در ارسال پیش آمد. لطفا دوباره تلاش کنید');
+          }
+          return $this->refresh();
         }
         else {
-          Yii::$app->getSession()->setFlash('error', 'شما اجازه دسترسی به صفحه مورد نظر را ندارید!');
-          return Yii::$app->getResponse()->redirect('index');
+          if(\Yii::$app->user->can('admin') || $model->property->user->id == \Yii::$app->user->id) {
+            $model->status = 1;
+            $model->save();
+            return $this->render('view', [
+                'model' => $model,
+            ]);
+          }
+          else {
+            Yii::$app->getSession()->setFlash('error', 'شما اجازه دسترسی به صفحه مورد نظر را ندارید!');
+            return Yii::$app->getResponse()->redirect('index');
+          }
+
         }
 
     }

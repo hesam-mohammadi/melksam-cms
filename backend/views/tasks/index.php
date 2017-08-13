@@ -123,3 +123,36 @@ return false;
 JS;
 $this->registerJs($script);
 ?>
+<?php
+$script2 = <<< JS
+$('.checkbox input').click(function() {
+  var id = $(this).attr('id');
+  $.ajax({
+    type: "POST",
+    url: "tasks/status",
+    data: {
+        id: id,
+        _csrf: yii.getCsrfToken(),
+    },
+    success: function() {
+      $.pjax.reload({container: '#status_pjax'});
+    }
+});
+});
+
+$('.done').click(function() {
+  var id = $(this).attr('id');
+  $.ajax({
+    type: "POST",
+    url: "tasks/status",
+    data: {
+        id: id
+    },
+    success: function() {
+      $.pjax.reload({container: '#status_pjax'});
+    }
+});
+});
+JS;
+$this->registerJs($script2);
+?>

@@ -34,7 +34,7 @@ class AppAsset extends AssetBundle
         'js/demo/charts/line-chart.js',
         'js/demo/charts/pie-chart.js',
         'js/baseinfo.js',
-        'bower_components/bootstrap/dist/js/bootstrap.min.js'
+        'bower_components/bootstrap/dist/js/bootstrap.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

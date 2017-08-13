@@ -22,7 +22,7 @@
 
             <ul class="dropdown-menu pull-right">
               <li><a  class="done" id="<?=$model->id?>" href="#"><?= ($model->status ==0) ? 'انجام شد': 'انجام نشده'?></a></li>
-                <li><a href="update?id=<?=$model->id?>">ویرایش</a></li>
+                <li><a href="tasks/update?id=<?=$model->id?>">ویرایش</a></li>
                 <li>
                 <?= Html::a('<span class="text-danger"><i class="zmdi zmdi-delete"></i> حذف</span>', 'delete?id='.$model->id, [
                     'title' => Yii::t('yii', 'Delete'),
@@ -34,35 +34,3 @@
         </div>
     </div>
 </div>
-<?php
-$script = <<< JS
-$('.checkbox input').click(function() {
-  var id = $(this).attr('id');
-  $.ajax({
-    type: "POST",
-    url: "status",
-    data: {
-        id: id
-    },
-    success: function() {
-      $.pjax.reload({container: '#status_pjax'});
-    }
-});
-});
-
-$('.done').click(function() {
-  var id = $(this).attr('id');
-  $.ajax({
-    type: "POST",
-    url: "status",
-    data: {
-        id: id
-    },
-    success: function() {
-      $.pjax.reload({container: '#status_pjax'});
-    }
-});
-});
-JS;
-$this->registerJs($script);
-?>

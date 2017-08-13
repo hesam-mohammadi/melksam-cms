@@ -6,6 +6,7 @@ use Yii;
 use yii\web\UploadedFile;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\bootstrap\Html;
 use backend\models\DealingType;
 use backend\models\DocumentType;
 use backend\models\PropertyView;
@@ -83,6 +84,7 @@ class Property extends \yii\db\ActiveRecord
 {
     public $province_id;
     public $file;
+    public $captcha;
     /**
      * @inheritdoc
      */
@@ -110,7 +112,7 @@ class Property extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['view_id', 'cabinet_id', 'floor_covering_id', 'user_id', 'region_id', 'city_id', 'property_type_id', 'dealing_type_id', 'document_type_id', 'phone_number1', 'phone_number2', 'mobile_number', 'area_size', 'floor_num', 'number_of_floors', 'number_of_units_in_floor', 'number_of_units', 'price_per_meter_rent', 'total_price', 'total_area', 'vila_type_id', 'front_area', 'alley_width', 'height', 'revisory', 'balcony_area', 'has_store', 'created_at', 'status'], 'integer'],
+            [['view_id', 'featured', 'cabinet_id', 'floor_covering_id', 'user_id', 'region_id', 'city_id', 'property_type_id', 'dealing_type_id', 'document_type_id', 'phone_number1', 'phone_number2', 'mobile_number', 'area_size', 'floor_num', 'number_of_floors', 'number_of_units_in_floor', 'number_of_units', 'price_per_meter_rent', 'total_price', 'total_area', 'vila_type_id', 'front_area', 'alley_width', 'height', 'revisory', 'balcony_area', 'has_store', 'created_at', 'status'], 'integer'],
             [['number_of_rooms', 'number_of_parkings', 'telephone_line_count'], 'string', 'max' => 2],
             [['descriptions', 'address'], 'string'],
             [['region_id', 'city_id', 'property_type_id', 'dealing_type_id', 'document_type_id', 'address', 'phone_number1', 'area_size', 'price_per_meter_rent', 'total_price', 'owner_name', 'province_id'], 'required'],
@@ -131,7 +133,11 @@ class Property extends \yii\db\ActiveRecord
             [['property_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => PropertyType::className(), 'targetAttribute' => ['property_type_id' => 'id']],
             [['dealing_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => DealingType::className(), 'targetAttribute' => ['dealing_type_id' => 'id']],
             [['document_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => DocumentType::className(), 'targetAttribute' => ['document_type_id' => 'id']],
-
+            [
+            'captcha',
+            \gbksoft\recaptcha\validators\RecaptchaValidator::class,
+            'secret' => '6LdYvCoUAAAAAGVi7UkrLMdQS0JwgZJ8P99Nep9j'
+            ],
 
         ];
     }
@@ -145,23 +151,32 @@ class Property extends \yii\db\ActiveRecord
          return [
              'id' => Yii::t('app', 'کد ملک'),
              'residence_status' => Yii::t('app', 'وضعیت سکونت'),
+             'view.name' => Yii::t('app', 'نما'),
              'view_id' => Yii::t('app', 'نما'),
              'geographical_pos' => Yii::t('app', 'موقعیت جغرافیایی'),
              'proeperty_age' => Yii::t('app', 'سن بنا'),
              'descriptions' => Yii::t('app', 'توضیحات'),
+             'cabinet.name' => Yii::t('app', 'کابینت'),
              'cabinet_id' => Yii::t('app', 'کابینت'),
+             'floorCovering.name' => Yii::t('app', 'کف پوش'),
              'floor_covering_id' => Yii::t('app', 'کف پوش'),
-             'user_id' => Yii::t('app', 'کاربر'),
+             'user.email' => Yii::t('app', 'کاربر'),
+             'province_id' => Yii::t('app', 'استان'),
+             'region.name' => Yii::t('app', 'منطقه'),
              'region_id' => Yii::t('app', 'منطقه'),
+             'city.name' => Yii::t('app', 'شهر'),
              'city_id' => Yii::t('app', 'شهر'),
+             'propertyType.name' => Yii::t('app', 'نوع ملک'),
              'property_type_id' => Yii::t('app', 'نوع ملک'),
+             'dealingType.name' => Yii::t('app', 'نوع قرارداد'),
              'dealing_type_id' => Yii::t('app', 'نوع قرارداد'),
+             'documentType.name' => Yii::t('app', 'نوع سند'),
              'document_type_id' => Yii::t('app', 'نوع سند'),
              'address' => Yii::t('app', 'آدرس'),
-             'phone_number1' => Yii::t('app', 'Phone Number1'),
-             'phone_number2' => Yii::t('app', 'Phone Number2'),
-             'mobile_number' => Yii::t('app', 'Mobile Number'),
-             'area_size' => Yii::t('app', 'متراژ'),
+             'phone_number1' => Yii::t('app', 'شماره تماس 1'),
+             'phone_number2' => Yii::t('app', 'شماره تماس 2'),
+             'mobile_number' => Yii::t('app', 'تلفن همراه'),
+             'area_size' => Yii::t('app', 'متراژ (متر)'),
              'number_of_rooms' => Yii::t('app', 'تعداد اتاق'),
              'floor_num' => Yii::t('app', 'طبقه'),
              'number_of_floors' => Yii::t('app', 'تعداد طبقات'),
@@ -171,7 +186,7 @@ class Property extends \yii\db\ActiveRecord
              'total_price' => Yii::t('app', 'قیمت کل / ودیعه'),
              'number_of_parkings' => Yii::t('app', 'تعداد پارکینگ'),
              'facilities_id' => Yii::t('app', 'امکانات'),
-             'total_area' => Yii::t('app', 'مساحت'),
+             'total_area' => Yii::t('app', 'مساحت زمین (متر)'),
              'toilet_type' => Yii::t('app', 'سرویس بهداشتی'),
              'telephone_line_count' => Yii::t('app', 'Telephone Line Count'),
              'vila_type_id' => Yii::t('app', 'Vila Type ID'),
@@ -188,10 +203,12 @@ class Property extends \yii\db\ActiveRecord
              'electric' => Yii::t('app', 'Electric'),
              'gas' => Yii::t('app', 'Gas'),
              'equipment' => Yii::t('app', 'Equipment'),
-             'pic' => Yii::t('app', 'Pic'),
+             'pic' => Yii::t('app', 'تصاویر ملک'),
              'created_at' => Yii::t('app', 'تاریخ ثبت'),
              'status' => Yii::t('app', 'وضعیت'),
+             'featured' => Yii::t('app', 'ویژه'),
              'property_location' => Yii::t('app', 'موقعیت ملک'),
+             'captcha' => ''
          ];
      }
 
@@ -348,6 +365,20 @@ class Property extends \yii\db\ActiveRecord
     public function latest5Properties() {
       $latestpr = Property::find()->limit(5)->OrderBy(['created_at' => SORT_DESC])->all();
       return $latestpr;
+    }
+
+    public function loadImage($model){
+        $find = Pictures::findAll(['agahi_id'=>$this->id]);
+        if ($find != null){
+            $link = '';
+            foreach ($find as $src){
+                $img = explode(',', $src->src);
+                $link .= Html::img(Yii::$app->params['frontendUrl'].'/'.$img[2] ,['width' => 150,'height'=>150, 'id' => $model->id, 'style' => ['margin' => '5px']]);
+            }
+        }else{
+            $link = Html::img('/uploads/no_image.jpg' ,['width' => 150,'height'=>150]);
+        }
+        return $link;
     }
 
 }

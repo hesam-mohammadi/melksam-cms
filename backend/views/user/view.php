@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model backend\models\User */
 
-$this->title = $model->id;
+$this->title = ($model->fname && $model->lname != null) ? $model->fname.' '.$model->lname : $model->email;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Users'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -30,10 +30,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'fname',
             'lname:ntext',
-            'auth_key',
-            'password_hash',
-            'password_reset_token',
             'email:email',
+            [
+            'attribute'=>'نقش کاربر',
+            'value' => '-',
+            'format'=>['raw'],
+            ],
             'mobile',
             'city_id',
             'status:boolean',

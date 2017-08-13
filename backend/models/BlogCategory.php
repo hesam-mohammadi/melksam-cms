@@ -58,9 +58,9 @@ class BlogCategory extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'name' => Yii::t('app', 'Name'),
-            'status' => Yii::t('app', 'Status'),
-            'created_at' => Yii::t('app', 'Created At'),
+            'name' => Yii::t('app', 'عنوان'),
+            'status' => Yii::t('app', 'وضعیت'),
+            'created_at' => Yii::t('app', 'تاریخ ثبت'),
         ];
     }
 

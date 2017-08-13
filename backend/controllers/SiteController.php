@@ -23,6 +23,7 @@ use backend\models\Facilities;
 use backend\models\Options;
 use backend\models\SocialOptions;
 use backend\models\SiteLogo;
+use backend\models\Tasks;
 /**
  * Site controller
  */
@@ -38,7 +39,7 @@ class SiteController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['baseinfo', 'options', 'edit_options', 'edit_socials', 'edit_status', 'upload', 'delsingle'],
+                        'actions' => ['baseinfo', 'options', 'edit_options', 'edit_socials', 'edit_status', 'upload', 'delsingle', 'prod'],
                         'roles' => ['admin'],
                         'allow' => true,
                     ],
@@ -99,6 +100,10 @@ class SiteController extends Controller
         $latestmsg = $inboxModel->latest5Messages();
         $latestuser = $userModel->latest5Users();
 
+        $tasksProvider = new ActiveDataProvider([
+            'query' => Tasks::find()->limit(5)->OrderBy(['created_at' => SORT_DESC]),
+        ]);
+
         return $this->render('index', [
           'users' => $users,
           'properties' => $properties,
@@ -106,6 +111,7 @@ class SiteController extends Controller
           'latestpr' => $latestpr,
           'latestmsg' => $latestmsg,
           'latestuser' => $latestuser,
+          'tasksProvider' => $tasksProvider
         ]);
     }
 

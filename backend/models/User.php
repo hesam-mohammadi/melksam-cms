@@ -30,6 +30,7 @@ class User extends \yii\db\ActiveRecord
     public $password;
     public $province_id;
     public $auth_item;
+    public $captcha;
     /**
      * @inheritdoc
      */
@@ -69,6 +70,11 @@ class User extends \yii\db\ActiveRecord
             [['email'], 'unique'],
             [['password_reset_token'], 'unique'],
             [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => City::className(), 'targetAttribute' => ['city_id' => 'id']],
+            [
+            'captcha',
+            \gbksoft\recaptcha\validators\RecaptchaValidator::class,
+            'secret' => '6LdYvCoUAAAAAGVi7UkrLMdQS0JwgZJ8P99Nep9j'
+            ],
         ];
     }
 
@@ -92,6 +98,8 @@ class User extends \yii\db\ActiveRecord
             'status' => Yii::t('app', 'وضعیت'),
             'created_at' => Yii::t('app', 'تاریخ عضویت'),
             'updated_at' => Yii::t('app', 'تاریخ به روز رسانی'),
+            'auth_item' => Yii::t('app', 'نقش کاربر'),
+            'userRole' => Yii::t('app', 'نقش کاربر'),
         ];
     }
 

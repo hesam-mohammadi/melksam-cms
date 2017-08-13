@@ -239,8 +239,54 @@ use backend\models\Province;
             'overwriteInitial' => false,
             'maxFileSize'=>5120,
         ]
-    ]);
+    ])->label(false);
     ?>
+
+    <?php if($model->isNewRecord): ?>
+      <?php if(\Yii::$app->user->can('agent')): ?>
+    <div class="form-group col-sm-12">
+    <div class="checkbox">
+      <label>
+          <input type="checkbox" name="Property[status]" value= "1" checked>
+          <i class="input-helper"></i> وضعیت
+      </label>
+    </div>
+    </div>
+
+    <div class="form-group col-sm-12">
+    <div class="checkbox">
+      <label>
+          <input type="checkbox" name="Property[featured]" value= "0">
+          <i class="input-helper"></i>ملک ویژه
+      </label>
+    </div>
+    <p class="label label-warning">با فعال کردن این گزینه، ملک در  قسمت پیشنهادات ویژه در بالای صفحه اصلی نمایش داده می شود که منجر به بیشتر دیده شدن آن می شود.</p>
+    </div>
+    <?php endif; ?>
+    <?php else: ?>
+      <?php if(\Yii::$app->user->can('agent')): ?>
+      <div class="form-group col-sm-12">
+      <?php $checked = ($model->status = $model->status) ? "checked" : ""; ?>
+      <div class="checkbox">
+        <label>
+            <input type="checkbox" name="Property[status]" value= "1" <?= $checked ?>>
+            <i class="input-helper"></i> وضعیت
+        </label>
+      </div>
+      </div>
+
+      <div class="form-group col-sm-12">
+      <?php $checked = ($model->featured = $model->featured) ? "checked" : ""; ?>
+      <div class="checkbox">
+        <label>
+            <input type="checkbox" name="Property[featured]" value= "1" <?= $checked ?>>
+            <i class="input-helper"></i> ملک ویژه
+        </label>
+      </div>
+      <p class="label label-warning">با فعال کردن این گزینه، ملک در  قسمت پیشنهادات ویژه در بالای صفحه اصلی نمایش داده می شود که منجر به بیشتر دیده شدن آن می شود.</p>
+      </div>
+    <?php endif; ?>
+    <?php endif; ?>
 
     <?php
     $js = <<< 'SCRIPT'
@@ -259,6 +305,11 @@ SCRIPT;
     $this->registerJs($js);
     ?>
 
+    <?= $form->field($model, 'captcha')->widget(\gbksoft\recaptcha\widgets\Recaptcha::class, [
+    'clientOptions' => [
+        'data-sitekey' => '6LdYvCoUAAAAANTJGdCrOkSwayeWTUX_cbjDFoqR',
+    ]
+    ]) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

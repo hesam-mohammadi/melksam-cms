@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+use kartik\grid\GridView;
 use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -18,10 +18,12 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'responsive'=>true,
+        'hover'=>true,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            // 'id',
+            'id',
             // 'username',
             'fname',
             'lname:ntext',

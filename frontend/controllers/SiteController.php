@@ -15,6 +15,7 @@ use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use frontend\models\Property;
 use frontend\models\PropertySearch;
+use backend\models\Inbox;
 /**
  * Site controller
  */
@@ -32,7 +33,7 @@ class SiteController extends Controller
                 'only' => ['logout', 'signup'],
                 'rules' => [
                     [
-                        'actions' => ['signup'],
+                        'actions' => ['signup', 'error'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
@@ -72,6 +73,18 @@ class SiteController extends Controller
         ];
     }
 
+    public function beforeAction($action)
+{
+    if (parent::beforeAction($action)) {
+        // change layout for error action
+        if ($action->id=='error')
+             $this->layout = 'error';
+        return true;
+    } else {
+        return false;
+    }
+}
+
     /**
      * Displays homepage.
      *
@@ -79,7 +92,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-      $query= Property::find()->where(['status' => 1]);
+      $query= Property::find()->where(['status' => 1])->andWhere(['featured' => 1]);
       $model = new Property();
       $provider= new ActiveDataProvider([
         'query' => $query,
@@ -142,20 +155,16 @@ class SiteController extends Controller
      */
     public function actionContact()
     {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
-                Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
-            } else {
-                Yii::$app->session->setFlash('error', 'There was an error sending your message.');
-            }
-
-            return $this->refresh();
-        } else {
-            return $this->render('contact', [
-                'model' => $model,
-            ]);
-        }
+      $inbox = new Inbox();
+      if ($inbox->load(\Yii::$app->request->post()) && $inbox->validate()) {
+        $inbox->sendContact();
+        return $this->refresh();
+      }
+      else {
+        return $this->render('contact', [
+          'inbox' => $inbox
+        ]);
+      }
     }
 
     /**

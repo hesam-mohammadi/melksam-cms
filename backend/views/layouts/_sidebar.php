@@ -5,11 +5,15 @@
 
     <ul class="main-menu">
         <li <?php if(in_array(\Yii::$app->controller->id,['site']) && in_array(\Yii::$app->controller->action->id,['index'])) {echo 'class="active"';} ?>>
-          <a href="<?= Yii::$app->homeUrl ?>"><i class="zmdi zmdi-chart"></i> صفحه شخصی</a>
+          <a href="<?= Yii::$app->homeUrl ?>"><i class="zmdi zmdi-chart"></i> میز کار </a>
         </li>
 
-        <li <?php if(in_array(\Yii::$app->controller->id,['property'])) {echo 'class="active"';} ?>>
+        <li <?php if(in_array(\Yii::$app->controller->id,['property']) && !in_array(\Yii::$app->controller->action->id,['featured'])) {echo 'class="active"';} ?>>
           <a href="<?= \Yii::$app->homeUrl ?>/property"><i class="zmdi zmdi-view-list"></i> لیست املاک ثبت شده</a>
+        </li>
+
+        <li <?php if(in_array(\Yii::$app->controller->id,['property']) && in_array(\Yii::$app->controller->action->id,['featured'])) {echo 'class="active"';} ?>>
+          <a href="<?= \Yii::$app->homeUrl ?>/property/featured"><i class="zmdi zmdi-star"></i> پیشنهادات ویژه</a>
         </li>
 
         <li <?php if(in_array(\Yii::$app->controller->id,['user'])) {echo 'class="active"';} ?>>
@@ -19,11 +23,9 @@
           <a href="<?= Yii::$app->homeUrl ?>/inbox"><i class="zmdi zmdi-inbox "></i> صندوق پیام های دریافتی</a>
         </li>
         <li <?php if(in_array(\Yii::$app->controller->id,['tasks'])) {echo 'class="active"';} ?>>
-          <a href="tasks-lists.html"><i class="zmdi zmdi-check-circle"></i> لیست وظایف</a>
+          <a href="<?= \Yii::$app->homeUrl ?>/tasks""><i class="zmdi zmdi-check-circle"></i> لیست وظایف</a>
         </li>
-        <li <?php if(in_array(\Yii::$app->controller->id,['notes'])) {echo 'class="active"';} ?>>
-          <a href="notes.html"><i class="zmdi zmdi-file-text"></i> یادداشت های روزانه</a>
-        </li>
+
         <li <?php if(in_array(\Yii::$app->controller->id,['blog'])) {echo 'class="active"';} ?>>
           <a href="<?= \Yii::$app->homeUrl ?>/blog"><i class="zmdi zmdi-blogger"></i> مدیریت مطالب بلاگ</a>
         </li>

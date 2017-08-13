@@ -22,6 +22,7 @@ use yii\db\ActiveRecord;
 class BlogPosts extends \yii\db\ActiveRecord
 {
      public $featured_img;
+     public $captcha;
      /**
       * @inheritdoc
       */
@@ -54,6 +55,11 @@ class BlogPosts extends \yii\db\ActiveRecord
             [['cat_id', 'user_id', 'created_at', 'status'], 'integer'],
             [['cat_id'], 'exist', 'skipOnError' => true, 'targetClass' => BlogCategory::className(), 'targetAttribute' => ['cat_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [
+            'captcha',
+            \gbksoft\recaptcha\validators\RecaptchaValidator::class,
+            'secret' => '6LdYvCoUAAAAAGVi7UkrLMdQS0JwgZJ8P99Nep9j'
+            ],
         ];
     }
 
@@ -69,8 +75,8 @@ class BlogPosts extends \yii\db\ActiveRecord
            'cat_id' => Yii::t('app', 'دسته مطلب'),
            'featured_img' => Yii::t('app', 'تصویر شاخص'),
            'user_id' => Yii::t('app', 'User ID'),
-           'created_at' => Yii::t('app', 'Created At'),
-           'status' => Yii::t('app', 'Status'),
+           'created_at' => Yii::t('app', 'تاریخ ارسال'),
+           'status' => Yii::t('app', 'وضعیت'),
        ];
      }
 

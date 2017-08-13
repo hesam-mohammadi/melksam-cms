@@ -22,6 +22,7 @@ use backend\models\Property;
  */
 class Inbox extends \yii\db\ActiveRecord
 {
+  public $reply;
     /**
      * @inheritdoc
      */
@@ -52,7 +53,7 @@ class Inbox extends \yii\db\ActiveRecord
             [['name', 'message', 'phone_number'], 'required'],
             [['property_id', 'created_at', 'status'], 'integer'],
             [['message'], 'string'],
-            [['name'], 'string', 'max' => 200],
+            [['name', 'email'], 'string', 'max' => 200],
             [['section'], 'string', 'max' => 100],
             [['phone_number'], 'string', 'max' => 15],
             [['property_id'], 'exist', 'skipOnError' => true, 'targetClass' => Property::className(), 'targetAttribute' => ['property_id' => 'id']],
@@ -71,8 +72,10 @@ class Inbox extends \yii\db\ActiveRecord
             'property_id' => Yii::t('app', 'کد ملک'),
             'message' => Yii::t('app', 'متن پیام'),
             'phone_number' => Yii::t('app', 'تلفن'),
+            'email' => Yii::t('app', 'ایمیل'),
             'created_at' => Yii::t('app', 'زمان ارسال'),
             'status' => Yii::t('app', 'وضعیت'),
+            'reply' => Yii::t('app', 'متن پاسخ'),
         ];
     }
 
@@ -90,6 +93,24 @@ class Inbox extends \yii\db\ActiveRecord
         $this->property_id = $id;
         $this->message = $_POST['Inbox']['message'];
         $this->phone_number = $_POST['Inbox']['phone_number'];
+        $this->status = 0;
+        $this->save();
+        if($this->save()) {
+          \Yii::$app->session->setFlash('success', '.پیام شما با موفقیت ارسال شد');
+        }
+        else {
+          \Yii::$app->session->setFlash('danger', '.متاسفانه مشکلی در ارسال پیام پیش آمد. لطفا دوباره امتحان کنید');
+        }
+        return true;
+    }
+
+    public function sendContact()
+    {
+        $this->section = 'تماس با ما';
+        $this->property_id = '';
+        $this->message = $_POST['Inbox']['message'];
+        $this->phone_number = $_POST['Inbox']['phone_number'];
+        $this->email = $_POST['Inbox']['email'];
         $this->status = 0;
         $this->save();
         if($this->save()) {

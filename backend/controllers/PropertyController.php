@@ -10,6 +10,7 @@ use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
 use yii\imagine\Image;
 use backend\models\Property;
+use backend\models\PropertySearch;
 use backend\models\Pictures;
 
 /**
@@ -40,6 +41,7 @@ class PropertyController extends Controller
      */
     public function actionIndex()
     {
+      $searchModel = new PropertySearch();
         if(\Yii::$app->user->can('agent')) {
           $dataProvider = new ActiveDataProvider([
               'query' => Property::find(),
@@ -54,6 +56,16 @@ class PropertyController extends Controller
         return $this->render('index', [
             'dataProvider' => $dataProvider,
         ]);
+    }
+
+    public function actionFeatured()
+    {
+      $dataProvider = new ActiveDataProvider([
+          'query' => Property::find()->where(['featured' => 1]),
+      ]);
+      return $this->render('index', [
+          'dataProvider' => $dataProvider,
+      ]);
     }
 
     /**

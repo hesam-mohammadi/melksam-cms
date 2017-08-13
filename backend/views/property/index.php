@@ -1,18 +1,19 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+use kartik\grid\GridView;
 use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+in_array(\Yii::$app->controller->action->id,['featured']) ? $this->title = Yii::t('app', 'املاک ویژه') : $this->title = Yii::t('app', 'لیست املاک ثبت شده');
 
-$this->title = Yii::t('app', 'Properties');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="property-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <p>
+      <?php if(!in_array(\Yii::$app->controller->action->id,['featured'])): ?>
     <div class="dropdown">
       <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown">ثبت ملک جدید
       <span class="caret"></span></button>
@@ -27,9 +28,14 @@ $this->params['breadcrumbs'][] = $this->title;
         <li><a href="/admin/property/create_factory">املاک صنعتی</a></li>
       </ul>
     </div>
+  <?php endif; ?>
     </p>
-<?php Pjax::begin(); ?>    <?= GridView::widget([
+<?php Pjax::begin(); ?>
+
+<?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'responsive'=>true,
+        'hover'=>true,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
@@ -40,6 +46,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function ($model) {
                         return $model->city->province->name.' - '.$model->city->name.' - '.$model->region->name.' - '.$model->address ;
                 },
+            ],
+            [
+             'label'=>'ویژه',
+             'format'=>'raw',
+             'value' => function($model, $key, $index, $column) { return $model->featured == 0 ? '<span class="glyphicon glyphicon-remove text-danger"></span>' : '<span class="glyphicon glyphicon-ok text-success"></span></span>';},
             ],
             // 'residence_status',
             // 'view_id',
