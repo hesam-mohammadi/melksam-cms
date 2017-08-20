@@ -31,7 +31,7 @@ class InboxController extends Controller
                   ],
                   [
                       'actions' => ['update','delete'],
-                      'roles' => ['admin'],
+                      'roles' => ['مدیر'],
                       'allow' => true,
                   ],
               ],
@@ -53,13 +53,13 @@ class InboxController extends Controller
     {
       if(\Yii::$app->user->can('agent')) {
         $dataProvider = new ActiveDataProvider([
-            'query' => Inbox::find(),
+            'query' => Inbox::find()->OrderBy(['created_at' => SORT_DESC]),
         ]);
       }
       else {
         $model = new Inbox();
         $dataProvider = new ActiveDataProvider([
-            'query' => $model->findUserMessages(),
+            'query' => $model->findUserMessages()->OrderBy(['created_at' => SORT_DESC]),
         ]);
       }
 

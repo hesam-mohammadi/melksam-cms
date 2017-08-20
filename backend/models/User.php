@@ -59,7 +59,7 @@ class User extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['fname', 'lname', 'email', 'mobile'], 'required'],
+            [['fname', 'lname', 'email', 'mobile', 'auth_item'], 'required'],
             [['password'], 'required', 'on' => ['create']],
             [['city_id', 'status', 'created_at', 'updated_at'], 'integer'],
             [['mobile'],'integer'],
@@ -186,5 +186,17 @@ class User extends \yii\db\ActiveRecord
     public function latest5Users() {
       $latestuser = User::find()->limit(5)->OrderBy(['created_at' => SORT_DESC])->all();
       return $latestuser;
+    }
+
+    public static function countInactiveUsers()
+    {
+      $iaUsers = User::find()->where(['not', ['auth_key' => null]])->count();
+      $count = '<span class="badge label-danger">'.$iaUsers.'</span>';
+      if($iaUsers > 0) {
+        return $count;
+      }
+      else {
+        return null;
+      }
     }
 }

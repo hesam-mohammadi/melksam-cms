@@ -19,125 +19,124 @@ use backend\models\Province;
 
     <ul class="nav nav-tabs create_property_title"> <li class="active"><a>مشخصات عمومی ملک</a></li> </ul>
 
-    <div class="col-sm-4">
-      <?= $form->field($model, 'dealing_type_id')->dropDownList(ArrayHelper::map($dealing_type,'id','name'), ['prompt'=>'-- انتخاب نوع معامله --']); ?>
-    </div>
+        <div class="col-sm-4">
+          <?= $form->field($model, 'dealing_type_id')->dropDownList(ArrayHelper::map($dealing_type,'id','name'), ['prompt'=>'-- انتخاب نوع معامله --'])->label('<i style="color: #F44336; font-weight: bold;">*</i> نوع معامله'); ?>
+        </div>
 
-    <div class="col-sm-4">
-      <?php $model->property_type_id = 3;?>
-      <?= $form->field($model, 'property_type_id')->dropDownList(ArrayHelper::map($property_type,'id','name'), ['prompt'=>'-- انتخاب نوع ملک --','disabled' => 'disabled'] ); ?>
-    </div>
+        <div class="col-sm-4">
+          <?php $model->property_type_id = 3;?>
+          <?= $form->field($model, 'property_type_id')->dropDownList(ArrayHelper::map($property_type,'id','name'), ['prompt'=>'-- انتخاب نوع ملک --','disabled' => 'disabled'] )->label('<i style="color: #F44336; font-weight: bold;">*</i> نوع ملک'); ?>    </div>
 
-    <div class="col-sm-4">
-      <?= $form->field($model, 'document_type_id')->dropDownList(ArrayHelper::map($document_type,'id','name'), ['prompt'=>'-- انتخاب نوع سند --']); ?>
-    </div>
+        <div class="col-sm-4">
+          <?= $form->field($model, 'document_type_id')->dropDownList(ArrayHelper::map($document_type,'id','name'), ['prompt'=>'-- انتخاب نوع سند --'])->label('<i style="color: #F44336; font-weight: bold;">*</i> نوع سند'); ?>
+        </div>
 
-    <?php if($model->isNewRecord): ?>
-    <div class="col-sm-4">
-      <?php // Parent
-        echo $form->field($model, 'province_id')->dropDownList(ArrayHelper::map(Province::find()->all(), 'id', 'name'), ['id'=>'cat-id', 'prompt' => '-- انتخاب استان --']);
-      ?>
-    </div>
-    <div class="col-sm-4">
-      <?php
-      // Child # 1
-      echo $form->field($model, 'city_id')->widget(DepDrop::classname(), [
-          'options'=>['id'=>'subcat-id'],
-          'pluginOptions'=>[
-              'depends'=>['cat-id'],
-              'placeholder'=>'-- انتخاب شهر --',
-              'url'=>Url::to(['/site/subcity'])
-          ]
-      ]);
-      ?>
-    </div>
-    <div class="col-sm-4">
-      <?php
-      // Child # 2
-      echo $form->field($model, 'region_id')->widget(DepDrop::classname(), [
-          'pluginOptions'=>[
-              'depends'=>['cat-id', 'subcat-id'],
-              'placeholder'=>'-- انتخاب منطقه --',
-              'url'=>Url::to(['/site/prod'])
-          ]
-      ]);
-      ?>
-    </div>
-    <?php else: ?>
-    <div class="col-sm-4">
-      <?php
-        // Parent
-        $catList = ArrayHelper::map(Province::find()->All(), 'id', 'name');
-        $model->province_id=$model->city->province_id;
-        echo $form->field($model, 'province_id')->dropDownList($catList, ['id' => 'cat-id','options' => [32 => ['hidden' => true]]])->label('<i style="color: firebrick;" class="glyphicon glyphicon-asterisk"></i> استان');
-      ?>
-    </div>
-    <div class="col-sm-4">
-      <?php
-      // Child # 1
-      $city = ArrayHelper::map(\backend\models\City::find()->where(['province_id' => $model->city->province_id])->All(),'id','name');
-      echo $form->field($model, 'city_id')->dropDownList($city, [
-        'id' => 'subcat-id',
-        'prompt' => '-- انتخاب شهر --',
-        'options' => ['data-pjax' => true],
-      ])->label('<i style="color: firebrick;" class="glyphicon glyphicon-asterisk"></i> شهر');
+        <?php if($model->isNewRecord): ?>
+        <div class="col-sm-4">
+          <?php // Parent
+            echo $form->field($model, 'province_id')->dropDownList(ArrayHelper::map(Province::find()->all(), 'id', 'name'), ['id'=>'cat-id', 'prompt' => '-- انتخاب استان --'])->label('<i style="color: #F44336; font-weight: bold;">*</i> استان');
+          ?>
+        </div>
+        <div class="col-sm-4">
+          <?php
+          // Child # 1
+          echo $form->field($model, 'city_id')->widget(DepDrop::classname(), [
+              'options'=>['id'=>'subcat-id'],
+              'pluginOptions'=>[
+                  'depends'=>['cat-id'],
+                  'placeholder'=>'-- انتخاب شهر --',
+                  'url'=>Url::to(['/site/subcity'])
+              ]
+          ])->label('<i style="color: #F44336; font-weight: bold;">*</i> شهر');
+          ?>
+        </div>
+        <div class="col-sm-4">
+          <?php
+          // Child # 2
+          echo $form->field($model, 'region_id')->widget(DepDrop::classname(), [
+              'pluginOptions'=>[
+                  'depends'=>['cat-id', 'subcat-id'],
+                  'placeholder'=>'-- انتخاب منطقه --',
+                  'url'=>Url::to(['/site/prod'])
+              ]
+          ])->label('<i style="color: #F44336; font-weight: bold;">*</i> منطقه');
+          ?>
+        </div>
+        <?php else: ?>
+        <div class="col-sm-4">
+          <?php
+            // Parent
+            $catList = ArrayHelper::map(Province::find()->All(), 'id', 'name');
+            $model->province_id=$model->city->province_id;
+            echo $form->field($model, 'province_id')->dropDownList($catList, ['id' => 'cat-id','options' => [32 => ['hidden' => true]]])->label('<i style="color: #F44336; font-weight: bold;">*</i> استان ');
+          ?>
+        </div>
+        <div class="col-sm-4">
+          <?php
+          // Child # 1
+          $city = ArrayHelper::map(\backend\models\City::find()->where(['province_id' => $model->city->province_id])->All(),'id','name');
+          echo $form->field($model, 'city_id')->dropDownList($city, [
+            'id' => 'subcat-id',
+            'prompt' => '-- انتخاب شهر --',
+            'options' => ['data-pjax' => true],
+          ])->label('<i style="color: #F44336; font-weight: bold;">*</i> شهر');
 
-      $form->field($model, 'city_id')->widget(DepDrop::classname(), [
-          'options' => ['id' => 'subcat-id', 'data-pjax' => true],
-          'pluginOptions' => [
-              'depends' => ['cat-id'],
-              'placeholder' => '-- انتخاب منطقه --',
-              'url' => Url::to(['/site/subcity'])
-          ]
-      ]);
-      ?>
-    </div>
-    <div class="col-sm-4">
-      <?php
-      // Child # 2
-      $nahie = ArrayHelper::map(\backend\models\Region::find()->where(['city_id' => $model->city->id])->All(),'id','name');
-      echo $form->field($model, 'region_id')->dropDownList($nahie, [
-          'id' => 'region-id',
-          'prompt' => '-- انتخاب منطقه --',
-          'options' => ['data-pjax' => true],
-      ]);
+          $form->field($model, 'city_id')->widget(DepDrop::classname(), [
+              'options' => ['id' => 'subcat-id', 'data-pjax' => true],
+              'pluginOptions' => [
+                  'depends' => ['cat-id'],
+                  'placeholder' => '-- انتخاب منطقه --',
+                  'url' => Url::to(['/site/subcity'])
+              ]
+          ])->label('<i style="color: #F44336; font-weight: bold;">*</i> منطقه');
+          ?>
+        </div>
+        <div class="col-sm-4">
+          <?php
+          // Child # 2
+          $nahie = ArrayHelper::map(\backend\models\Region::find()->where(['city_id' => $model->city->id])->All(),'id','name');
+          echo $form->field($model, 'region_id')->dropDownList($nahie, [
+              'id' => 'region-id',
+              'prompt' => '-- انتخاب منطقه --',
+              'options' => ['data-pjax' => true],
+          ])->label('<i style="color: #F44336; font-weight: bold;">*</i> منطقه');
 
-      $form->field($model, 'region_id')->widget(DepDrop::classname(), [
-          'options' => ['id' => 'region-id', 'data-pjax' => true],
-          'pluginOptions' => [
-              'depends'=>['cat-id', 'subcat-id'],
-              'placeholder' => '-- انتخاب منطقه --',
-              'url' => Url::to(['/site/prod'])
-          ]
-      ]);
-      ?>
-    </div>
-    <?php endif?>
+          $form->field($model, 'region_id')->widget(DepDrop::classname(), [
+              'options' => ['id' => 'region-id', 'data-pjax' => true],
+              'pluginOptions' => [
+                  'depends'=>['cat-id', 'subcat-id'],
+                  'placeholder' => '-- انتخاب منطقه --',
+                  'url' => Url::to(['/site/prod'])
+              ]
+          ])->label('<i style="color: #F44336; font-weight: bold;">*</i> منطقه');
+          ?>
+        </div>
+        <?php endif?>
 
-    <div class="col-sm-12">
-      <?= $form->field($model, 'address')->textarea(['rows' => 2]) ?>
-    </div>
+        <div class="col-sm-12">
+          <?= $form->field($model, 'address')->textarea(['rows' => 2])->label('<i style="color: #F44336; font-weight: bold;">*</i> آدرس') ?>
+        </div>
 
-    <div class="col-sm-3">
-      <?= $form->field($model, 'phone_number1')->textInput() ?>
-    </div>
+        <div class="col-sm-3">
+          <?= $form->field($model, 'phone_number1')->textInput()->label('<i style="color: #F44336; font-weight: bold;">*</i> شماره تماس 1') ?>
+        </div>
 
-    <div class="col-sm-3">
-      <?= $form->field($model, 'phone_number2')->textInput() ?>
-    </div>
+        <div class="col-sm-3">
+          <?= $form->field($model, 'phone_number2')->textInput() ?>
+        </div>
 
-    <div class="col-sm-3">
-      <?= $form->field($model, 'mobile_number')->textInput() ?>
-    </div>
+        <div class="col-sm-3">
+          <?= $form->field($model, 'mobile_number')->textInput() ?>
+        </div>
 
-    <div class="col-sm-3">
-      <?= $form->field($model, 'owner_name')->textInput(['maxlength' => true]) ?>
-    </div>
+        <div class="col-sm-3">
+          <?= $form->field($model, 'owner_name')->textInput(['maxlength' => true])->label('<i style="color: #F44336; font-weight: bold;">*</i> نام مالک') ?>
+        </div>
 
     <ul class="nav nav-tabs create_property_title"> <li class="active"><a>مشخصات اختصاصی ملک</a></li> </ul>
 
     <div class="col-sm-3">
-      <?= $form->field($model, 'area_size')->textInput()->label('زیربنای کل') ?>
+      <?= $form->field($model, 'area_size')->textInput()->label('<i style="color: #F44336; font-weight: bold;">*</i> زیربنای کل') ?>
     </div>
 
     <div class="col-sm-3">
@@ -207,8 +206,8 @@ use backend\models\Province;
                <th>کابینت آشپزخانه</th>
                <th>سرویس بهداشتی</th>
                <th>کف پوش</th>
-               <th>* قیمت متری / اجاره (تومان)</th>
-               <th>* قیمت کل / ودیعه (تومان)</th>
+               <th><i style="color: #F44336; font-weight: bold;">*</i> قیمت متری / اجاره (تومان)</th>
+               <th><i style="color: #F44336; font-weight: bold;">*</i> قیمت کل / ودیعه (تومان)</th>
              </tr>
            </thead>
            <tbody>

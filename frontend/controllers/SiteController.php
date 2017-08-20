@@ -30,7 +30,7 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'signup'],
+                'only' => ['logout', 'signup', 'error'],
                 'rules' => [
                     [
                         'actions' => ['signup', 'error'],
@@ -194,7 +194,7 @@ class SiteController extends Controller
           if ($user = $model->signup()) {
             $email = \Yii::$app->mailer->compose()
             ->setTo($user->email)
-            ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name . ' robot'])
+            ->setFrom([\Yii::$app->params['supportEmail'] => Property::get_option('عنوان سایت') . ' robot'])
             ->setSubject('فعالسازی ثبت نام')
             ->setHtmlBody('
             <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -318,7 +318,7 @@ class SiteController extends Controller
 
                                                 <tr>
                                                     <td style="font-family: Vazir, sans-serif; font-size: 13px; color: #545454; text-align: center; line-height: 20px;">
-                                                    از اینکه در ' . \Yii::$app->name . ' ثبت نام کردید از شما متشکریم. <br/> جهت تکمیل ثبت نام خود لطفا روی دکمه زیر کلیک کنید:
+                                                    از اینکه در ' . Property::get_option('عنوان سایت') . ' ثبت نام کردید از شما متشکریم. <br/> جهت تکمیل ثبت نام خود لطفا روی دکمه زیر کلیک کنید:
                                                     </td>
                                                 </tr>
 
@@ -387,6 +387,7 @@ class SiteController extends Controller
             ])->one();
             if(!empty($user)){
             $user->status=10;
+            $user->auth_key = null;
             $user->save();
             Yii::$app->getSession()->setFlash('confirm_success',' :) به حساب کاربریتون هم وارد شدید');
             }
@@ -407,7 +408,7 @@ class SiteController extends Controller
           if(!empty($usermodel)){
             $email = \Yii::$app->mailer->compose()
             ->setTo($usermodel->email)
-            ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name . ' robot'])
+            ->setFrom([\Yii::$app->params['supportEmail'] => Property::get_option('عنوان سایت') . ' robot'])
             ->setSubject('فعالسازی ثبت نام')
             ->setHtmlBody('
             <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -531,7 +532,7 @@ class SiteController extends Controller
 
                                                 <tr>
                                                     <td style="font-family: Vazir, sans-serif; font-size: 13px; color: #545454; text-align: center; line-height: 20px;">
-                                                    از اینکه در ' . \Yii::$app->name . ' ثبت نام کردید از شما متشکریم. <br/> جهت تکمیل ثبت نام خود لطفا روی دکمه زیر کلیک کنید:
+                                                    از اینکه در ' . Property::get_option('عنوان سایت') . ' ثبت نام کردید از شما متشکریم. <br/> جهت تکمیل ثبت نام خود لطفا روی دکمه زیر کلیک کنید:
                                                     </td>
                                                 </tr>
 
@@ -591,6 +592,9 @@ class SiteController extends Controller
     public function actionRequestPasswordReset()
     {
         $model = new PasswordResetRequestForm();
+        if(!Yii::$app->user->isGuest) {
+          return $this->goHome();
+        }
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail()) {
                 Yii::$app->session->setFlash('success_reset', 'حالا ایمیل خودتون رو چک کنید');

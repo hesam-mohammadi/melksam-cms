@@ -8,6 +8,7 @@ use yii\web\Response;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
 use backend\models\BlogCategory;
@@ -49,6 +50,15 @@ class BlogController extends Controller
     public function behaviors()
     {
         return [
+          'access' => [
+              'class' => AccessControl::className(),
+              'rules' => [
+                  [
+                      'allow' => true,
+                      'roles' => ['مشاور'],
+                  ],
+              ],
+          ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

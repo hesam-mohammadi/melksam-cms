@@ -1,9 +1,12 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\Pjax;
+$this->title = Yii::t('app', 'دسته بندی ها');
+
 ?>
 
 <div class="col-sm-12">
+  <h1><?= $this->title ?></h1>
   <p><h2> ثبت دسته جدید </h2> <br>
 <?php $form = \yii\widgets\ActiveForm::begin([
         'id' => 'cat-form',

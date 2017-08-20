@@ -32,9 +32,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'lname:ntext',
             'email:email',
             [
-            'attribute'=>'نقش کاربر',
-            'value' => '-',
-            'format'=>['raw'],
+            'attribute'=>'userRole',
+            // 'value' => '-',
+            // 'format'=>['raw'],
             ],
             'mobile',
             'city_id',

@@ -10845,7 +10845,7 @@ a {
     padding: 0;
     margin: 0;
     list-style: none;
-    float: right
+    float: left
 }
 
 .navigation>li {
@@ -12640,12 +12640,12 @@ only screen and (min-resolution:2dppx) {
 .logo>img {
     width: 50px;
     display: inline-block;
-    float: left;
-    margin-right: 12px
+    float: right;
+    margin-left: 12px
 }
 
 .logo__text {
-    float: left;
+    float: right;
     color: #fff;
     padding-top: 3px
 }

@@ -5,7 +5,8 @@
 
 $resetLink = Yii::$app->urlManager->createAbsoluteUrl(['site/reset-password', 'token' => $user->password_reset_token]);
 ?>
-سلام <?= $user->username ?>,
+کاربر گرامی، سلام؛
+<p>شما در وبسایت <?= ' '.frontend\models\Property::get_option('عنوان سایت').' '; ?>  درخواست تغییر کلمه عبور داده اید.</p>
 
 برای تعیین کلمه عبور جدید روی لینک زیر کلیک کنید:
 

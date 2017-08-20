@@ -31,7 +31,7 @@ use backend\models\Province;
       <?= $form->field($model, 'password')->textInput(['maxlength' => true]) ?>
     </div>
 
-    <?php if(\Yii::$app->user->can('admin')):?>
+    <?php if(\Yii::$app->user->can('مدیر')):?>
     <?php if($model->isNewRecord): ?>
       <div class="col-sm-6">
         <?= $form->field($model, 'auth_item')->dropDownList(ArrayHelper::map(\backend\models\AuthItem::findAll(['type' => 1]), 'name', 'name'),['prompt'=>'-- انتخاب نقش کاربر --']); ?>

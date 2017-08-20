@@ -26,7 +26,7 @@ class UserController extends Controller
               'rules' => [
                   [
                       'allow' => true,
-                      'roles' => ['admin'],
+                      'roles' => ['مدیر'],
                   ],
               ],
           ],
@@ -79,9 +79,10 @@ class UserController extends Controller
             $model->generateAuthKey();
             $model->setPassword($_POST['User']['password']);
             $model->save();
-            if($model->save()) {
-              $model->saveAssignment();
-            }
+            $auth = new \backend\models\AuthAssignment();
+            $auth->item_name = $_POST['User']['auth_item'];
+            $auth->user_id = strval($model->id);
+            $auth->save();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [

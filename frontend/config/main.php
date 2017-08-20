@@ -12,10 +12,10 @@ return [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
+    'homeUrl' => '/',
     'components' => [
         'request' => [
-          // 'web'=> '/frontend/web',
-          // 'baseUrl' => '',
+          'baseUrl' => '',
           'csrfParam' => '_csrf-frontend',
         ],
         'user' => [
@@ -41,15 +41,10 @@ return [
         ],
 
         'urlManager' => [
-            // 'baseUrl' => '/',
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-            // '<controller:\w+>/<id:\d+>' => '<controller>/view',
-            // '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
-            // '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
-            // '/' => 'site/index',
-            // 'fav' => 'site/fav',
+              '<alias:\w+>' => 'site/<alias>',
             ],
         ],
 

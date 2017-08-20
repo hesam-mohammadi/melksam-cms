@@ -13870,10 +13870,8 @@ html:not(.ie9) .page-loader__spinner {
 .main-menu a:hover {
     color: #262626
 }
-#submenu1 {
-		padding-right: 0px;
-}
-.main-menu>li>a {
+
+.main-menu>li>a, .side-sub>li>a {
     padding: 14px 65px 14px 20px;
     display: block;
     font-weight: 500;
@@ -13881,7 +13879,7 @@ html:not(.ie9) .page-loader__spinner {
     color: #4C4C4C
 }
 
-.main-menu>li>a>i {
+.main-menu>li>a>i, .side-sub>li>a>i {
     position: absolute;
     right: 25px;
     font-size: 20px;
@@ -13891,12 +13889,25 @@ html:not(.ie9) .page-loader__spinner {
     padding: 13px 0
 }
 
+
 .main-menu>li.active>a,
-.main-menu>li>a:hover, #submenu1>li.active>a,
-#submenu1>li>a:hover  {
-    background-color: #f7f7f7
+.main-menu>li>a:hover, .side-sub>li.active>a,
+.side-sub>li>a:hover  {
+    background-color: #f7f7f7;
 }
 
+.side-sub {
+	padding-right: 0px;
+	background-color: #f3f3f3;
+	border-style: inset;
+  border-top: #efeeee 3px solid;
+  border-left: none;
+  border-bottom: none;
+  border-right: none;
+}
+.main-menu>li>a[aria-expanded="true"] {
+	background-color: #f7f7f7;
+}
 .main__block-close {
     display: block;
     height: 70px;
@@ -16275,4 +16286,39 @@ html:not(.ie9) .page-loader__spinner {
 .quick-stats-c small {
 	font-size: 14px;
 	color: white;
+}
+.header-alt__menu .badge {
+	padding: 2px 4px 0px 3px !important;
+}
+.m-loginform {
+	background-color: #fff;
+	border: 1px solid transparent;
+	border-radius: 6px 6px 4px 4px;
+	display: block;
+	/*width: 360px;*/
+	padding: 50px 50px 25px;
+	float: none;
+	margin: 0 auto;
+}
+.m-loginform input {
+	background-color: #f3f5f6;
+    border: solid 1px transparent;
+    border-radius: 5px;
+    box-shadow: inset 0 8px 4px -8px #eef0f1;
+    color: #b5b8b9;
+    height: 50px;
+    outline: none;
+    padding: 8px 20px 8px 0;
+    box-sizing: border-box;
+    margin-bottom: 12px;
+    transition: border 0.3s linear;
+}
+.login-main {
+		display: table;
+		position: absolute;
+		height: 100%;
+}
+.site-login {
+	display: table-cell;
+	vertical-align: middle;
 }

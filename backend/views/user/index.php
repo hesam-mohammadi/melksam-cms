@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
               'attribute' =>'userRole',
                     //filter is dropdown - static data
-                    'filter'=> array('دانشجو'=>'دانشجو','مدرس'=>'مدرس', 'مدیر' => 'مدیر'),
+                    // 'filter'=> array('admin' => 'مدیر', 'user' => 'کاربر', 'agent' => 'مشاور'),
             ],
             // 'mobile',
             // 'gender',

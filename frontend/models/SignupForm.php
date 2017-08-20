@@ -20,10 +20,10 @@ class SignupForm extends Model
     public function rules()
     {
         return [
-            ['username', 'trim'],
-            ['username', 'required'],
-            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'این نام کاربری قبلا ثبت شده'],
-            ['username', 'string', 'min' => 2, 'max' => 255],
+            // ['username', 'trim'],
+            // ['username', 'required'],
+            // ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'این نام کاربری قبلا ثبت شده'],
+            // ['username', 'string', 'min' => 2, 'max' => 255],
 
             ['email', 'trim'],
             ['email', 'required'],
@@ -45,12 +45,16 @@ class SignupForm extends Model
  {
      if ($this->validate()) {
          $user = new User();
-         $user->username = $this->username;
+         $auth = new \backend\models\AuthAssignment();
+        //  $user->username = $this->username;
          $user->email = $this->email;
          $user->setPassword($this->password);
          $user->generateAuthKey();
          $user->status = 0;
          if ($user->save()) {
+             $auth->item_name = 'کاربر';
+             $auth->user_id = strval($user->id);
+             $auth->save();
              return $user;
          }
      }

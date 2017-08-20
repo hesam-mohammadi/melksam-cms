@@ -141,4 +141,16 @@ class Inbox extends \yii\db\ActiveRecord
       return $latestmsg;
     }
 
+    public static function countUnreadMessages()
+    {
+      $urmessages = Inbox::find()->where(['status' => 0])->count();
+      $count = '<span class="badge label-danger">'.$urmessages.'</span>';
+      if($urmessages > 0) {
+        return $count;
+      }
+      else {
+        return null;
+      }
+    }
+
 }

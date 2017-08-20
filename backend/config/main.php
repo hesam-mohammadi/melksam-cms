@@ -11,14 +11,13 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'homeUrl' => '/admin',
-
     'bootstrap' => ['log'],
     'modules' => [],
     'components' => [
-      'assetManager' => [
- 'bundles' => [
-  'yii\bootstrap\BootstrapPluginAsset' => ['js'=>[]],
- ]
+    'assetManager' => [
+     'bundles' => [
+      'yii\bootstrap\BootstrapPluginAsset' => ['js'=>[]],
+     ]
 ],
         'request' => [
             'baseUrl' => '/admin',
@@ -50,6 +49,7 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+              // '<alias:\w+>' => 'site/<alias>',
             ],
         ],
 

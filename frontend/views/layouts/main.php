@@ -26,12 +26,12 @@ AppAsset::register($this);
 if (Yii::$app->session->hasFlash('confirm_success')){
   echo Growl::widget([
 'type' => Growl::TYPE_SUCCESS,
-'title' => '!ثبت نام شما با موفقیت تکمیل شد',
+'title' => 'ثبت نام شما با موفقیت تکمیل شد!',
 'body' => Yii::$app->session->getFlash('confirm_success'),
 'showSeparator' => true,
 'delay' => 0,
 'pluginOptions' => [
-'showProgressbar' => false,
+'showProgressbar' => true,
 'placement' => [
 'from' => 'top',
 'align' => 'right',
@@ -41,12 +41,12 @@ if (Yii::$app->session->hasFlash('confirm_success')){
 }
 if (Yii::$app->session->hasFlash('confirm_warning')){
   echo Growl::widget([
-'type' => Growl::TYPE_SUCCESS,
+'type' => Growl::TYPE_WARNING,
 'body' => Yii::$app->session->getFlash('confirm_warning'),
 'showSeparator' => false,
 'delay' => 0,
 'pluginOptions' => [
-'showProgressbar' => false,
+'showProgressbar' => true,
 'placement' => [
 'from' => 'top',
 'align' => 'right',
@@ -57,12 +57,12 @@ if (Yii::$app->session->hasFlash('confirm_warning')){
 if (Yii::$app->session->hasFlash('success_reset')){
   echo Growl::widget([
 'type' => Growl::TYPE_SUCCESS,
-'title' => 'عالیه!',
+'title' => 'لینک بازیابی کلمه عبور برای شما ارسال شد!',
 'body' => Yii::$app->session->getFlash('success_reset'),
-'showSeparator' => false,
+'showSeparator' => true,
 'delay' => 0,
 'pluginOptions' => [
-'showProgressbar' => false,
+'showProgressbar' => true,
 'placement' => [
 'from' => 'top',
 'align' => 'right',
@@ -72,13 +72,13 @@ if (Yii::$app->session->hasFlash('success_reset')){
 }
 if (Yii::$app->session->hasFlash('warning_reset')){
   echo Growl::widget([
-'type' => Growl::TYPE_SUCCESS,
+'type' => Growl::TYPE_WARNING,
 'title' => '!اوه خطا',
 'body' => Yii::$app->session->getFlash('warning_reset'),
-'showSeparator' => false,
+'showSeparator' => true,
 'delay' => 0,
 'pluginOptions' => [
-'showProgressbar' => false,
+'showProgressbar' => true,
 'placement' => [
 'from' => 'top',
 'align' => 'right',
@@ -130,9 +130,6 @@ if (Yii::$app->session->hasFlash('success_password_saved')){
 
                       <?php $form = ActiveForm::begin(['action' => ['site/signup'],'options' => ['method' => 'post', 'class'=> 'dropdown-menu stop-propagate']]); ?>
                           <?php $SignupForm= new SignupForm; ?>
-                          <?= $form->field($SignupForm, 'username')->textInput(['placeHolder' => 'نام کاربری'])->label(false)  ?>
-                          <i class="form-group__bar"></i>
-
                           <?php echo $form->field($SignupForm, 'email')->textInput()->input('email', ['placeholder' => "آدرس ایمیل"])->label(false); ?>
                           <i class="form-group__bar"></i>
 
@@ -169,7 +166,7 @@ if (Yii::$app->session->hasFlash('success_password_saved')){
                           <div class="tab-content">
                             <?php $form = ActiveForm::begin(['id' => 'top-nav-login', 'action' => ['login'],'options' => ['method' => 'post', 'class'=> 'tab-pane fade active in']]); ?>
                                 <?php $LoginForm= new LoginForm; ?>
-                                <?= $form->field($LoginForm, 'username')->textInput(['placeHolder' => 'نام کاربری'])->label(false)  ?>
+                                <?= $form->field($LoginForm, 'email')->textInput(['placeHolder' => 'آدرس ایمیل'])->label(false)  ?>
                                 <i class="form-group__bar"></i>
 
                                 <?= $form->field($LoginForm, 'password')->passwordInput(['placeHolder' => 'رمز عبور'])->label(false)  ?>
@@ -227,7 +224,7 @@ if (Yii::$app->session->hasFlash('success_password_saved')){
                           echo '<i class="zmdi zmdi-account"></i> سلام '.Yii::$app->user->identity->fname.' '.Yii::$app->user->identity->lname;
                       }
                       else {
-                          echo '<i class="zmdi zmdi-account" style="margin-left: 5px; margin-right: 0"></i> سلام '.Yii::$app->user->identity->username . ' <i class="zmdi zmdi-caret-down" style="margin-right: 0px;"></i> ';
+                          echo '<i class="zmdi zmdi-account" style="margin-left: 5px; margin-right: 0"></i> سلام '.Yii::$app->user->identity->email . ' <i class="zmdi zmdi-caret-down" style="margin-right: 0px;"></i> ';
                       }?>
                     </a>
                     <ul class="dropdown-menu">
@@ -288,12 +285,15 @@ if (Yii::$app->session->hasFlash('success_password_saved')){
     <div class="header__main">
         <div class="container">
             <a class="logo" href="<?=Yii::$app->homeUrl;?>">
-                <img src="<?= Property::show_logo(); ?>" alt="">
-                <!-- <?=Yii::$app->homeUrl;?>img/logo.png -->
+                <?php if(Property::show_logo() != null): ?>
+                <img src="<?= Yii::$app->homeUrl.Property::show_logo(); ?>" alt="<?= Property::get_option('عنوان سایت'); ?>">
+                </<?php endif; ?>
+                <?php if(Property::show_logo() == null): ?>
                 <div class="logo__text">
                     <span><?= Property::get_option('عنوان سایت'); ?></span>
                     <span><?= Property::get_option('توضیحات'); ?></span>
                 </div>
+                </<?php endif; ?>
             </a>
 
             <div class="navigation-trigger visible-xs visible-sm" data-rmd-action="block-open" data-rmd-target=".navigation">
@@ -304,7 +304,7 @@ if (Yii::$app->session->hasFlash('success_password_saved')){
                 <li class="visible-xs visible-sm"><a class="navigation__close" data-rmd-action="navigation-close" href="index.html"><i class="zmdi zmdi-long-arrow-right"></i></a></li>
 
                 <li class="active">
-                    <a href="/site/index">صفحه اصلی</a>
+                    <a href="<?=Yii::$app->homeUrl;?>">صفحه اصلی</a>
                 </li>
 
                 <li class="navigation__dropdown">
@@ -340,7 +340,7 @@ if (Yii::$app->session->hasFlash('success_password_saved')){
                     </ul>
                 </li>
 
-                <li><a href="contact.html">تماس با ما</a></li>
+                <li><a href="<?=Yii::$app->homeUrl;?>contact">تماس با ما</a></li>
 
                 <li class="navigation__dropdown">
                     <a href="index.html" class="prevent-default">موارد بیشتر</a>

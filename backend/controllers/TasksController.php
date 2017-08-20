@@ -2,6 +2,7 @@
 namespace backend\controllers;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
 use yii\web\Response;
 use backend\models\Tasks;
 use backend\models\TaskCategory;
@@ -9,6 +10,21 @@ use backend\models\TasksSearch;
 
 class TasksController extends \yii\web\Controller
 {
+  public function behaviors()
+  {
+      return [
+        'access' => [
+            'class' => AccessControl::className(),
+            'rules' => [
+                [
+                    'allow' => true,
+                    'roles' => ['@'],
+                ],
+            ],
+        ],
+      ];
+  }
+
     public function actionIndex()
     {
         $this->layout = 'task';
@@ -23,7 +39,7 @@ class TasksController extends \yii\web\Controller
 
         else {
           $dataProvider = new ActiveDataProvider([
-              'query' => Tasks::find()->OrderBy(['created_at' => SORT_DESC]),
+              'query' => Tasks::find()->where(['user_id' => Yii::$app->user->identity->id])->OrderBy(['created_at' => SORT_DESC]),
           ]);
           return $this->render('index', [
             'dataProvider' => $dataProvider,

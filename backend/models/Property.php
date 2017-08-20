@@ -381,4 +381,16 @@ class Property extends \yii\db\ActiveRecord
         return $link;
     }
 
+    public static function countPendingProperties()
+    {
+      $pendingpr = Property::find()->where(['status' => 0])->count();
+      $count = '<span class="pull-left badge label-danger">'.$pendingpr.'</span>';
+      if($pendingpr > 0) {
+        return $count;
+      }
+      else {
+        return null;
+      }
+    }
+
 }

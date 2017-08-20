@@ -24,9 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php Pjax::begin(); ?>
                   <?php $form = ActiveForm::begin(['options' => ['data-pjax' => true ], 'id' => 'form-signup']); ?>
 
-                      <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
-
-                      <?= $form->field($model, 'email') ?>
+                      <?= $form->field($model, 'email')->textInput(['autofocus' => true]) ?>
 
                       <?= $form->field($model, 'password')->passwordInput() ?>
 

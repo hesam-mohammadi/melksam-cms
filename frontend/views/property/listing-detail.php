@@ -5,7 +5,10 @@ use yii\bootstrap\ActiveForm;
 use yii\widgets\Pjax;
 use yii\widgets\ListView;
 $this->title = \frontend\models\Property::get_option('عنوان سایت').' | '.$model->dealingType->name.' '.$model->propertyType->name.' '.$model->area_size . ' متری در '.$model->city->name.' ، '.$model->region->name;
-
+$this->registerMetaTag([
+    'name' => 'description',
+    'content' => $model->descriptions,
+]);
 ?>
 <section class="section">
     <div class="container">

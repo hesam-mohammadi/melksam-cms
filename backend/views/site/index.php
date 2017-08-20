@@ -6,32 +6,34 @@ use yii\widgets\Pjax;
 $this->title = 'My Yii Application';
 ?>
 <section id="main__content">
-    <div class="row quick-stats-c clearfix">
-      <div class="col-xs-3">
-          <div class="rmd-stats__item mdc-bg-teal-400">
-              <h2>374</h2>
-              <small><i class="zmdi zmdi-eye"></i> کل بازدید ها </small>
-          </div>
+    <?php if(Yii::$app->user->can('مشاور')): ?>
+      <div class="row quick-stats-c clearfix">
+        <div class="col-xs-3">
+            <div class="rmd-stats__item mdc-bg-teal-400">
+                <h2>374</h2>
+                <small><i class="zmdi zmdi-eye"></i> کل بازدید ها </small>
+            </div>
+        </div>
+        <div class="col-xs-3">
+            <div class="rmd-stats__item mdc-bg-amber-400">
+                <h2><?= $messages ?></h2>
+                <small><i class="zmdi zmdi-email"></i> کل پیام ها</small>
+            </div>
+        </div>
+        <div class="col-xs-3">
+            <div class="rmd-stats__item mdc-bg-purple-400">
+                <h2><?= $properties ?></h2>
+                <small><i class="zmdi zmdi-folder"></i> کل املاک  </small>
+            </div>
+        </div>
+        <div class="col-xs-3">
+            <div class="rmd-stats__item mdc-bg-cyan-400">
+                <h2><?= $users ?></h2>
+                <small><i class="zmdi zmdi-accounts"></i>  کل کاربران</small>
+            </div>
+        </div>
       </div>
-      <div class="col-xs-3">
-          <div class="rmd-stats__item mdc-bg-amber-400">
-              <h2><?= $messages ?></h2>
-              <small><i class="zmdi zmdi-email"></i> کل پیام ها</small>
-          </div>
-      </div>
-      <div class="col-xs-3">
-          <div class="rmd-stats__item mdc-bg-purple-400">
-              <h2><?= $properties ?></h2>
-              <small><i class="zmdi zmdi-folder"></i> کل املاک  </small>
-          </div>
-      </div>
-      <div class="col-xs-3">
-          <div class="rmd-stats__item mdc-bg-cyan-400">
-              <h2><?= $users ?></h2>
-              <small><i class="zmdi zmdi-accounts"></i>  کل کاربران</small>
-          </div>
-      </div>
-    </div>
+  <?php endif; ?>
 
         <div class="row">
             <div class="col-sm-6">

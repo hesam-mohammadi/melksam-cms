@@ -6,6 +6,7 @@ use Yii;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
 use yii\imagine\Image;
@@ -25,6 +26,22 @@ class PropertyController extends Controller
     public function behaviors()
     {
         return [
+          'access' => [
+              'class' => AccessControl::className(),
+              'rules' => [
+                  [
+                      'actions' => ['featured'],
+                      'allow' => true,
+                      'roles' => ['مشاور'],
+                  ],
+                  [
+                      'actions' => ['index', 'create_apartment', 'create_villa', 'create_complex', 'create_store', 'create_land', 'create_farm', 'create_damdari', 'create_factory', 'view', 'update', 'delete', 'upload', 'subcat', 'prod'],
+                      'allow' => true,
+                      'roles' => ['@'],
+                  ],
+
+              ],
+          ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -44,12 +61,12 @@ class PropertyController extends Controller
       $searchModel = new PropertySearch();
         if(\Yii::$app->user->can('agent')) {
           $dataProvider = new ActiveDataProvider([
-              'query' => Property::find(),
+              'query' => Property::find()->OrderBy(['created_at' => SORT_DESC]),
           ]);
         }
         else {
           $dataProvider = new ActiveDataProvider([
-            'query' => Property::find()->where(['user_id' => \Yii::$app->user->id]),
+            'query' => Property::find()->where(['user_id' => \Yii::$app->user->id])->OrderBy(['created_at' => SORT_DESC]),
           ]);
         }
 
@@ -118,7 +135,6 @@ class PropertyController extends Controller
     {
         $model = $this->findModel($id);
         $modelpic = new Pictures();
-
         $dealing_type = $model->findAllDealingType();
         $document_type = $model->findAllDocumentType();
         $view = $model->findAllView();
@@ -131,9 +147,11 @@ class PropertyController extends Controller
 
         if(\Yii::$app->user->can('admin') || $model->user->id == \Yii::$app->user->id) {
           if ($model->load(Yii::$app->request->post()) && $model->save()) {
+              if (isset($_POST['Property']['facilities_id'])) {
               $facility = $_POST['Property']['facilities_id'];
               $facilities_id = implode(',', $facility);
               $model->facilities_id = $facilities_id;
+          }
               $model->save();
 
               $modelpic = Pictures::find()->where(['user_id'=> Yii::$app->user->id])->andWhere(['agahi_id' => null])->all();
@@ -529,7 +547,6 @@ class PropertyController extends Controller
     {
           $model = new Property();
           $modelpic = new Pictures();
-          $model->scenario = 'create_factory';
 
           $dealing_type = $model->findAllDealingType();
           $document_type = $model->findAllDocumentType();

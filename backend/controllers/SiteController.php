@@ -40,12 +40,12 @@ class SiteController extends Controller
                 'rules' => [
                     [
                         'actions' => ['baseinfo', 'options', 'edit_options', 'edit_socials', 'edit_status', 'upload', 'delsingle', 'prod'],
-                        'roles' => ['admin'],
+                        'roles' => ['مدیر'],
                         'allow' => true,
                     ],
 
                     [
-                        'actions' => ['index','logout', 'subcity'],
+                        'actions' => ['index','logout', 'subcity', 'prod'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -162,6 +162,7 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
+        $this->layout = 'login';  
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }

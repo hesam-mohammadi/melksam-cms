@@ -19,7 +19,7 @@ AppAsset::register($this);
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
-    <title><?= Html::encode($this->title) ?></title>
+    <title><?= frontend\models\Property::get_option('عنوان سایت'); ?> | <?= (\Yii::$app->user->can('مشاور')) ? '  پنل مدیریت' : 'پنل کاربری'; ?></title>
     <?php $this->head() ?>
 </head>
 <body>

@@ -25,14 +25,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php Pjax::begin(); ?>
                 <?php $form = ActiveForm::begin(['options' => ['data-pjax' => true ], 'id' => 'login-form']); ?>
 
-                    <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
+                    <?= $form->field($model, 'email')->textInput(['autofocus' => true]) ?>
 
                     <?= $form->field($model, 'password')->passwordInput() ?>
 
                     <?= $form->field($model, 'rememberMe')->checkbox() ?>
 
                     <div style="color:#999;margin:1em 0">
-                        <?= Html::a('رمز عبور خود را فراموش کرده اید؟', ['site/request-password-reset']) ?>.
+                        <?= Html::a('رمز عبور خود را فراموش کرده اید؟', ['site/request-password-reset']) ?>
                     </div>
 
                     <div class="form-group">
