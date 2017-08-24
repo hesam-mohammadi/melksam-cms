@@ -123,6 +123,22 @@ class UserController extends Controller
         return $this->redirect(['index']);
     }
 
+    public function actionEditProfile()
+    {
+        $model = $this->findModel(Yii::$app->user->identity->id);
+        $email = $model->email;
+        if ($model->load(Yii::$app->request->post())) {
+            $model->email = $email;
+            $model->save();
+            \Yii::$app->getSession()->setFlash('profile_success','اطلاعات شما به  روز رسانی شد');
+            return $this->refresh();
+        } else {
+            return $this->render('edit', [
+                'model' => $model,
+            ]);
+        }
+    }
+
     /**
      * Finds the User model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

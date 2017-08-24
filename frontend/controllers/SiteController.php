@@ -93,12 +93,24 @@ class SiteController extends Controller
     public function actionIndex()
     {
       $query= Property::find()->where(['status' => 1])->andWhere(['featured' => 1]);
+      $saleProperties = Property::find()->where(['dealing_type_id' => 1])->andWhere(['status' => 1]);
+      $rentProperties = Property::find()->where(['dealing_type_id' => 2])->andWhere(['status' => 1]);
       $model = new Property();
-      $provider= new ActiveDataProvider([
+
+      $provider = new ActiveDataProvider([
         'query' => $query,
       ]);
+      $saleProvider = new ActiveDataProvider([
+        'query' => $saleProperties,
+      ]);
+      $rentProvider = new ActiveDataProvider([
+        'query' => $rentProperties,
+      ]);
+
       return $this->render('index', [
         'dataProvider' => $provider,
+        'saleProvider' => $saleProvider,
+        'rentProvider' => $rentProvider,
         'model' => $model,
       ]);
     }

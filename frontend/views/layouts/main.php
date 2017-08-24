@@ -371,49 +371,64 @@ if (Yii::$app->session->hasFlash('success_password_saved')){
                   <div class="footer__block">
                       <a class="logo clearfix" href="index.html">
                           <div class="logo__text">
-                              <span>Roost</span>
-                              <span>Material Design Real Estate</span>
+                              <span><?= Property::get_option('عنوان سایت'); ?></span>
+                              <span><?= Property::get_option('توضیحات'); ?></span>
                           </div>
                       </a>
 
                       <address class="m-t-20 m-b-20 f-14">
-                          44-46 Morningside Road,
-                          Edinburgh, Scotland
+                          <?= Property::get_option('آدرس'); ?>
                       </address>
 
-                      <div class="f-20">0062-345678910</div>
-                      <div class="f-14 m-t-5">hello@Roost.com / info@Roost.com</div>
+                      <div class="f-20"><?= Property::get_option('تلفن'); ?></div>
+                      <div class="f-14 m-t-5"><?= Property::get_option('ایمیل'); ?></div>
 
                       <div class="f-20 m-t-20">
-                          <a href="index.html" class="m-r-10"><i class="zmdi zmdi-google"></i></a>
-                          <a href="index.html" class="m-r-10"><i class="zmdi zmdi-facebook"></i></a>
-                          <a href="index.html"><i class="zmdi zmdi-twitter"></i></a>
+                        <?php if(Property::get_social(3) != null): ?>
+                              <a href="<?=Property::get_social(3)?>"><img src="<?= Yii::$app->homeUrl?>img/icons/facebook-logo.svg" class="social_svg" alt="facebook"></a>
+                        <?php endif; ?>
+                        <?php if(Property::get_social(4) != null): ?>
+                              <a href="<?=Property::get_social(4)?>"><img src="<?= Yii::$app->homeUrl?>img/icons/twitter.svg" class="social_svg" alt="twitter"></a>
+                        <?php endif; ?>
+
+                        <?php if(Property::get_social(6) != null): ?>
+                              <a href="<?=Property::get_social(6)?>"><img src="<?= Yii::$app->homeUrl?>img/icons/linkedin-logo.svg" class="social_svg" alt="linkedin"></a>
+                        <?php endif; ?>
+
+                        <?php if(Property::get_social(5) != null): ?>
+                              <a href="<?=Property::get_social(5)?>"><img src="<?= Yii::$app->homeUrl?>img/icons/google-plus.svg" class="social_svg" alt="google plus"></a>
+                        <?php endif; ?>
+
+                        <?php if(Property::get_social(2) != null): ?>
+                              <a href="<?=Property::get_social(2)?>"><img src="<?= Yii::$app->homeUrl?>img/icons/instagram-logo.svg" class="social_svg" alt="instagram"></a>
+                        <?php endif; ?>
+
+                        <?php if(Property::get_social(1) != null): ?>
+                              <a href="<?=Property::get_social(1)?>"><img src="<?= Yii::$app->homeUrl?>img/icons/telegram-logo.svg" class="social_svg" alt="telegram"></a>
+                        <?php endif; ?>
                       </div>
                   </div>
               </div>
               <div class="col-sm-4">
                   <div class="footer__block footer__block--blog">
-                      <div class="footer__title">Latest from our blog</div>
-
-                      <a href="index.html">
-                          Aenean lacinia bibendum nulla sed
-                          <small>On 2016/06/20 at 6:00 PM</small>
+                      <div class="footer__title">آخرین مطالب وبلاگ</div>
+                      <?php
+                      $latestblog = Property::getBlogPosts();
+                      foreach($latestblog as $blog):
+                      ?>
+                      <a href="<?= Yii::$app->homeUrl ?>blog/view?id=<?=$blog->id?>">
+                          <?= $blog->title ?>
+                          <small><?= Yii::$app->formatter->asDate($blog->created_at, 'php:Y/m/d');  ?></small>
                       </a>
-                      <a href="index.html">
-                          Vestibulum id ligula porta felis euismod semper
-                          <small>On 2016/06/18 at 7:12 PM</small>
-                      </a>
-                      <a href="index.html">
-                          Etiam porta sem malesuada magna mollis euismod
-                          <small>On 2016/06/10 at 12:59 PM</small>
-                      </a>
+                    <?php endforeach; ?>
                   </div>
               </div>
               <div class="col-sm-4">
                   <div class="footer__block">
-                      <div class="footer__title">Disclaimer</div>
-
-                      <div>Donec id elit non mi porta gravida at eget metus. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Donec sed odio dui. Maecenas sed diam eget risus varius blandit sit amet non magna. Sed posuere consectetur est at lobortis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam.</div>
+                      <div class="footer__title">درباره ما</div>
+                      <div>
+                        <?= Property::get_option('متن درباره ما'); ?>
+                      </div>
                   </div>
               </div>
           </div>
@@ -421,13 +436,12 @@ if (Yii::$app->session->hasFlash('success_password_saved')){
 
       <div class="footer__bottom">
           <div class="container">
-              <span class="footer__copyright">© Roost Real Estates</span>
+              <a href="<?=Yii::$app->homeUrl;?>contact">تماس با ما</a>
+              <a href="index.html">درباره ما</a>
+              <a href="<?=Yii::$app->homeUrl;?>blog">وبلاگ</a>
 
-              <a href="index.html">About Us</a>
-              <a href="index.html">Terms & Conditions</a>
-              <a href="index.html">Privacy Policy</a>
-              <a href="index.html">Careers</a>
-              <a href="index.html">Agent Login</a>
+              <span class="footer__copyright text-center">© قدرت گرفته از ملکسام</span>
+
           </div>
 
           <div class="footer__to-top" data-rmd-action="scroll-to" data-rmd-target="html">

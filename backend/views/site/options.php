@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
+use yii\widgets\DetailView;
 use yii\helpers\ArrayHelper;
 use kartik\file\FileInput;
 use backend\models\SiteLogo;
@@ -19,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
 echo \kartik\grid\GridView::widget([
 'dataProvider'=>$dataProvider,
 // 'filterModel'=>$searchModel,
-'responsive'=>true,
+'responsive'=> true,
 'hover'=>true,
 'summary' => false,
 'columns' => [
@@ -27,6 +28,7 @@ echo \kartik\grid\GridView::widget([
 [
 'class'=>'kartik\grid\EditableColumn',
 'attribute'=>'option_value',
+// 'contentOptions'=>['style'=>'max-width: 30px;'],
 'editableOptions'=>[
     'format' => \kartik\editable\Editable::FORMAT_BUTTON,
     'inputType'=>\kartik\editable\Editable::INPUT_TEXTAREA ,
@@ -37,7 +39,7 @@ echo \kartik\grid\GridView::widget([
         'label' => '<span class="text-primary"> <i class="zmdi zmdi-edit"></i> ویرایش </span>',
         'class' => 'btn btn-link btn-xs pull-left'
     ],
-    'options'=>['pluginOptions'=> '']
+    'options'=>['pluginOptions'=> ''],
 ],
 'hAlign'=>'right',
 'vAlign'=>'middle',
@@ -45,6 +47,7 @@ echo \kartik\grid\GridView::widget([
 ]
 ]);
 ?>
+<br><br><br>
 <ul class="nav nav-tabs create_property_title"> <li class="active"><a>لوگو سایت</a></li> </ul>
 
 <?php
@@ -94,7 +97,8 @@ $js = <<< 'SCRIPT'
 SCRIPT;
 $this->registerJs($js);
 ?>
-<br><ul class="nav nav-tabs create_property_title"> <li class="active"><a>شبکه های اجتماعی</a></li> </ul>
+<br><br><br>
+<ul class="nav nav-tabs create_property_title"> <li class="active"><a>شبکه های اجتماعی</a></li> </ul>
 <?php
 // the GridView widget (you must use kartik\grid\GridView)
 echo \kartik\grid\GridView::widget([

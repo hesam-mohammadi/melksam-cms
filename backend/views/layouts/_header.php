@@ -20,13 +20,12 @@
         </li>
         <li class="header-alt__profile dropdown">
             <a href="index.html" data-toggle="dropdown">
-                <img src="<?=Yii::$app->homeUrl ?>img/demo/people/2.jpg" alt="">
+                <img src="<?=Yii::$app->homeUrl ?>img/user_empty.png" alt="">
             </a>
 
             <ul class="dropdown-menu pull-left">
-                <li><a href="index.html">Edit Profile</a></li>
-                <li><a href="index.html">Account Settings</a></li>
-                <li><a href="index.html">Other Settings</a></li>
+                <li><a href="<?=Yii::$app->homeUrl ?>user/edit-profile">ویرایش حساب کاربری</a></li>
+                <li><a href="<?= Yii::$app->params['frontendUrl'] ?>/fav">لیست علاقمندی ها</a></li>
                 <li><?= Html::a('<i class="zmdi zmdi-power"></i> خروج', ['/site/logout'],['data' => ['method' => 'post',]]);?></li>
             </ul>
         </li>

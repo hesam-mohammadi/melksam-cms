@@ -268,7 +268,10 @@ class Property extends \yii\db\ActiveRecord
     public function show_logo()
     {
       $logo = \backend\models\SiteLogo::find()->one();
-      return $logo->src;
+      if($logo)
+        return $logo->src;
+      else
+        return null;
     }
 
     public static function get_social($id)
@@ -277,5 +280,16 @@ class Property extends \yii\db\ActiveRecord
       if($social != null)
       return $social->value;
       else return null;
+    }
+
+    public static function getBlogPosts()
+    {
+      $latestblog = \frontend\models\BlogPosts::find()->limit(3)->OrderBy(['created_at' => SORT_DESC])->all();
+      if($latestblog != null) {
+        return $latestblog;
+      }
+      else {
+        return null;
+      }
     }
 }

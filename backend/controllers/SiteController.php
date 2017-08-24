@@ -162,7 +162,7 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
-        $this->layout = 'login';  
+        $this->layout = 'login';
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
@@ -1089,9 +1089,10 @@ public function actionDelete_province($id)
       return $this->render('options', [
         'dataProvider' => $options,
         'socailProvider' => $socails,
-        'modelLogo' => $modelLogo
+        'modelLogo' => $modelLogo,
       ]);
     }
+
 
     public function actionEdit_options() {
       // Check if there is an Editable ajax request
@@ -1101,6 +1102,8 @@ public function actionDelete_province($id)
         $value = $_POST['Options'][$index]['option_value'];
         $model = Options::find()->where(['option_id' => $id])->one();
         $model['option_value'] = $value;
+        // print_r($model->errors);
+        // die();
         $model->save();
         $out = Json::encode(['output'=>$value, 'message'=>'']);
       }
@@ -1144,7 +1147,7 @@ public function actionEdit_status() {
 
 public function actionUpload() {
       $model = new SiteLogo();
-      $exceed =  SiteLogo::find()->exists();
+      $exceed =  SiteLogo::find()->one();
       if(count($exceed) == 1){
           echo 'شما فقط مجاز به ارسال یک فایل می باشید. برای ادامه عملیات باید فایل فعلی را حذف کنید!';
           echo json_encode(['error']);
@@ -1157,7 +1160,7 @@ public function actionUpload() {
         foreach ($model->src as $file) {
             $name = trim($file->baseName, '_-\t\n\r\0\x0B""');
             $file->saveAs(Yii::getAlias('@frontend').'/web/img/' . $name . $ranStr . '.' . $file->extension);
-            $model->src = 'frontend/web/img/'.$name.$ranStr.'.jpg';
+            $model->src = 'frontend/web/img/'.$name.$ranStr.'.'.$file->extension;
             $model->save();
         }
         return true;

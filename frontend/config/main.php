@@ -44,6 +44,7 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+              '/blog' => 'blog/index',
               '<alias:\w+>' => 'site/<alias>',
             ],
         ],

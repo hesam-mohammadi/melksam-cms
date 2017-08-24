@@ -10997,7 +10997,7 @@ a {
         margin-top: 8px;
         font-size: 21px;
         color: #fff;
-        float: right;
+        float: left;
         cursor: pointer
     }
 }
@@ -12638,7 +12638,7 @@ only screen and (min-resolution:2dppx) {
 }
 
 .logo>img {
-    width: 50px;
+    max-width: 195px;
     display: inline-block;
     float: right;
     margin-left: 12px

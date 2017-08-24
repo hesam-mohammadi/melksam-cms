@@ -112,7 +112,7 @@ class Property extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['view_id', 'featured', 'cabinet_id', 'floor_covering_id', 'user_id', 'region_id', 'city_id', 'property_type_id', 'dealing_type_id', 'document_type_id', 'phone_number1', 'phone_number2', 'mobile_number', 'area_size', 'floor_num', 'number_of_floors', 'number_of_units_in_floor', 'number_of_units', 'price_per_meter_rent', 'total_price', 'total_area', 'vila_type_id', 'front_area', 'alley_width', 'height', 'revisory', 'balcony_area', 'has_store', 'created_at', 'status'], 'integer'],
+            [['view_id', 'featured', 'cabinet_id', 'floor_covering_id', 'user_id', 'region_id', 'city_id', 'property_type_id', 'dealing_type_id', 'document_type_id', 'phone_number1', 'phone_number2', 'area_size', 'floor_num', 'number_of_floors', 'number_of_units_in_floor', 'number_of_units', 'price_per_meter_rent', 'total_price', 'total_area', 'vila_type_id', 'front_area', 'alley_width', 'height', 'revisory', 'balcony_area', 'has_store', 'created_at', 'status'], 'integer'],
             [['number_of_rooms', 'number_of_parkings', 'telephone_line_count'], 'string', 'max' => 2],
             [['descriptions', 'address'], 'string'],
             [['region_id', 'city_id', 'property_type_id', 'dealing_type_id', 'document_type_id', 'address', 'phone_number1', 'area_size', 'price_per_meter_rent', 'total_price', 'owner_name', 'province_id'], 'required'],
@@ -133,6 +133,9 @@ class Property extends \yii\db\ActiveRecord
             [['property_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => PropertyType::className(), 'targetAttribute' => ['property_type_id' => 'id']],
             [['dealing_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => DealingType::className(), 'targetAttribute' => ['dealing_type_id' => 'id']],
             [['document_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => DocumentType::className(), 'targetAttribute' => ['document_type_id' => 'id']],
+            [['mobile_number', 'phone_number1', 'phone_number2'], 'string','min' => 11, 'max'=>11],
+            [['mobile_number'], 'match', 'pattern' => '/^0[9][0-9]+$/'],
+            [['phone_number1', 'phone_number2'], 'match', 'pattern' => '/^0[1-9][0-9]+$/'],
             [
             'captcha',
             \gbksoft\recaptcha\validators\RecaptchaValidator::class,

@@ -4,10 +4,11 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\widgets\Pjax;
 use yii\widgets\ListView;
+use frontend\models\Property;
 $this->title = \frontend\models\Property::get_option('عنوان سایت').' | '.$model->dealingType->name.' '.$model->propertyType->name.' '.$model->area_size . ' متری در '.$model->city->name.' ، '.$model->region->name;
 $this->registerMetaTag([
     'name' => 'description',
-    'content' => $model->descriptions,
+    'content' =>  Property::get_option('توضیحات'),
 ]);
 ?>
 <section class="section">
@@ -52,7 +53,7 @@ $this->registerMetaTag([
                             <div class="tab-pane fade in active light-gallery" id="detail-media-images">
 
                               <?php if($pictures==null): ?>
-                                  <img src="<?=Yii::$app->homeUrl;?>uploads/no_image.jpg" class="img-responsive" alt="<?= $model->dealingType->name ?> <?= $model->propertyType->name ?> <?= $model->area_size ?> متری در <?= $model->city->name?>">
+                                  <img src="<?=Yii::$app->homeUrl;?>uploads/no_image-big.jpg" class="img-responsive" alt="<?= $model->dealingType->name ?> <?= $model->propertyType->name ?> <?= $model->area_size ?> متری در <?= $model->city->name?>">
                               <?php else: ?>
                                   <?php
                                   foreach($pictures as $picture):

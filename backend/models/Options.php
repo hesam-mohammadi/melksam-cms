@@ -29,7 +29,7 @@ class Options extends \yii\db\ActiveRecord
     {
         return [
             [['option_name', 'option_value'], 'required'],
-            [['option_value', 'site_logo'], 'string'],
+            [['option_value'], 'string'],
             [['option_name'], 'string', 'max' => 199],
         ];
     }
